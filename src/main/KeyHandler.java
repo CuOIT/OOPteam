@@ -39,6 +39,9 @@ public class KeyHandler implements KeyListener{
 		{
 			gp.gameState=gp.playState;
 		}
+		else if(code==KeyEvent.VK_L) {
+			gp.tileM.loadMap("/map/test.txt");
+		}
 	}
 	@Override
 	public void keyReleased(KeyEvent e)
@@ -55,6 +58,8 @@ public class KeyHandler implements KeyListener{
 		}
 		else if(code==KeyEvent.VK_D) {
 			rightPressed=false;
+		}else if(code==KeyEvent.VK_L) {
+			gp.gameState=gp.playState;
 		}
 	}
 }

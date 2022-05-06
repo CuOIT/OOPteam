@@ -52,7 +52,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public final int titleState=0;
 	public final int playState=1;
 	public final int pauseState=2;
-	
+	public final int loadState=3;
 	
 	public GamePanel()
 	{
@@ -65,7 +65,7 @@ public class GamePanel extends JPanel implements Runnable {
 	}
 	public void setUpGame() {
 		aSetter.setObject();
-		//playMusic(0); 
+		playMusic(0); 
 		//stopMusic();
 		gameState=titleState;
 	}
@@ -136,6 +136,9 @@ public class GamePanel extends JPanel implements Runnable {
 		player.update();
 		if(gameState==pauseState) {
 		}
+		if(gameState==loadState) {
+			tileM.loadMap("/map/test.txt");
+		}
 			//
 
 	}
@@ -190,6 +193,7 @@ public class GamePanel extends JPanel implements Runnable {
 		music.setFile(i);
 		music.play();
 		music.loop();
+		System.out.println("dsa");
 	}
 	public void stopMusic() {
 		music.stop();
