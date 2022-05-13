@@ -37,7 +37,7 @@ public class Player extends Entity{
 		worldX=gp.tileSize*23;
 		worldY=gp.tileSize*21;
 		//set character in the center
-		speed=4;
+		speed=10;
 		direction="down";
 		maxLife=10;
 		life=10;
@@ -205,3 +205,4 @@ public class Player extends Entity{
 		g2.drawImage(image,x,y,null);
 	}
 }
+

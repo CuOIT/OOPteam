@@ -23,12 +23,22 @@ public class TileManager {
 	loadMap("/map/map01.txt");
 	}
 	public void getTileImage() {
-		setup(0,"grass",false);
-		setup(1,"wall",true);
-		setup(2,"water",true);
-		setup(3,"earth",false);
-		setup(4,"tree",true);
-		setup(5,"sand",false);
+		setup(0,"water",true);
+		setup(1,"beach_above_sand",false);
+		setup(2,"beach_sand_Rightcorner",false);
+		setup(3,"beach_sand_right",false);
+		setup(4,"beach_sand_leftunder",false);
+		setup(5,"beach_sand_left",false);
+		setup(6,"grass",false);
+		setup(7,"tree_sand",true);
+		setup(8,"Pine_tree",true);
+		setup(9,"sand",false);
+		setup(10,"beach_sand_Leftcorner",false);
+		setup(12,"earth",false);
+		
+		
+		
+		
 	}
 	public void setup(int index,String imagePath,boolean collision) {
 		UtilityTool uTool=new UtilityTool();
