@@ -14,27 +14,38 @@ public class TileManager {
 	GamePanel gp;
 	public Tile[] tile;
 	public int mapTileNum[][];
+	public final int MAX_TITLES = 200;
 	
 	public TileManager(GamePanel gp) {
 	this.gp=gp;
-	tile=new Tile[10];
+	tile=new Tile[MAX_TITLES];
 	mapTileNum= new int[gp.maxWorldCol][gp.maxWorldRow];
 	getTileImage();
 	loadMap("/map/map01.txt");
 	}
 	public void getTileImage() {
-		setup(0,"water",true);
+		setup(0,"water",false);
 		setup(1,"beach_above_sand",false);
 		setup(2,"beach_sand_Rightcorner",false);
 		setup(3,"beach_sand_right",false);
 		setup(4,"beach_sand_leftunder",false);
 		setup(5,"beach_sand_left",false);
 		setup(6,"grass",false);
-		setup(7,"tree_sand",true);
-		setup(8,"Pine_tree",true);
+		setup(7,"tree_sand",false);
+		setup(8,"Pine_tree",false);
 		setup(9,"sand",false);
 		setup(10,"beach_sand_Leftcorner",false);
+		setup(11,"Palm_tree",false);
 		setup(12,"earth",false);
+		setup(13,"beach_above_2_sand",false);
+		setup(14,"beach_sand_rightunder",false);
+		setup(15,"beach_sand_leftunder_2",false);
+		setup(16,"sand_water_corner_right",false);
+		setup(17,"sand_water_corner_left",false);
+		setup(18,"beach_sand_Leftcorner_2",false);
+		setup(19,"beach_sand_Leftcorner_3",false);
+		
+		
 		
 		
 		
