@@ -7,9 +7,10 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+import entity.Entity;
 import object.OBJ_Heart;
 import object.OBJ_Key;
-import object.SuperObject;
+
 
 public class UI {
 	Font arial_40,arial_80B;
@@ -29,7 +30,7 @@ public class UI {
 //		}catch(IOException e) {
 //			e.printStackTrace();
 //		}
-		SuperObject heart = new OBJ_Heart(gp);
+		Entity heart = new OBJ_Heart(gp);
 		heart_full=heart.image;
 		heart_half=heart.image2;
 		heart_plank=heart.image3;	

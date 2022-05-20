@@ -10,15 +10,14 @@ import main.GamePanel;
 import main.KeyHandler;
 import main.UtilityTool;
 public class Player extends Entity{
-	GamePanel gp;
+
 	KeyHandler keyH;
 	public final int screenX,screenY;
-	public int hasKey=0;
 	public Player(GamePanel gp,KeyHandler keyH)
 	{
-		this.gp = gp;
+		super(gp); 
 		this.keyH=keyH;
-		
+		collision=true;
 		screenX=gp.screenWidth/2-(gp.tileSize/2);
 		screenY=gp.screenHeight/2-(gp.tileSize/2);
 		//set character in the center
@@ -34,8 +33,8 @@ public class Player extends Entity{
 		getPlayerImage();
 	}
 	public void setDefaultValues() {
-		worldX=gp.tileSize*23;
-		worldY=gp.tileSize*21;
+		worldX=gp.tileSize*15;
+		worldY=gp.tileSize*16;
 		//set character in the center
 		speed=10;
 		direction="down";
@@ -44,27 +43,16 @@ public class Player extends Entity{
 	}
 	
 	public void getPlayerImage() {
-		up1=setup("Up1");
-		up2=setup("Up2");
-		down1=setup("Down1");
-		down2=setup("Down2");
-		left1=setup("Left1");
-		left2=setup("Left2");
-		right1=setup("Right1");
-		right2=setup("Right2");
+		up1=setup("/player/Up1");
+		up2=setup("/player/Up2");
+		down1=setup("/player/Down1");
+		down2=setup("/player/Down2");
+		left1=setup("/player/Left1");
+		left2=setup("/player/Left2");
+		right1=setup("/player/Right1");
+		right2=setup("/player/Right2");
 	}
-	public BufferedImage setup(String imageName) {
-		UtilityTool uTool=new UtilityTool();
-		BufferedImage image=null;
-		try {
-			image=ImageIO.read(getClass().getResourceAsStream("/player/"+imageName+".png"));
-			image=uTool.scaledImage(image, gp.tileSize, gp.tileSize);
-		}catch(IOException e) {
-			e.printStackTrace();
-		}
-		return image;
-		
-	}
+	
 	public void update() {
 		if(keyH.upPressed==true || keyH.downPressed==true 
 				|| keyH.leftPressed==true || keyH.rightPressed==true) {
@@ -91,10 +79,13 @@ public class Player extends Entity{
 		}
 		//CHECK TILE COLLISON
 		collisionOn=false;
-		gp.cChecker.checkTile(this); 
+		gp.cChecker.checkTile(this);
+		//gp.cChecker.checkEntity(this,gp.npc);
 		//CHECK OBJECT COLLISION
 		int objIndex=gp.cChecker.checkObject(this, true);
 		pickUpObject(objIndex);
+		int npcIndex=gp.cChecker.checkEntity(this,gp.npc);
+		interact(npcIndex);
 		//if collision is false,player can move
 		if(collisionOn==false) {
 			switch(direction) {
@@ -129,24 +120,15 @@ public class Player extends Entity{
 			 String objectName=gp.obj[i].name;
 			 switch(objectName) {
 			 case "Key":
-				 hasKey++;
 				 gp.obj[i]=null;
 				 break;
-			 
-			 case "Door":
-				 if(hasKey>0)
-				 {
-					 gp.obj[i]=null;
-					 hasKey--;
-				 }
-					 break;
+
 			 case "Boots":
 				 	gp.obj[i]=null;
 				 	this.speed+=2;
 				 	break;
-			 case "chest":
+			 case "Chest":
 				 gp.ui.gameFinished=true;
-				 hasKey--;
 				 gp.stopMusic();
 				 //gp.playSE(4);
 				 break;
@@ -156,9 +138,10 @@ public class Player extends Entity{
 			 
 		}
 	}
+	public void interact(int index){
+		
+	}
 	public void draw(Graphics2D g2) {
-		//g2.setColor(Color.white);
- 		//g2.fillRect(x, y, gp.tileSize, gp.tileSize);
 		BufferedImage image=null;
 		switch(direction) {
 		case "up":

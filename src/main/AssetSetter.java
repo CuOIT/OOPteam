@@ -3,6 +3,7 @@ package main;
 import object.OBJ_Chest;
 import object.OBJ_Door;
 import object.OBJ_Key;
+import entity.NPC_headman;
 import object.OBJ_Boots;
 public class AssetSetter {
 
@@ -30,5 +31,10 @@ public class AssetSetter {
 		gp.obj[4]=new OBJ_Boots(gp) ;
 		gp.obj[4].worldX=21*gp.tileSize;
 		gp.obj[4].worldY=8*gp.tileSize;
+	}
+	public void setNPC() {
+		gp.npc[0] = new NPC_headman(gp);
+		gp.npc[0].worldX=gp.tileSize*15;
+		gp.npc[0].worldY=gp.tileSize*15;
 	}
 }

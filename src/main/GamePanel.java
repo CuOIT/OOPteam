@@ -1,14 +1,16 @@
 package main;
 import tile.TileManager;
 import main.CollisionChecker;
-import object.SuperObject;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.awt.Graphics;
 import javax.swing.JPanel;
 import java.awt.Component;
+import entity.Entity;
 import entity.Player;
 public class GamePanel extends JPanel implements Runnable {
 //screen settings
@@ -34,7 +36,7 @@ public class GamePanel extends JPanel implements Runnable {
 	
 	KeyHandler keyH=new KeyHandler(this);	
 	  
-	Sound music=new Sound();
+	Sound music=new Sound();	
 	Sound se=new Sound();
 	public UI ui=new UI(this);
 	
@@ -44,9 +46,10 @@ public class GamePanel extends JPanel implements Runnable {
 	
 	//entity and object
 	public Player player=new Player(this,keyH);
-	public SuperObject obj[] = new SuperObject[10];
+	public Entity obj[] = new Entity[10];
+	public Entity npc[]= new Entity[10];
 	
-	
+	public ArrayList<Entity> entityList=new ArrayList<>();
 	//GAME STATE
 	public int gameState;
 	public final int titleState=0;
@@ -65,6 +68,7 @@ public class GamePanel extends JPanel implements Runnable {
 	}
 	public void setUpGame() {
 		aSetter.setObject();
+		aSetter.setNPC();
 		playMusic(0); 
 		//stopMusic();
 		gameState=titleState;
@@ -74,37 +78,7 @@ public class GamePanel extends JPanel implements Runnable {
 		gameThread.start();
 	}
 	
-	@Override
-/*	public void run() {
-		double drawInterval=1000000000/FPS;
-		double nextDrawTime=System.nanoTime()+drawInterval;
-		int i=0;
-		while(gameThread != null) {
-			if(i%60==0)
-			System.out.print(playerX+" "+playerY);
-			i++;
-			//1 UPDATE: character
-			update();
-			//2 DRAW ENVIROMENT
-			repaint();
-			try {
-			double remainingTime=nextDrawTime-System.nanoTime();
-			remainingTime=remainingTime/1000000;
-			
-			if(remainingTime<0) {
-				remainingTime=0;
-			}
-			Thread.sleep((long)remainingTime);
-			
-			nextDrawTime+= drawInterval;
-			
-				} catch(InterruptedException e){
-				e.printStackTrace();
-				
-			}
-		}
-		
-	}*/
+	
 	public void run() {
 		double drawInterval = 1000000000/FPS;
 		double delta = 0;
@@ -134,6 +108,9 @@ public class GamePanel extends JPanel implements Runnable {
 	public void update() {
 		if(gameState==playState)
 		player.update();
+		for(int i=0;i<npc.length;i++)
+			if(npc[i]!=null)	
+				npc[i].update();
 		if(gameState==pauseState) {
 		}
 		if(gameState==loadState) {
@@ -161,31 +138,41 @@ public class GamePanel extends JPanel implements Runnable {
 			//TILE
 			tileM.draw(g2);
 			
-			for(int i=0;i<obj.length;i++)
-			{
-				if(obj[i]!=null)
-					obj[i].draw(g2,this);
-		
+			entityList.add(player);
+			for(int i=0;i<npc.length;i++) {
+				if(npc[i]!=null)
+				{
+					entityList.add(npc[i]);
+				}
 			}
-			//Player
-			player.draw(g2);
-			//UI
-			ui.draw(g2);
+				for(int i=0;i<obj.length;i++) {
+					if(obj[i]!=null)
+					{
+						entityList.add(obj[i]);
+					}
+			}
+				Collections.sort(entityList,new Comparator<Entity>() {
+
+					@Override
+					public int compare(Entity o1, Entity o2) {
+						int result = Integer.compare(o1.worldY, o2.worldY);
+						return result;
+					}
+				});
+			
+		for(int i=0;i<entityList.size();i++)
+		{
+				entityList.get(i).draw(g2);
 		}
-		//TILE
-//		tileM.draw(g2);
-//		
-//		for(int i=0;i<obj.length;i++)
-//		{
-//			if(obj[i]!=null)
-//				obj[i].draw(g2,this);
-//	
-//		}
-//		//Player
-//		player.draw(g2);
-//		//UI
-//		ui.draw(g2);
-//		
+		for(int i=0;i<entityList.size();i++)
+		{
+				entityList.remove(i);
+		}
+			ui.draw(g2);
+			
+	}
+		
+
 		g2.dispose();
 		
 	}

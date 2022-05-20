@@ -14,28 +14,28 @@ public class TileManager {
 	GamePanel gp;
 	public Tile[] tile;
 	public int mapTileNum[][];
-	public final int MAX_TITLES = 200;
+	public final int MAX_TILES = 200;
 	
 	public TileManager(GamePanel gp) {
 	this.gp=gp;
-	tile=new Tile[MAX_TITLES];
+	tile=new Tile[MAX_TILES];
 	mapTileNum= new int[gp.maxWorldCol][gp.maxWorldRow];
 	getTileImage();
 	loadMap("/map/map01.txt");
 	}
 	public void getTileImage() {
-		setup(0,"water",false);
+		setup(0,"water",true);
 		setup(1,"beach_above_sand",false);
 		setup(2,"beach_sand_Rightcorner",false);
 		setup(3,"beach_sand_right",false);
 		setup(4,"beach_sand_leftunder",false);
 		setup(5,"beach_sand_left",false);
 		setup(6,"grass",false);
-		setup(7,"tree_sand",false);
-		setup(8,"Pine_tree",false);
+		setup(7,"tree_sand",true);
+		setup(8,"Pine_tree",true);
 		setup(9,"sand",false);
 		setup(10,"beach_sand_Leftcorner",false);
-		setup(11,"Palm_tree",false);
+		setup(11,"Palm_tree",true);
 		setup(12,"earth",false);
 		setup(13,"beach_above_2_sand",false);
 		setup(14,"beach_sand_rightunder",false);
