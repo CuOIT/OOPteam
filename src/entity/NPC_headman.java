@@ -17,17 +17,15 @@ public class NPC_headman extends Entity{
 		worldY=gp.tileSize*16;
 	}
 	
-	
-
 	public void getImage() {
-		up1=setup("/npc/headman_Up1");
-		up2=setup("/npc/headman_Up2");
-		down2=setup("/npc/headman_Up2");
-		down1=setup("/npc/headman_Up1");
-		left1=setup("/npc/headman_Up1");
-		left2=setup("/npc/headman_Up2");
-		right1=setup("/npc/headman_Up1");
-		right2=setup("/npc/headman_Up2");
+		up1=setup("/npc/headman_Up1", gp.tileSize, gp.tileSize);
+		up2=setup("/npc/headman_Up2", gp.tileSize, gp.tileSize);
+		down2=setup("/npc/headman_Up2", gp.tileSize, gp.tileSize);
+		down1=setup("/npc/headman_Up1", gp.tileSize, gp.tileSize);
+		left1=setup("/npc/headman_Up1", gp.tileSize, gp.tileSize);
+		left2=setup("/npc/headman_Up2", gp.tileSize, gp.tileSize);
+		right1=setup("/npc/headman_Up1", gp.tileSize, gp.tileSize);
+		right2=setup("/npc/headman_Up2", gp.tileSize, gp.tileSize);
 	}
 	public void setAction() {
 		actionLockCounter++;

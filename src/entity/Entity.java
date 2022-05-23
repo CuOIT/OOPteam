@@ -13,6 +13,7 @@ public class Entity {
 	public int worldX,worldY;	
 	public int speed;
 	public BufferedImage up1,up2,down1,down2,left1,left2,right1,right2;
+	public BufferedImage attackup1, attackup2, attackdown1, attackdown2, attackleft1, attackleft2, attackright1, attackright2;
 	public String direction="down";
 	public int spriteCounter=0;
 	public int spriteNum=1;
@@ -22,9 +23,14 @@ public class Entity {
 	public int maxLife;
 	public int life;
 	public int actionLockCounter=0;
+	public boolean invincible=false;
+	public int invincibleCounter = 0; 
+	boolean attacking = false;
 	public BufferedImage image,image2,image3;
 	public String name;
 	public boolean collision;
+	public int type; // 0=player, 1=np1, 2=monster
+
 	public Entity(GamePanel gp) {
 		this.gp=gp;
 	}
@@ -38,7 +44,16 @@ public class Entity {
 		collisionOn=false;
 		gp.cChecker.checkTile(this);
 		gp.cChecker.checkObject(this, false);
-		gp.cChecker.checkPlayer(this);
+		gp.cChecker.checkEntity(this, gp.monster);
+		boolean contactPlayer = gp.cChecker.checkPlayer(this);
+
+		if(this.type == 2 && contactPlayer == true){
+			if(gp.player.invincible == false){
+				//we can give damage
+				gp.player.life = 1;
+				gp.player.invincible = true;
+			}
+		}
 		if(collisionOn==false) {
 			switch(direction) {
 			case "up":
@@ -66,12 +81,12 @@ public class Entity {
 		}
 		
 	}
-	public BufferedImage setup(String imagePath) {
+	public BufferedImage setup(String imagePath, int width, int height) {
 		UtilityTool uTool=new UtilityTool();
 		BufferedImage image=null;
 		try {
 			image=ImageIO.read(getClass().getResourceAsStream(imagePath+".png"));
-			image=uTool.scaledImage(image, gp.tileSize, gp.tileSize);
+			image=uTool.scaledImage(image, width, height);
 		}catch(IOException e) {
 			e.printStackTrace();
 		}

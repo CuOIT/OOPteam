@@ -34,7 +34,7 @@ public class GamePanel extends JPanel implements Runnable {
 	//SYSTEM
 	TileManager tileM=new TileManager(this);
 	
-	KeyHandler keyH=new KeyHandler(this);	
+	public KeyHandler keyH=new KeyHandler(this);	
 	  
 	Sound music=new Sound();	
 	Sound se=new Sound();
@@ -48,7 +48,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public Player player=new Player(this,keyH);
 	public Entity obj[] = new Entity[10];
 	public Entity npc[]= new Entity[10];
-	
+	public Entity monster[]= new Entity[20];
 	public ArrayList<Entity> entityList=new ArrayList<>();
 	//GAME STATE
 	public int gameState;
@@ -56,6 +56,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public final int playState=1;
 	public final int pauseState=2;
 	public final int loadState=3;
+	//public final int dialogueState=4;
 	
 	public GamePanel()
 	{
@@ -69,6 +70,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public void setUpGame() {
 		aSetter.setObject();
 		aSetter.setNPC();
+		aSetter.setMonster();
 		playMusic(0); 
 		//stopMusic();
 		gameState=titleState;
@@ -111,6 +113,9 @@ public class GamePanel extends JPanel implements Runnable {
 		for(int i=0;i<npc.length;i++)
 			if(npc[i]!=null)	
 				npc[i].update();
+		for(int i=0;i<monster.length;i++)
+			if(monster[i]!=null)	
+				monster[i].update();		
 		if(gameState==pauseState) {
 		}
 		if(gameState==loadState) {
@@ -145,11 +150,17 @@ public class GamePanel extends JPanel implements Runnable {
 					entityList.add(npc[i]);
 				}
 			}
-				for(int i=0;i<obj.length;i++) {
-					if(obj[i]!=null)
-					{
-						entityList.add(obj[i]);
-					}
+			for(int i=0;i<obj.length;i++) {
+				if(obj[i]!=null)
+				{
+					entityList.add(obj[i]);
+				}
+			}	
+			for(int i=0;i<monster.length;i++) {
+				if(monster[i]!=null)
+				{
+					entityList.add(monster[i]);	
+				}
 			}
 				Collections.sort(entityList,new Comparator<Entity>() {
 
@@ -164,11 +175,10 @@ public class GamePanel extends JPanel implements Runnable {
 		{
 				entityList.get(i).draw(g2);
 		}
-		for(int i=0;i<entityList.size();i++)
-		{
-				entityList.remove(i);
-		}
-			ui.draw(g2);
+		// EMPTY ENTITY LIST
+		entityList.clear();
+		// UI	
+		ui.draw(g2);
 			
 	}
 		

@@ -8,6 +8,6 @@ public class OBJ_Chest extends Entity{
 	super(gp);
 	name="Chest";
 	collision=true;
-	down1=setup("/objects/treasure");
+	down1=setup("/objects/treasure", gp.tileSize, gp.tileSize);
 }
 }
