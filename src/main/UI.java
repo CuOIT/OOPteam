@@ -57,7 +57,18 @@ public class UI {
 //		{	drawPlayerLife();
 //			drawDialogueScreen();
 //	}
+ 
+// bo sung tam thoi NHHDANG
+		else if(gp.gameState==gp.dialogueState){	
+			drawPlayerLife();
+			drawDialogueScreen();
+		}
 	}
+
+	public void drawDialogueScreen(){
+	
+	}
+	// het bo sung NHHDang
 	public void drawPlayerLife() {
 		int x=gp.tileSize/2;
 		int y=gp.tileSize/2;

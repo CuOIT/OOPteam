@@ -1,4 +1,5 @@
 package entity;
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -18,6 +19,7 @@ public class Entity {
 	public int spriteCounter=0;
 	public int spriteNum=1;
 	public Rectangle solidArea = new Rectangle(0,0,48,48);
+	public Rectangle attackArea = new Rectangle(0,0,0,0);
 	public int solidAreaDefaultX,solidAreaDefaultY;
 	public boolean collisionOn=false;
 	public int maxLife;
@@ -35,9 +37,9 @@ public class Entity {
 		this.gp=gp;
 	}
 	
-	public void setAction() {
-		
-	};
+	public void setAction() {}
+	public void speak(){}
+
 	public void update() {
 		setAction();
 		
@@ -95,6 +97,9 @@ public class Entity {
 	}
 	public void draw(Graphics2D g2) {
 		BufferedImage image=null;
+		int screenX = worldX - gp.player.worldX + gp.player.screenX;
+		int screenY = worldY - gp.player.worldX + gp.player.screenY;
+			
 		switch(direction) {
 		case "up":
 			if(spriteNum==1)
@@ -121,8 +126,14 @@ public class Entity {
 					image=right2;
 			break;
 		}
-		int screenX=worldX-gp.player.worldX+gp.player.screenX;
-		int screenY=worldY-gp.player.worldY+gp.player.screenY;
+
+		// Monster HP bar
+		if(type == 2){
+			g2.setColor(new Color(255,0,30));
+			g2.fillRect(screenX , screenY - 15, gp.tileSize, 10);
+		}
+		screenX=worldX-gp.player.worldX+gp.player.screenX;
+		screenY=worldY-gp.player.worldY+gp.player.screenY;
 		if(gp.player.screenX>gp.player.worldX) {
 			screenX=worldX;
 		}

@@ -1,20 +1,21 @@
 package entity;
-//import java.io.IOException;
+import java.io.IOException;
 import java.awt.AlphaComposite;
-//import java.awt.Color;
-//import java.awt.Font;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.*;
-//import javax.imageio.ImageIO;
+import javax.imageio.ImageIO;
 
 import main.GamePanel;
 import main.KeyHandler;
-//import main.UtilityTool;
+import main.UtilityTool;
 public class Player extends Entity{
 
 	KeyHandler keyH;
 	public final int screenX,screenY;
+	
 	public Player(GamePanel gp,KeyHandler keyH)
 	{
 		super(gp); 
@@ -31,6 +32,10 @@ public class Player extends Entity{
 		solidAreaDefaultY=solidArea.y;
 		solidArea.width=32;
 		solidArea.height=32;
+
+		attackArea.width = 36;
+		attackArea.height = 36;
+
 		setDefaultValues();
 		getPlayerImage();
 		getPlayerAttackImage();
@@ -47,14 +52,14 @@ public class Player extends Entity{
 	}
 	
 	public void getPlayerImage() {
-		up1=setup("/player/Up1", gp.tileSize, gp.tileSize);
-		up2=setup("/player/Up2", gp.tileSize, gp.tileSize);
-		down1=setup("/player/Down1", gp.tileSize, gp.tileSize);
-		down2=setup("/player/Down2", gp.tileSize, gp.tileSize);
-		left1=setup("/player/Left1", gp.tileSize, gp.tileSize);
-		left2=setup("/player/Left2", gp.tileSize, gp.tileSize);
-		right1=setup("/player/Right1", gp.tileSize, gp.tileSize);
-		right2=setup("/player/Right2", gp.tileSize, gp.tileSize);
+		up1=setup("/player/boy_up_1", gp.tileSize, gp.tileSize);
+		up2=setup("/player/boy_up_2", gp.tileSize, gp.tileSize);
+		down1=setup("/player/boy_down_1", gp.tileSize, gp.tileSize);
+		down2=setup("/player/boy_down_2", gp.tileSize, gp.tileSize);
+		left1=setup("/player/boy_left_1", gp.tileSize, gp.tileSize);
+		left2=setup("/player/boy_left_2", gp.tileSize, gp.tileSize);
+		right1=setup("/player/boy_right_1", gp.tileSize, gp.tileSize);
+		right2=setup("/player/boy_right_2", gp.tileSize, gp.tileSize);
 
 		//up1=setup("boy_up_1", gp.tileSize, gp.tileSize);
 		//up2=setup("boy_up_2", gp.tileSize, gp.tileSize);
@@ -65,15 +70,15 @@ public class Player extends Entity{
 		//right1=setup("boy_right_1", gp.tileSize, gp.tileSize);
 		//right2=setup("boy_right_2", gp.tileSize, gp.tileSize);
 	}
-	public void getPlayerAttackImage(){
-		attackup1=setup("/player/Up1", gp.tileSize, gp.tileSize*2);
-		attackup2=setup("/player/Up2", gp.tileSize, gp.tileSize*2);
-		attackdown1=setup("/player/Down1", gp.tileSize, gp.tileSize*2);
-		attackdown2=setup("/player/Down2", gp.tileSize, gp.tileSize*2);
-		attackleft1=setup("/player/Left1", gp.tileSize*2, gp.tileSize);
-		attackleft2=setup("/player/Left2", gp.tileSize*2, gp.tileSize);
-		attackright1=setup("/player/Right1", gp.tileSize*2, gp.tileSize);
-		attackright2=setup("/player/Ringt2", gp.tileSize*2, gp.tileSize);
+	public void getPlayerAttackImage() {
+		attackup1=setup("/player/boy_attack_up_1", gp.tileSize, gp.tileSize*2);
+		attackup2=setup("/player/boy_attack_up_2", gp.tileSize, gp.tileSize*2);
+		attackdown1=setup("/player/boy_attack_down_1", gp.tileSize, gp.tileSize*2);
+		attackdown2=setup("/player/boy_attack_down_2", gp.tileSize, gp.tileSize*2);
+		attackleft1=setup("/player/boy_attack_left_1", gp.tileSize*2, gp.tileSize);
+		attackleft2=setup("/player/boy_attack_left_2", gp.tileSize*2, gp.tileSize);
+		attackright1=setup("/player/boy_attack_right_1", gp.tileSize*2, gp.tileSize);
+		attackright2=setup("/player/boy_attack_right_2", gp.tileSize*2, gp.tileSize);
 	}
 	
 	public void update() {
@@ -85,8 +90,7 @@ public class Player extends Entity{
 				|| keyH.leftPressed==true || keyH.rightPressed==true || keyH.enterPressed==true) {
 		if(keyH.upPressed==true)
 		{
-			direction="up";
-			
+			direction="up";	
 			
 		}
 		else if(keyH.downPressed==true)
@@ -104,6 +108,7 @@ public class Player extends Entity{
 			direction="left";
 		
 		}
+		
 		//CHECK TILE COLLISON
 		collisionOn=false;
 		gp.cChecker.checkTile(this);
@@ -122,7 +127,7 @@ public class Player extends Entity{
 
 		
 		//if collision is false,player can move
-		if(collisionOn==false && keyH.enterPressed == false) {
+		if(collisionOn ==false && keyH.enterPressed == false) {
 			switch(direction) {
 			case "up":
 				worldY-=speed;
@@ -167,6 +172,30 @@ public class Player extends Entity{
 		}
 		if(spriteCounter>5 && spriteCounter <=25){
 			spriteNum = 2;
+		// Save the current wworldC, worldY, solidArea
+			int currentWorldX = worldX;
+			int currentWorldY = worldY;
+			int solidAreaWidth = solidArea.width;
+			int solidAreaHeight = solidArea.height;
+		//Adjust player's worldX/Y for the attackArea
+			switch(direction){
+			case "up": worldY -= attackArea.height; break ;
+			case "down": worldY += attackArea.height; break;
+			case "left": worldX -= attackArea.width; break;
+			case "right": worldX += attackArea.width; break;	
+			}	
+		// attackArea becomes solidArea	
+		solidArea.width = attackArea.width;
+		solidArea.height = attackArea.height;	
+		// check monster collision wih the updated worldX, worldY and solideArea
+		int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
+		damageMonster(monsterIndex);
+
+		// After checking collision, restore the original data	
+		worldX = currentWorldX;
+		worldY = currentWorldY;
+		solidArea.width = solidAreaWidth;
+		solidArea.height = solidAreaHeight;
 		}
 		if(spriteCounter>25){
 			spriteNum = 1;
@@ -198,9 +227,11 @@ public class Player extends Entity{
 			 
 		}
 	}
-	public void interact(int index){
 	
+	public void interact(int i){
+		
 	}
+
 	
 	public void contactMonster(int i){
 		if(i !=999){
@@ -210,8 +241,18 @@ public class Player extends Entity{
 			}
 		}
 	}	
+	public void damageMonster(int i){
+		if(i != 999){
+			System.out.println("Hit!");
+		}
+		else {
+			System.out.println("Miss!");
+		}
+	}
 	public void draw(Graphics2D g2) {
 		BufferedImage image=null;
+	//	int tempscreenX= screenX;
+	//	int tempscreenY= screenY;
 		switch(direction) {
 		case "up":
 			if (attacking == false){
@@ -258,6 +299,7 @@ public class Player extends Entity{
 				if(spriteNum==2) image=attackright2;
 			break;
 			}
+		}	
 		if(invincible == true){
 			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f));
 		}
@@ -284,7 +326,7 @@ public class Player extends Entity{
 		//g2.setFont(new Font("Arial", Font.PLAIN, 26));
 		//g2.setColor(Color.white);
 		//g2.drawString("Invincible:"+invincibleCounter, 10, 400);
-	}
+
 }
 }
 
