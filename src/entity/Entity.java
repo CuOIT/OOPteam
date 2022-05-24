@@ -126,12 +126,13 @@ public class Entity {
 					image=right2;
 			break;
 		}
-
+		// THEM THANH MAU CHO QUAI TU DONG 131-134
 		// Monster HP bar
 		if(type == 2){
 			g2.setColor(new Color(255,0,30));
 			g2.fillRect(screenX , screenY - 15, gp.tileSize, 10);
 		}
+		// HET DONG 134
 		screenX=worldX-gp.player.worldX+gp.player.screenX;
 		screenY=worldY-gp.player.worldY+gp.player.screenY;
 		if(gp.player.screenX>gp.player.worldX) {

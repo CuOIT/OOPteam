@@ -60,16 +60,9 @@ public class Player extends Entity{
 		left2=setup("/player/boy_left_2", gp.tileSize, gp.tileSize);
 		right1=setup("/player/boy_right_1", gp.tileSize, gp.tileSize);
 		right2=setup("/player/boy_right_2", gp.tileSize, gp.tileSize);
-
-		//up1=setup("boy_up_1", gp.tileSize, gp.tileSize);
-		//up2=setup("boy_up_2", gp.tileSize, gp.tileSize);
-		//down1=setup("boy_down_1", gp.tileSize, gp.tileSize);
-		//down2=setup("boy_down_2", gp.tileSize, gp.tileSize);
-		//left1=setup("boy_left_1", gp.tileSize, gp.tileSize);
-		//left2=setup("boy_left_2", gp.tileSize, gp.tileSize);
-		//right1=setup("boy_right_1", gp.tileSize, gp.tileSize);
-		//right2=setup("boy_right_2", gp.tileSize, gp.tileSize);
 	}
+	//THEM TU DONG 66-75 ANH PLAYER KHI TAN CONG(ATTACKING)
+	
 	public void getPlayerAttackImage() {
 		attackup1=setup("/player/boy_attack_up_1", gp.tileSize, gp.tileSize*2);
 		attackup2=setup("/player/boy_attack_up_2", gp.tileSize, gp.tileSize*2);
@@ -80,7 +73,7 @@ public class Player extends Entity{
 		attackright1=setup("/player/boy_attack_right_1", gp.tileSize*2, gp.tileSize);
 		attackright2=setup("/player/boy_attack_right_2", gp.tileSize*2, gp.tileSize);
 	}
-	
+	// HET DONG 75
 	public void update() {
 		if(attacking == true){
 			attacking();
@@ -164,6 +157,7 @@ public class Player extends Entity{
 			}
 		}
 	}
+	
 	public void attacking (){
 		spriteCounter++;
 
@@ -227,11 +221,20 @@ public class Player extends Entity{
 			 
 		}
 	}
-	
+	// THEM TU DONG 232-242
+	// HIEU UNG BAM ENTER=ATTACK
 	public void interact(int i){
-		
+		if(gp.keyH.enterPressed == true){
+			if(i != 999){
+				gp.gameState = gp.dialogueState;
+				gp.npc[i].speak();
+			}
+			else{
+				attacking = true;
+			}
+		}
 	}
-
+	// HET DONG 242
 	
 	public void contactMonster(int i){
 		if(i !=999){
