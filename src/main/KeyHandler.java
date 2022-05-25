@@ -18,31 +18,78 @@ public class KeyHandler implements KeyListener{
 	public void keyPressed(KeyEvent e)
 	{
 		int code=e.getKeyCode();
-		if(code==KeyEvent.VK_W) {
-			upPressed=true;
-		}
-		else if(code==KeyEvent.VK_S) {
-			downPressed=true;
-		}
-		else if(code==KeyEvent.VK_A) {
-			leftPressed=true;
-		}
-		else if(code==KeyEvent.VK_D) {
-			rightPressed=true;
-		}
-		else if(code==KeyEvent.VK_P) {
-			if(gp.gameState==gp.playState)
-				gp.gameState=gp.pauseState;
-			else gp.gameState=gp.playState;
-		}
-		else if(code==KeyEvent.VK_ENTER)
-		{
+	
+	// chinh sua thu nghiem tu dong 22-60(Dang)
+		if(code == KeyEvent.VK_J){
 			gp.gameState=gp.playState;
 		}
-		else if(code==KeyEvent.VK_L) {
-			gp.tileM.loadMap("/map/test.txt");
+			if(gp.gameState == gp.playState){
+			
+			if(code==KeyEvent.VK_W) {
+				upPressed=true;
+			}
+			if(code==KeyEvent.VK_S) {
+				downPressed=true;
+			}
+			if(code==KeyEvent.VK_A) {
+				leftPressed=true;
+			}
+			if(code==KeyEvent.VK_D) {
+				rightPressed=true;
+			}
+			if(code == KeyEvent.VK_P){
+				gp.gameState = gp.pauseState;
+			}
+			if(code == KeyEvent.VK_ENTER){
+				enterPressed=true;	
+			}			
+			else if(code==KeyEvent.VK_L) {
+				gp.tileM.loadMap("/map/test.txt");
+			}	
+		}
+	//PAUSE STATE
+	else if(gp.gameState == gp.pauseState){
+		if(code == KeyEvent.VK_P){
+			gp.gameState=gp.playState;
 		}
 	}
+
+	//DIALOUGE STATE
+	else if(gp.gameState == gp.dialogueState){
+		if(code == KeyEvent.VK_ENTER){
+			gp.gameState=gp.playState;
+		}
+	}
+}
+	//ket thuc chinh sua(Dang)
+
+	//	if(code==KeyEvent.VK_W) {
+	//		upPressed=true;
+	//	}
+	//	else if(code==KeyEvent.VK_S) {
+	//		downPressed=true;
+	//	}
+	//	else if(code==KeyEvent.VK_A) {
+	//		leftPressed=true;
+	//	}
+	//	else if(code==KeyEvent.VK_D) {
+	//		rightPressed=true;
+	//	}
+	//	else if(code==KeyEvent.VK_P) {
+	//		if(gp.gameState==gp.playState)
+	//			gp.gameState=gp.pauseState;
+	//		else gp.gameState=gp.playState;
+	//	}
+		
+	//	if(code == KeyEvent.VK_ENTER){
+	//		gp.gameState=gp.playState;	
+	//	}
+		//else if(code==KeyEvent.VK_L) {
+		//	gp.tileM.loadMap("/map/test.txt");
+		//}
+
+	
+	
 	@Override
 	public void keyReleased(KeyEvent e)
 	{

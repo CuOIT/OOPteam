@@ -33,6 +33,9 @@ public class Entity {
 	public boolean collision;
 	public int type; // 0=player, 1=np1, 2=monster
 
+	boolean hpBarOn = false;
+	int hpBarCounter = 0;
+
 	public Entity(GamePanel gp) {
 		this.gp=gp;
 	}
@@ -126,13 +129,7 @@ public class Entity {
 					image=right2;
 			break;
 		}
-		// THEM THANH MAU CHO QUAI TU DONG 131-134
-		// Monster HP bar
-		if(type == 2){
-			g2.setColor(new Color(255,0,30));
-			g2.fillRect(screenX , screenY - 15, gp.tileSize, 10);
-		}
-		// HET DONG 134
+	
 		screenX=worldX-gp.player.worldX+gp.player.screenX;
 		screenY=worldY-gp.player.worldY+gp.player.screenY;
 		if(gp.player.screenX>gp.player.worldX) {
@@ -149,7 +146,24 @@ public class Entity {
 			if(bottomOffset>gp.worldHeight-gp.player.worldY) {
 				screenY=gp.screenHeight- (gp.worldHeight-worldY);
 		 }		
+		 // THEM TU DONG 147-166 THANH MAU CUA CON QUAI
+		 if(type == 2 && hpBarOn == true){
+			double oneScale = (double)gp.tileSize/maxLife;
+			double hpBarValue = oneScale*life;
 			
+			g2.setColor(new Color(35,35,35));
+			g2.fillRect(screenX-1, screenY-16,  gp.tileSize+2, 12);
+
+			g2.setColor(new Color(255,0,30));
+			g2.fillRect(screenX , screenY - 15, (int)hpBarValue, 10);
+
+			hpBarCounter++;
+			if (hpBarCounter > 600){
+				hpBarCounter = 0;
+				hpBarOn = false;
+			}
+		}	
+		// HET DONG 166
 		g2.drawImage(image,screenX,screenY,gp.tileSize,gp.tileSize,null); 
 }
 	}
