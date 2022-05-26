@@ -22,25 +22,26 @@ public class KeyHandler implements KeyListener{
 	// chinh sua thu nghiem tu dong 22-60(Dang)
 		if(code == KeyEvent.VK_J){
 			gp.gameState=gp.playState;
-		}
+	}
 			if(gp.gameState == gp.playState){
 			
 			if(code==KeyEvent.VK_W) {
 				upPressed=true;
 			}
-			if(code==KeyEvent.VK_S) {
+
+			else if(code==KeyEvent.VK_S) {
 				downPressed=true;
 			}
-			if(code==KeyEvent.VK_A) {
+			else if(code==KeyEvent.VK_A) {
 				leftPressed=true;
 			}
-			if(code==KeyEvent.VK_D) {
+			else if(code==KeyEvent.VK_D) {
 				rightPressed=true;
 			}
-			if(code == KeyEvent.VK_P){
+			else if(code == KeyEvent.VK_P){
 				gp.gameState = gp.pauseState;
 			}
-			if(code == KeyEvent.VK_ENTER){
+			else if(code == KeyEvent.VK_ENTER){
 				enterPressed=true;	
 			}			
 			else if(code==KeyEvent.VK_L) {

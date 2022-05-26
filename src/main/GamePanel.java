@@ -58,6 +58,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public final int loadState=3;
 	// bo sung
 	public final int dialogueState=4;
+    
 	
 	// het bo sung
 	public GamePanel()
@@ -74,7 +75,7 @@ public class GamePanel extends JPanel implements Runnable {
 		aSetter.setNPC();
 		aSetter.setMonster();
 		playMusic(0); 
-		//stopMusic();
+		stopMusic();
 		gameState=titleState;
 	}
 	public void startGameThread() {
@@ -112,12 +113,23 @@ public class GamePanel extends JPanel implements Runnable {
 	public void update() {
 		if(gameState==playState)
 		player.update();
-		for(int i=0;i<npc.length;i++)
-			if(npc[i]!=null)	
+		for(int i=0;i<npc.length;i++){
+			if(npc[i]!=null){	
 				npc[i].update();
-		for(int i=0;i<monster.length;i++)
-			if(monster[i]!=null)	
-				monster[i].update();		
+			}
+		}
+		// updating monster 122-131(DANG)	
+		for(int i=0;i<monster.length;i++){
+			if(monster[i]!=null){
+				if(monster[i].alive == true && monster[i].dying == false){
+					monster[i].update();
+				}	
+				if(monster[i].alive == false){
+					monster[i] = null;
+				}
+			}
+		}
+		// ket thuc bo sung
 		if(gameState==pauseState) {
 		}
 		if(gameState==loadState) {
@@ -158,12 +170,14 @@ public class GamePanel extends JPanel implements Runnable {
 					entityList.add(obj[i]);
 				}
 			}	
+			// adding monsters to entityList 173-179(DANG)
 			for(int i=0;i<monster.length;i++) {
 				if(monster[i]!=null)
 				{
 					entityList.add(monster[i]);	
 				}
 			}
+			// ket thuc bo sung
 				Collections.sort(entityList,new Comparator<Entity>() {
 
 					@Override

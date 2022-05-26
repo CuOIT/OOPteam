@@ -38,6 +38,7 @@ public class AssetSetter {
 		gp.npc[0].worldX=gp.tileSize*21;
 		gp.npc[0].worldY=gp.tileSize*21;
 	}
+	// bo sung phan in quai len man hinh 42-50(DANG)
 	public void setMonster(){
 		gp.monster[0]= new MON_GreenSlime(gp);
 		gp.monster[0].worldX=gp.tileSize*23;
@@ -47,4 +48,5 @@ public class AssetSetter {
 		gp.monster[1].worldX=gp.tileSize*23;
 		gp.monster[1].worldY=gp.tileSize*37;
 	}
+	// ket thuc bo sung
 }

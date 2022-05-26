@@ -32,10 +32,10 @@ public class Player extends Entity{
 		solidAreaDefaultY=solidArea.y;
 		solidArea.width=32;
 		solidArea.height=32;
-
+		//BO SUNG 36-37(DANG)
 		attackArea.width = 36;
 		attackArea.height = 36;
-
+		//HET BO SUNG
 		setDefaultValues();
 		getPlayerImage();
 		getPlayerAttackImage();
@@ -105,19 +105,18 @@ public class Player extends Entity{
 		//CHECK TILE COLLISON
 		collisionOn=false;
 		gp.cChecker.checkTile(this);
-		//gp.cChecker.checkEntity(this,gp.npc);
+		
 		//CHECK OBJECT COLLISION
 		int objIndex=gp.cChecker.checkObject(this, true);
 		pickUpObject(objIndex);
 		int npcIndex=gp.cChecker.checkEntity(this,gp.npc);
 		interact(npcIndex);
-		// CHECK MONSTER COLLISION
+		// CHECK MONSTER COLLISION 115-116(DANG)
 		int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
 		contactMonster(monsterIndex);
-
-		// CHECK EVENT
-		//gp.eHandler.checkEvent();
-
+		// ket thuc bo sung
+		
+		
 		
 		//if collision is false,player can move
 		if(collisionOn ==false && keyH.enterPressed == false) {
@@ -148,7 +147,7 @@ public class Player extends Entity{
 		spriteCounter=0;
 		}
 		}
-		//THIS NEEDS TO BE OUTSIDE OF KEY IF STATEMENT
+		//THIS NEEDS TO BE OUTSIDE OF KEY IF STATEMENT(DANG)
 		if(invincible == true){
 			invincibleCounter++;
 			if(invincibleCounter>60){
@@ -157,45 +156,51 @@ public class Player extends Entity{
 			}
 		}
 	}
-	
+	// bo sung tu 160-202(DANG)
 	public void attacking (){
 		spriteCounter++;
 
 		if(spriteCounter<=5){
-			spriteCounter = 1;
+			spriteNum = 1;
 		}
 		if(spriteCounter>5 && spriteCounter <=25){
 			spriteNum = 2;
-		// Save the current wworldC, worldY, solidArea
+
+			// Save the current worldX, worldY, solidArea
 			int currentWorldX = worldX;
 			int currentWorldY = worldY;
 			int solidAreaWidth = solidArea.width;
 			int solidAreaHeight = solidArea.height;
-		//Adjust player's worldX/Y for the attackArea
-			switch(direction){
-			case "up": worldY -= attackArea.height; break ;
-			case "down": worldY += attackArea.height; break;
-			case "left": worldX -= attackArea.width; break;
-			case "right": worldX += attackArea.width; break;	
-			}	
-		// attackArea becomes solidArea	
-		solidArea.width = attackArea.width;
-		solidArea.height = attackArea.height;	
-		// check monster collision wih the updated worldX, worldY and solideArea
-		int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
-		damageMonster(monsterIndex);
 
-		// After checking collision, restore the original data	
-		worldX = currentWorldX;
-		worldY = currentWorldY;
-		solidArea.width = solidAreaWidth;
-		solidArea.height = solidAreaHeight;
+			//Adjust player's worldX/Y for the attackArea
+			switch(direction){
+				case "up": worldY -= attackArea.height; break;
+				case "down": worldY += attackArea.height; break;
+				case "left": worldX -= attackArea.width; break;
+				case "right": worldX += attackArea.width; break;
+			}
+
+			// attackarea becomes solidarea
+			solidArea.width = attackArea.width;
+			solidArea.height = attackArea.height;
+
+			// check monster collision with the updated worldX, worldY, solideArea
+			int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
+			damageMonster(monsterIndex);
+
+			//After checking collision, restrore the original data
+			worldX = currentWorldX;
+			worldY = currentWorldY;
+			solidArea.width = solidAreaWidth;
+			solidArea.height = solidAreaHeight;
+
 		}
 		if(spriteCounter>25){
 			spriteNum = 1;
 			spriteCounter = 0;
 			attacking = false;
 		}
+		// ket thuc bo sung
 	}
 	public void pickUpObject(int i) {
 		
@@ -221,8 +226,7 @@ public class Player extends Entity{
 			 
 		}
 	}
-	// THEM TU DONG 232-242
-	// HIEU UNG BAM ENTER=ATTACK
+	// THEM TU DONG 232-242 HIEU UNG BAM ENTER=ATTACK
 	public void interact(int i){
 		if(gp.keyH.enterPressed == true){
 			if(i != 999){
@@ -234,8 +238,9 @@ public class Player extends Entity{
 			}
 		}
 	}
-	// HET DONG 242
+	// ket thuc bo sung
 	
+	// player receives damage 243-250(DANG)
 	public void contactMonster(int i){
 		if(i !=999){
 			if(invincible == false){
@@ -244,18 +249,27 @@ public class Player extends Entity{
 			}
 		}
 	}	
+	// ket thuc bo sung
+
+	// bo sung give damage and kill monster 254-263(DANG)
 	public void damageMonster(int i){
 		if(i != 999){
-			System.out.println("Hit!");
-		}
-		else {
-			System.out.println("Miss!");
-		}
+			if(gp.monster[i].invincible == false){
+				gp.monster[i].life -= 1;
+				gp.monster[i].invincible = true;
+				gp.monster[i].damageReaction();
+
+				if(gp.monster[i].life <= 0){
+					gp.monster[i].dying = true;
+				}
+			}
+		}	
 	}
+	// het bo sung
 	public void draw(Graphics2D g2) {
 		BufferedImage image=null;
-	//	int tempscreenX= screenX;
-	//	int tempscreenY= screenY;
+		int tempscreenX= screenX;
+		int tempscreenY= screenY;
 		switch(direction) {
 		case "up":
 			if (attacking == false){
@@ -264,6 +278,9 @@ public class Player extends Entity{
 			break;
 			}
 			if (attacking == true){
+				//BO SUNG 244(DANG)
+				tempscreenY = screenY - gp.tileSize;
+				//HET BO SUNG
 				if(spriteNum==1) image=attackup1;
 				if(spriteNum==2) image=attackup2;
 			break;
@@ -286,7 +303,10 @@ public class Player extends Entity{
 				if(spriteNum==2) image=left2;
 			break;
 			}
-			if (attacking == true){	
+			if (attacking == true){
+				//BO SUNG 268(DANG)
+				tempscreenX = screenX - gp.tileSize;
+				//HET BO SUNG
 				if(spriteNum==1) image=attackleft1;
 				if(spriteNum==2) image=attackleft2;
 			break;
@@ -303,9 +323,11 @@ public class Player extends Entity{
 			break;
 			}
 		}	
+		// BO SUNG 289-291(DANG)
 		if(invincible == true){
-			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f));
+			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f));
 		}
+		// HET BO SUNG
 		int x=screenX;
 		int y=screenY;
 		if(screenX>worldX) {
@@ -322,13 +344,13 @@ public class Player extends Entity{
 			if(bottomOffset>gp.worldHeight-worldY) {
 				y=gp.screenHeight- (gp.worldHeight-worldY);
 		 }
-		g2.drawImage(image,x,y,null);
-		// Reset alpha
+		g2.drawImage(image,tempscreenX, tempscreenY, null);
+		// Reset alpha(DANG)
 		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
-		//DEBUG
-		//g2.setFont(new Font("Arial", Font.PLAIN, 26));
-		//g2.setColor(Color.white);
-		//g2.drawString("Invincible:"+invincibleCounter, 10, 400);
+		//DEBUG(DANG)
+		g2.setFont(new Font("Arial", Font.PLAIN, 26));
+		g2.setColor(Color.white);
+		g2.drawString("Invincible:"+invincibleCounter, 10, 400);
 
 }
 }

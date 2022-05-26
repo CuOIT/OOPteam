@@ -68,15 +68,17 @@ public class CollisionChecker {
 				case "left": entity.solidArea.x-=entity.speed; break;
 				case "right": entity.solidArea.x+=entity.speed; break;
 				}
+				// bo sung tu 71-80(DANG)
 				if(entity.solidArea.intersects(gp.obj[i].solidArea)) {
 					if(gp.obj[i].collision==true) {
 						entity.collisionOn=true;
 					}
 					if(player==true) {
 						index=i;
-						//npc cant pick up the obj
+						
 					}
 				}
+				// ket thuc bo sung
 				entity.solidArea.x=entity.solidAreaDefaultX;
 				entity.solidArea.y=entity.solidAreaDefaultY;
 				gp.obj[i].solidArea.x=gp.obj[i].solidAreaDefaultX;
@@ -97,6 +99,7 @@ public class CollisionChecker {
 				//Get the object's solid area position
 				target[i].solidArea.x=target[i].worldX+target[i].solidArea.x;
 				target[i].solidArea.y=target[i].worldY+target[i].solidArea.y;
+				//Rut gon tu 102 -114( Removing this class from target)(DANG)
 				switch(entity.direction) {
 				case "up": entity.solidArea.y-=entity.speed; break;
 				
@@ -104,13 +107,14 @@ public class CollisionChecker {
 				case "left": entity.solidArea.x-=entity.speed; break;
 				case "right": entity.solidArea.x+=entity.speed; break;
 				}
-				//check 2 Rectangle intersects
+				//check 2 Rectangle intersects(DANG)
 				if(entity.solidArea.intersects(target[i].solidArea)) {
 					if(target[i] != entity) {
 						entity.collisionOn=true;
 						index=i;
 					}
 				}
+				// ket thuc bo sung
 				entity.solidArea.x=entity.solidAreaDefaultX;
 				entity.solidArea.y=entity.solidAreaDefaultY;
 				target[i].solidArea.x=target[i].solidAreaDefaultX;

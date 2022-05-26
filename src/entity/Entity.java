@@ -5,6 +5,8 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+import java.awt.AlphaComposite;
+
 import javax.imageio.ImageIO;
 
 import main.GamePanel;
@@ -19,6 +21,9 @@ public class Entity {
 	public int spriteCounter=0;
 	public int spriteNum=1;
 	public Rectangle solidArea = new Rectangle(0,0,48,48);
+	public BufferedImage image,image2,image3;
+	public String name;
+	// BO SUNG TU 23-43(DANG)
 	public Rectangle attackArea = new Rectangle(0,0,0,0);
 	public int solidAreaDefaultX,solidAreaDefaultY;
 	public boolean collisionOn=false;
@@ -26,21 +31,26 @@ public class Entity {
 	public int life;
 	public int actionLockCounter=0;
 	public boolean invincible=false;
-	public int invincibleCounter = 0; 
+	public int invincibleCounter = 0;//  creating invincible time(DANG)
 	boolean attacking = false;
-	public BufferedImage image,image2,image3;
-	public String name;
 	public boolean collision;
 	public int type; // 0=player, 1=np1, 2=monster
 
+	public boolean alive = true;
+	public boolean dying = false;
+	int dyingcounter;
 	boolean hpBarOn = false;
 	int hpBarCounter = 0;
+	// het bo sung
 
 	public Entity(GamePanel gp) {
 		this.gp=gp;
 	}
 	
 	public void setAction() {}
+	public void damageReaction(){
+
+	}
 	public void speak(){}
 
 	public void update() {
@@ -49,13 +59,13 @@ public class Entity {
 		collisionOn=false;
 		gp.cChecker.checkTile(this);
 		gp.cChecker.checkObject(this, false);
-		gp.cChecker.checkEntity(this, gp.monster);
+		gp.cChecker.checkEntity(this, gp.monster); // checking collision between Entities(DANG)
 		boolean contactPlayer = gp.cChecker.checkPlayer(this);
 
 		if(this.type == 2 && contactPlayer == true){
 			if(gp.player.invincible == false){
 				//we can give damage
-				gp.player.life = 1;
+				gp.player.life -= 1;
 				gp.player.invincible = true;
 			}
 		}
@@ -76,7 +86,7 @@ public class Entity {
 			}
 		}
 		spriteCounter++;
-		if(spriteCounter>15)
+		if(spriteCounter>12)
 		{
 			if(spriteNum==1)
 				spriteNum=2;
@@ -84,7 +94,13 @@ public class Entity {
 			spriteNum=1;
 		spriteCounter=0;
 		}
-		
+		if(invincible == true){
+			invincibleCounter++;
+			if(invincibleCounter>40){
+				invincible = false;
+				invincibleCounter = 0;
+			}
+		}
 	}
 	public BufferedImage setup(String imagePath, int width, int height) {
 		UtilityTool uTool=new UtilityTool();
@@ -129,6 +145,15 @@ public class Entity {
 					image=right2;
 			break;
 		}
+
+		if(invincible == true){
+			hpBarOn = true;
+			hpBarCounter = 0;
+			changeAlpha(g2, 0.4F);
+		}
+		if(dying == true){
+			dyingAnimation(g2);
+		}
 	
 		screenX=worldX-gp.player.worldX+gp.player.screenX;
 		screenY=worldY-gp.player.worldY+gp.player.screenY;
@@ -146,24 +171,68 @@ public class Entity {
 			if(bottomOffset>gp.worldHeight-gp.player.worldY) {
 				screenY=gp.screenHeight- (gp.worldHeight-worldY);
 		 }		
-		 // THEM TU DONG 147-166 THANH MAU CUA CON QUAI
-		 if(type == 2 && hpBarOn == true){
+		 // THEM TU DONG  THANH MAU CUA CON QUAI(DANG)
+		 if(type == 2 && hpBarOn == true ){
 			double oneScale = (double)gp.tileSize/maxLife;
 			double hpBarValue = oneScale*life;
-			
-			g2.setColor(new Color(35,35,35));
-			g2.fillRect(screenX-1, screenY-16,  gp.tileSize+2, 12);
 
+			g2.setColor(new Color(35, 35, 35));
+			g2.fillRect(screenX -1, screenY - 16, gp.tileSize +2, 12);
+			
 			g2.setColor(new Color(255,0,30));
 			g2.fillRect(screenX , screenY - 15, (int)hpBarValue, 10);
-
+			
 			hpBarCounter++;
-			if (hpBarCounter > 600){
+
+			if(hpBarCounter > 600){
 				hpBarCounter = 0;
 				hpBarOn = false;
 			}
 		}	
-		// HET DONG 166
+		
 		g2.drawImage(image,screenX,screenY,gp.tileSize,gp.tileSize,null); 
-}
+	
+		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f));
+		changeAlpha(g2,1F);
+		// HET BO SUNG(DANG)
+	// bo sung hieu ung quai chet di tu 194-231(DANG)
 	}
+	public void dyingAnimation(Graphics2D g2){
+		dyingcounter++;
+		
+		int i =5;
+
+		if(dyingcounter <= i){	
+			changeAlpha(g2, 0f);
+		}
+		if(dyingcounter > i && dyingcounter <= i*2){
+			changeAlpha(g2, 1f);
+		}
+		if(dyingcounter > i*2 && dyingcounter <= i*3){
+			changeAlpha(g2, 0f);
+		}
+		if(dyingcounter > i*3 && dyingcounter <= i*4){
+			changeAlpha(g2, 1f);
+		}
+		if(dyingcounter > i*4 && dyingcounter <= i*5){
+			changeAlpha(g2, 0f);
+		}
+		if(dyingcounter > i*5 && dyingcounter <= i*6){
+			changeAlpha(g2, 1f);
+		}
+		if(dyingcounter > i*6 && dyingcounter <= i*7){
+			changeAlpha(g2, 0f);
+		}
+		if(dyingcounter > i*7 && dyingcounter <=i*8){
+			changeAlpha(g2, 1f);
+		}
+		if(dyingcounter >i*8){
+			dying = false;
+			alive = false;
+		}
+	}
+	public void changeAlpha(Graphics2D g2, float alphaValue){
+		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alphaValue));	
+	}
+	//het bo sung
+}
