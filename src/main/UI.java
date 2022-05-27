@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
@@ -20,6 +21,11 @@ public class UI {
 	BufferedImage keyImage;
 	public boolean gameFinished = false; 
 	Menu menu=new Menu(gp);
+	public int commandNum;
+	private Object drawMessage;
+	private String currentDialogue;
+	public int slotCol =0 ;
+	public int slotRow = 0 ;
 	public UI(GamePanel gp) {
 		this.gp=gp;
 
@@ -53,11 +59,17 @@ public class UI {
 		{	drawPlayerLife();
 			drawPauseScreen();
 		}
-//		else if(gp.gameState==gp.dialogueState)
-//		{	drawPlayerLife();
-//			drawDialogueScreen();
-//	}
+		else if(gp.gameState==gp.dialogueState)
+		{	drawPlayerLife();
+			drawDialogueScreen();
+		}
+		else if(gp.gameState==gp.characterState)
+		{
+			drawCharacterScreen();
+			drawInventory();
+		}
 	}
+	
 	public void drawPlayerLife() {
 		int x=gp.tileSize/2;
 		int y=gp.tileSize/2;
@@ -74,6 +86,28 @@ public class UI {
 		}
 		if(gp.player.life%2!=0) g2.drawImage(heart_half,x-(5-(gp.player.life/2))*gp.tileSize,y,null);
 	}
+	 
+	public void drawDialogueScreen() {
+			int x = gp.tileSize*2;
+			int y = gp.tileSize/2;
+			int width= gp.screenWidth - (gp.tileSize*4);
+			int height= gp.tileSize*4;
+			drawSubWindow(x,y,width,height);
+			
+			g2.setFont(g2.getFont().deriveFont(Font.PLAIN,32F));//marumonica
+			x+=gp.tileSize;
+			y+=gp.tileSize;
+			
+			for(String line : currentDialogue.split("\n")) {
+				g2.drawString(line, x, y);
+				y+=40;
+			}
+		}
+	
+	public void addMessage(String text) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	public void drawTitleScreen() {
 		g2.setColor(new Color(70,120,80));
@@ -85,7 +119,7 @@ public class UI {
 		g2.setColor(Color.white);
 		g2.drawString(text,x,y);
 		//g2.setColor(new (60,60,60));
-	String start="START";
+	String start="START";	
 	int x1=getXforCenteredText(start);
 	int y1=gp.tileSize*5;
 	g2.setFont(g2.getFont().deriveFont(Font.PLAIN,50F));
@@ -100,8 +134,91 @@ public class UI {
 		g2.drawImage(menu.image,x,y,gp.tileSize*5,gp.tileSize*6,null);
 	}
 	
+	public void drawCharacterScreen() {
+		final int frameX=gp.tileSize*2;
+		final int frameY=gp.tileSize;
+		final int frameWidth=gp.tileSize*5;
+		final int frameHeight=gp.tileSize*10;
+		drawSubWindow(frameX,frameY,frameWidth,frameHeight);
+		g2.setColor(Color.white);
+		g2.setFont(g2.getFont().deriveFont(32F));
+	}
+	
+	public void drawInventory() {
+		// FRAME
+		int frameX = gp.tileSize*9 ;
+		int frameY = gp.tileSize;
+		int frameWidth = gp.tileSize*6;
+		int frameHeight = gp.tileSize*5 ;
+		drawSubWindow(frameX, frameY, frameWidth, frameHeight);
+		
+		// SLOT
+		final int slotXstart = frameX + 20 ;
+		final int slotYstart = frameY + 20 ;
+		int slotX = slotXstart  ;
+		int slotY = slotYstart  ;
+		int slotSize = gp.tileSize + 3;
+		
+		//DRAW PLAYER'S ITEMS
+		for(int i= 0;i< gp.player.inventory.size();i++) {
+			g2.drawImage(gp.player.inventory.get(i).down1,slotX, slotY, null);
+			slotX += slotSize;
+					
+			if(i==4 || i==9 || i==14) {
+				slotX = slotXstart;
+				slotY += slotSize;
+			}
+		}
+		
+		//CURSOR
+		int cursorX = slotXstart + (slotSize * slotCol -2);
+		int cursorY = slotXstart + (slotSize * slotRow -379);
+		int cursorWidth= gp.tileSize  ;
+		int cursorHeight= gp.tileSize ;
+		
+		//DRAW CURSOR
+		g2.setColor(Color.white);
+		g2.setStroke(new BasicStroke(3));
+		g2.drawRoundRect(cursorX, cursorY, cursorWidth, cursorHeight, 10, 10);
+		
+		// DESCRIPTION FRAME 
+		int dFrameX = frameX;
+		int dFrameY = frameY+ frameHeight;
+		int dFrameWidth = frameWidth;
+		int dFrameHeight = gp.tileSize*3;
+		drawSubWindow(dFrameX, dFrameY, dFrameWidth, dFrameHeight);
+		
+		// DRAW DESCRIPTION TEXT
+		int textX = dFrameX + 20;
+		int textY = dFrameY + gp.tileSize;
+		g2.setFont(g2.getFont().deriveFont(28F));
+		
+		int itemIndex = getItemIndexOnSlot();
+		if(itemIndex < gp.player.inventory.size()) {
+			for(String line: gp.player.inventory.get(itemIndex).description.split("\n")) {
+			g2.drawString(line, textX, textY);
+			textY += 32;
+	}
+	}
+	}
+	
+public int getItemIndexOnSlot() {
+		int itemIndex = slotCol + (slotRow *5);
+		return itemIndex;
+	}
+
+	public void drawSubWindow(int x,int y,int width,int height) {
+		Color c=new Color(0,0,0,210);
+		g2.setColor(c);
+		g2.fillRoundRect(x, y, width, height, 35, 35);
+		c=new Color(255,255,255);
+		g2.setColor(c);
+		g2.setStroke(new BasicStroke(5));
+		g2.drawRoundRect(x+5, y+5, width-10, height-10,25,25);
+	}
+	
 	public int getXforCenteredText(String text) {
-		int length=(int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
+		int length=(int)g2.getFontMetrics().getStringBounds(text,g2).getWidth();
 		int x=gp.screenWidth/2-length/2;
 		return x;
 	}
