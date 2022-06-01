@@ -2,7 +2,7 @@
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener; 
 public class KeyHandler implements KeyListener{
-	public boolean upPressed,rightPressed,downPressed,leftPressed,enterPressed;
+	public boolean upPressed,rightPressed,downPressed,leftPressed,enterPressed,spacePressed;
 	//DEBUG
 	GamePanel gp;
 	boolean checkDrawTime=false;
@@ -27,9 +27,8 @@ public class KeyHandler implements KeyListener{
 		else if(gp.gameState==gp.pauseState) {
 					pauseState(code);
 		}
-		else if(gp.gameState==gp.dialogueState) {
-				//desau
-			//titleState(code);
+		else if(gp.gameState==gp.dialogueState) {		
+			dialogueState(code);
 		}
 		else if(gp.gameState==gp.characterState) {
 					characterState(code);
@@ -39,7 +38,7 @@ public class KeyHandler implements KeyListener{
 	public void titleState(int code) {
 		if(code==KeyEvent.VK_ENTER)
 		{
-			gp.gameState=gp.playState;
+			gp.gameState=gp.dialogueState;
 		}
 	}
 	public void playState(int code) {
@@ -77,7 +76,12 @@ public class KeyHandler implements KeyListener{
 	}
 	public void dialogueState(int code){
 		if(code == KeyEvent.VK_ENTER){
+			if(gp.player.currentMission!=2 && gp.player.currentMission!=3)
+			gp.player.currentMission++;
 			gp.gameState=gp.playState;
+		}
+		else if(code == KeyEvent.VK_SPACE) {
+			gp.npc[gp.player.npcIndex].numberDialogue++;
 		}
 	}
 	public void characterState(int code) {
@@ -126,6 +130,9 @@ public class KeyHandler implements KeyListener{
 			rightPressed=false;
 		}else if(code==KeyEvent.VK_L) {
 			gp.gameState=gp.playState;
+		}
+		else if(code==KeyEvent.VK_SPACE) {
+			enterPressed=false;
 		}
 	}
 }

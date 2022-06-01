@@ -23,6 +23,10 @@ public class Player extends Entity{
 	public final int screenX,screenY;
 	public ArrayList<Entity> inventory=new ArrayList<>();
 	public final int maxInventorySize=20;
+	public boolean[] mission = new boolean[10];
+	public int currentMission=0;
+	public int npcIndex;
+	public int apple=0;
 	public Player(GamePanel gp,KeyHandler keyH)
 	{
 		super(gp); 
@@ -31,7 +35,6 @@ public class Player extends Entity{
 		screenX=gp.screenWidth/2-(gp.tileSize/2);
 		screenY=gp.screenHeight/2-(gp.tileSize/2);
 		//set character in the center
-		
 		solidArea=new Rectangle();
 		solidArea.x=8;
 		solidArea.y=16;
@@ -44,11 +47,13 @@ public class Player extends Entity{
 		setDefaultValues();
 		getPlayerImage();
 		getPlayerAttackImage();
+		setMission();
+		setDialogue();
 		setItems();
 	}
 	public void setDefaultValues() {
-		worldX=gp.tileSize*15;
-		worldY=gp.tileSize*16;
+		worldX=gp.tileSize*40;
+		worldY=gp.tileSize*40;
 		//set character in the center
 		speed=10;
 		direction="down";
@@ -88,6 +93,18 @@ public class Player extends Entity{
 		attackleft2=setup("/player/boy_attack_left_2", gp.tileSize*2, gp.tileSize);
 		attackright1=setup("/player/boy_attack_right_1", gp.tileSize*2, gp.tileSize);
 		attackright2=setup("/player/boy_attack_right_2", gp.tileSize*2, gp.tileSize);
+	}
+	public void setMission() {
+		for(int i=0;i<10;i++) {
+			mission[i]=false;
+		}
+	}
+	public void setDialogue() {
+		dialogue[0]="Hmmmm.....where am I????Orgggg.....I'm too hungryyy.Let's find something to fill my stomach.";
+//		dialogue[1]="Where is this???";
+//		dialogue[2]="Where can I find him?";
+//		
+		
 	}
 //	public void update() {
 //		if(keyH.upPressed==true || keyH.downPressed==true 
@@ -189,7 +206,7 @@ public class Player extends Entity{
 		//CHECK OBJECT COLLISION
 		int objIndex=gp.cChecker.checkObject(this, true);
 		pickUpObject(objIndex);
-		int npcIndex=gp.cChecker.checkEntity(this,gp.npc);
+		npcIndex=gp.cChecker.checkEntity(this,gp.npc);
 		interact(npcIndex);
 		// CHECK MONSTER COLLISION 115-116(DANG)
 		int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
@@ -295,8 +312,10 @@ public class Player extends Entity{
 				 	gp.obj[i]=null;
 				 	this.speed+=2;
 				 	break;
-			 case "Chest":
-				 gp.ui.gameFinished=true;
+			 case "Apple":
+				 gp.obj[i]=null;
+				 apple++;
+				 if(apple==5) currentMission++;
 				// gp.stopMusic();
 				 //gp.playSE(4);
 				 break;
@@ -310,7 +329,7 @@ public class Player extends Entity{
 		if(gp.keyH.enterPressed == true){
 			if(i != 999){
 				gp.gameState = gp.dialogueState;
-				gp.npc[i].speak();
+				gp.ui.drawDialogueScreen();
 			}
 			else{
 				attacking = true;

@@ -8,7 +8,7 @@ public class Boar_monster extends Entity{
 	public Boar_monster(GamePanel gp) {
         super(gp);
 		this.gp = gp;
-    type = 2;
+    type = monsterType;
 	name = "Boar_Monster";
     speed= 1;
     maxLife= 4;

@@ -24,6 +24,7 @@ public class UI {
 	public int commandNum;
 	private Object drawMessage;
 	private String currentDialogue;
+	private int numberDialogue=1;
 	public int slotCol =0 ;
 	public int slotRow = 0 ;
 	public UI(GamePanel gp) {
@@ -85,6 +86,14 @@ public class UI {
 			g2.drawImage(heart_full,x-(6-i)*gp.tileSize,y,null);
 		}
 		if(gp.player.life%2!=0) g2.drawImage(heart_half,x-(5-(gp.player.life/2))*gp.tileSize,y,null);
+		int x1=gp.tileSize*2;
+		int y1=gp.tileSize*4;
+		int x2=gp.tileSize*2;
+		int y2=gp.tileSize*5;
+		String wX=String.valueOf(gp.player.worldX/gp.tileSize);
+		String wY=String.valueOf(gp.player.currentMission);
+		g2.drawString(wX,x1,y1);
+		g2.drawString(wY, x2, y2);
 	}
 	 
 	public void drawDialogueScreen() {
@@ -97,13 +106,34 @@ public class UI {
 			g2.setFont(g2.getFont().deriveFont(Font.PLAIN,32F));//marumonica
 			x+=gp.tileSize;
 			y+=gp.tileSize;
+
 			
-			for(String line : currentDialogue.split("\n")) {
-				g2.drawString(line, x, y);
-				y+=40;
+			switch(gp.player.currentMission) {
+			case 0:
+				currentDialogue=gp.player.dialogue[0];
+				g2.drawString(currentDialogue,x,y);
+				break;
+			case 1:
+				currentDialogue=gp.npc[0].dialogue[gp.npc[0].numberDialogue];
+				if(currentDialogue!=null) {
+					g2.drawString(currentDialogue,x,y);
+				}
+				break;
+			case 2:
+				currentDialogue=gp.npc[0].dialogue[10];
+				g2.drawString(currentDialogue,x,y);
+				break;
+			case 3:
+				if(gp.player.npcIndex==0)
+					currentDialogue=gp.npc[0].dialogue[11];
+				else if(gp.player.npcIndex==1)
+					currentDialogue=gp.npc[1].dialogue[gp.npc[1].numberDialogue];
+					if(currentDialogue!=null) {
+						g2.drawString(currentDialogue,x,y);
+					}
+				break;
 			}
-		}
-	
+	}
 	public void addMessage(String text) {
 		// TODO Auto-generated method stub
 		

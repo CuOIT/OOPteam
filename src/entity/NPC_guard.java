@@ -8,9 +8,11 @@ public class NPC_guard extends Entity{
 	public NPC_guard(GamePanel gp) {
 		super(gp);
 		direction="down";
-		speed=2;
+		numberDialogue=0;
+		speed=0;
 		getImage();
 		collision=true;
+		setDialogue();
 	}
 	public void setDefaultValues() {
 		worldX=gp.tileSize*44;
@@ -28,6 +30,18 @@ public class NPC_guard extends Entity{
 		left2=setup("/npc/guard_Up2",gp.tileSize,gp.tileSize);
 		right1=setup("/npc/guard_Up1",gp.tileSize,gp.tileSize);
 		right2=setup("/npc/guard_Up2",gp.tileSize,gp.tileSize);
+	}
+	public void setDialogue() {
+		dialogue[0]="Where is this???";
+		dialogue[1]="You're in Mystery Island.";
+		dialogue[2]="How can I get out there?";
+		dialogue[3]="Let's meet our headman. He will give you the solution.";
+		dialogue[4]="Where can I find him?";
+		dialogue[5]="Firstly, you have to find 5 apple in the jungle in order to prove that you're worthy to meet him";
+		dialogue[6]="After that, I will let you come to meet him.";
+		dialogue[7]="Careful with the boars. They're stronger than you think.";
+		dialogue[10]="You don't have enough apples!";
+		dialogue[11]="Niceee.. Go to the East and you will see the headman!";
 	}
 	public void setAction() {
 		actionLockCounter++;

@@ -143,6 +143,9 @@ public class GamePanel extends JPanel implements Runnable {
 		if(gameState==characterState) {
 			ui.drawCharacterScreen();
 		}
+		if(gameState==dialogueState) {
+			ui.drawDialogueScreen();
+		}
 
 	}
 	public void drawToTempScreen() {

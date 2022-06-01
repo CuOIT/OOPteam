@@ -32,14 +32,20 @@ public class Entity {
 	public int invincibleCounter = 0;//  creating invincible time(DANG)
 	boolean attacking = false;
 	public boolean collision;
-	
+	public int width;
+	public int height;
 	public boolean alive=true;
 	public boolean dying=false;
 	public int dyingcounter;
 	boolean hpBarOn = false;
 	int hpBarCounter = 0;
-	
+	public int numberDialogue;
+	public String[] dialogue = new String[20];
 	public int type;//0-player;1-npc;2-monster;
+	int playerType=0;
+	int monsterType=1;
+	int guardType=2;
+	int	headManType=3;
 	public int level;
 	public int strength;
 	public int dexterity;
@@ -73,7 +79,7 @@ public class Entity {
 		gp.cChecker.checkEntity(this, gp.monster); // checking collision between Entities(DANG)
 		boolean contactPlayer = gp.cChecker.checkPlayer(this);
 
-		if(this.type == 2 && contactPlayer == true){
+		if(this.type == monsterType && contactPlayer == true){
 			if(gp.player.invincible == false){
 				//we can give damage
 				gp.player.life -= 1;
@@ -150,6 +156,8 @@ public class Entity {
 	
 	public BufferedImage setup(String imagePath,int width,int height) {
 		UtilityTool uTool=new UtilityTool();
+		this.width=width;
+		this.height=height;
 		BufferedImage image=null;
 		try {
 			image=ImageIO.read(getClass().getResourceAsStream(imagePath+".png"));
@@ -265,7 +273,7 @@ public class Entity {
 				screenY=gp.screenHeight- (gp.worldHeight-worldY);
 		 }		
 		 // THEM TU DONG  THANH MAU CUA CON QUAI(DANG)
-		 if(type == 2 && hpBarOn == true ){
+		 if(type == monsterType && hpBarOn == true ){
 			double oneScale = (double)gp.tileSize/maxLife;
 			double hpBarValue = oneScale*life;
 
@@ -283,7 +291,7 @@ public class Entity {
 			}
 		}	
 		
-		g2.drawImage(image,screenX,screenY,gp.tileSize,gp.tileSize,null); 
+		g2.drawImage(image,screenX,screenY,width,height,null); 
 	
 		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f));
 		changeAlpha(g2,1F);
