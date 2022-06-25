@@ -10,6 +10,7 @@ public class OBJ_Sword_Normal extends Entity{
 	name="Sword_Normal";
 	down1=setup("/objects/sword_normal",gp.tileSize,gp.tileSize);
 	description = "[" + name + "]\nAn old sword.";
+	knockBackPower = 10;
 }
 }
 

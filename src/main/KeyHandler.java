@@ -2,7 +2,7 @@
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener; 
 public class KeyHandler implements KeyListener{
-	public boolean upPressed,rightPressed,downPressed,leftPressed,enterPressed,spacePressed;
+	public boolean upPressed,rightPressed,downPressed,leftPressed,enterPressed,shotKeyPressed;
 	//DEBUG
 	GamePanel gp;
 	boolean checkDrawTime=false;
@@ -33,14 +33,12 @@ public class KeyHandler implements KeyListener{
 		else if(gp.gameState==gp.characterState) {
 					characterState(code);
 		}
+		else if(gp.gameState==gp.optionState) {
+			optionState(code);
+		}
+		System.out.println(gp.gameState);
 	}
 	
-	public void titleState(int code) {
-		if(code==KeyEvent.VK_ENTER)
-		{
-			gp.gameState=gp.dialogueState;
-		}
-	}
 	public void playState(int code) {
 		if(code==KeyEvent.VK_W) {
 			upPressed=true;
@@ -66,7 +64,44 @@ public class KeyHandler implements KeyListener{
 		else if(code==KeyEvent.VK_L) {
 			gp.tileM.loadMap("/map/test.txt");
 		} 
+		else if(code == KeyEvent.VK_F){
+			shotKeyPressed=true;	
+		}
+
+		else if(code==KeyEvent.VK_ESCAPE) {
+			gp.gameState=gp.optionState;
+		}
 		
+	}
+	public void optionState(int code) {
+		if(code==KeyEvent.VK_ESCAPE) { 
+			gp.gameState=gp.playState;
+		}
+		if(code==KeyEvent.VK_W) {
+			gp.ui.subState=(gp.ui.subState-1)%3;
+		}
+		else if(code==KeyEvent.VK_S) {
+			gp.ui.subState=(gp.ui.subState+1)%3;
+		}
+		if(code==KeyEvent.VK_ENTER) {
+		enterPressed=true;
+		if(gp.ui.subState==0) {
+			gp.gameState=gp.playState;
+		}
+		else if(gp.ui.subState==1) {
+			
+		}
+		else if(gp.ui.subState==2) {
+			gp.gameState=gp.titleState;
+		}
+		}
+		
+	}
+	public void titleState(int code) {
+		if(code==KeyEvent.VK_ENTER)
+		{
+			gp.gameState=gp.dialogueState;
+		}
 	}
 	public void pauseState(int code) {
 		if(code==KeyEvent.VK_P) {
@@ -131,8 +166,8 @@ public class KeyHandler implements KeyListener{
 		}else if(code==KeyEvent.VK_L) {
 			gp.gameState=gp.playState;
 		}
-		else if(code==KeyEvent.VK_SPACE) {
-			enterPressed=false;
+		else if(code==KeyEvent.VK_F){
+			shotKeyPressed = false;
 		}
 	}
 }

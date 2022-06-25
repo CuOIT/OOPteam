@@ -11,7 +11,7 @@ public class Sound {
 	URL soundURL[]=new URL[30];
 	public Sound() {
 		soundURL[0]=getClass().getResource("/sound/backgroundSTMTP.wav");
-		System.out.print("done");
+		//System.out.print("done");
 	
 	}
 	public void setFile(int i) {

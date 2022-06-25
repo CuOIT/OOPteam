@@ -56,6 +56,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public Entity npc[]= new Entity[10];
 	public Entity monster[]=new Entity[20];
 	public ArrayList<Entity> entityList=new ArrayList<>();
+	public ArrayList<Entity> projectileList=new ArrayList<>();	
 	//GAME STATE
 	public int gameState;
 	public final int titleState=0;
@@ -64,6 +65,8 @@ public class GamePanel extends JPanel implements Runnable {
 	public final int loadState=3;
 	public final int dialogueState=4;
 	public final int characterState=5;
+	public final int optionState=6; 
+	public final int gameOverState=7;
 	
 	public GamePanel()
 	{
@@ -120,8 +123,9 @@ public class GamePanel extends JPanel implements Runnable {
 		}
 	}
 	public void update() {
-		if(gameState==playState)
-		player.update();
+		if(gameState==playState) 
+			player.update();
+	//	if(player.life<=0) gameState=gameOverState;
 		for(int i=0;i<npc.length;i++)
 			if(npc[i]!=null)	
 				npc[i].update();
@@ -131,10 +135,22 @@ public class GamePanel extends JPanel implements Runnable {
 					monster[i].update();
 				}	
 				if(monster[i].alive == false){
+					monster[i].checkDrop();
 					monster[i] = null;
 				}
 			}
 		}
+		for(int i=0;i<projectileList.size();i++){
+			if(projectileList.get(i)!=null){
+				if(projectileList.get(i).alive == true ){
+					projectileList.get(i).update();
+				}	
+				if(projectileList.get(i).alive == false){
+					projectileList.remove(i);
+				}
+			}
+		}
+	
 		if(gameState==pauseState) {
 		}
 		if(gameState==loadState) {
@@ -146,7 +162,11 @@ public class GamePanel extends JPanel implements Runnable {
 		if(gameState==dialogueState) {
 			ui.drawDialogueScreen();
 		}
-
+		if(gameState==gameOverState) {
+			
+			
+		}
+		
 	}
 	public void drawToTempScreen() {
 		//DEBUG
@@ -157,6 +177,7 @@ public class GamePanel extends JPanel implements Runnable {
 				
 				if(gameState==titleState) {
 					ui.draw(g2);
+			
 				}
 				else 
 				{
@@ -181,6 +202,12 @@ public class GamePanel extends JPanel implements Runnable {
 							if(monster[i]!=null)
 							{
 								entityList.add(monster[i]);	
+							}
+						}
+						for(int i=0;i<projectileList.size();i++) {
+							if(projectileList.get(i) != null)
+							{
+								entityList.add(projectileList.get(i));	
 							}
 						}
 						Collections.sort(entityList,new Comparator<Entity>() {

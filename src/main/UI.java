@@ -3,10 +3,13 @@ package main;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Container;
 import java.awt.FontFormatException;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
+import javax.imageio.ImageIO;
 
 import entity.Entity;
 import object.OBJ_Heart;
@@ -19,14 +22,19 @@ public class UI {
 	Graphics2D g2;
 	BufferedImage heart_full,heart_half,heart_plank;
 	BufferedImage keyImage;
+	public boolean messageOn = false;
 	public boolean gameFinished = false; 
 	Menu menu=new Menu(gp);
 	public int commandNum;
+	ArrayList<String> message = new ArrayList<>();
+	ArrayList<Integer> messageCounter = new ArrayList<>();
 	private Object drawMessage;
 	private String currentDialogue;
 	private int numberDialogue=1;
 	public int slotCol =0 ;
 	public int slotRow = 0 ;
+	public int subState=0;
+	UtilityTool uTool=new UtilityTool();
 	public UI(GamePanel gp) {
 		this.gp=gp;
 
@@ -43,6 +51,34 @@ public class UI {
 		heart_plank=heart.image3;	
 
 		
+	}
+
+	public void drawMessage() {
+		// TODO Auto-generated method stub
+		int messageX= gp.tileSize*2;
+		int messageY = gp.tileSize*7;
+		g2.setFont(g2.getFont().deriveFont(Font.BOLD, 32F));
+		
+		for(int i= 0 ; i<message.size();i++) {
+			if(message.get(i) != null) {
+				g2.setColor(Color.white);
+				g2.drawString(message.get(i), messageX, messageY);
+				
+				int counter = messageCounter.get(i)+1;
+				messageCounter.set(i, counter);
+				messageY +=50;
+				
+				if(messageCounter.get(i) > 180) {
+					message.remove(i);
+					messageCounter.remove(i);
+				}
+			}
+		}
+	}
+	public void addMessage(String text) {
+		// TODO Auto-generated method stub
+		 message.add(text);
+		messageCounter.add(0);
 	}
 	public void draw(Graphics2D g2) {
 		this.g2=g2;
@@ -69,8 +105,85 @@ public class UI {
 			drawCharacterScreen();
 			drawInventory();
 		}
+		else if(gp.gameState==gp.optionState) {
+			drawOptionState();
+		}
 	}
 	
+	public void drawOptionState() {
+		g2.setColor(Color.white);
+		g2.setFont(g2.getFont().deriveFont(32F));
+		int frameX=gp.tileSize*11;
+		int frameY=gp.tileSize;
+		int frameWidth=gp.tileSize*8;
+		int frameHeight=gp.tileSize*12;
+	//	drawSubWindow(frameX,frameY,frameWidth,frameHeight);
+		g2.drawImage(menu.image,frameX,frameY,gp.tileSize*10,gp.tileSize*12,null);
+		BufferedImage[][] menuButton=new BufferedImage[3][3];
+		BufferedImage menuImage=null;
+				try {
+					menuImage=ImageIO.read(getClass().getResourceAsStream("/menu/button_atlas.png"));
+				}catch(IOException e) {
+					e.printStackTrace();
+				}
+		for(int i=0;i<3;i++) {
+			for(int j=0;j<3;j++) {
+				menuButton[i][j]=menuImage.getSubimage(i*140, j*56, 140, 56);
+				menuButton[i][j]=uTool.scaledImage(menuButton[i][j],210,84);
+			//	g2.drawImage(menuButton[i][j],gp.tileSize*i*5,gp.tileSize*j*5,null);
+				}
+		g2.drawImage(menuButton[0][i],gp.tileSize*14,gp.tileSize*i*2+5*gp.tileSize,null);
+		}
+			
+		switch(subState) {
+		case 0: 
+			g2.drawImage(menuButton[1][0],gp.tileSize*14,gp.tileSize*0*2+5*gp.tileSize,null);
+			break;
+		case 1:
+			g2.drawImage(menuButton[1][1],gp.tileSize*14,gp.tileSize*1*2+5*gp.tileSize,null);
+			break;
+		case 2:
+			g2.drawImage(menuButton[1][2],gp.tileSize*14,gp.tileSize*2*2+5*gp.tileSize,null);
+			break;
+		}
+		
+	
+	}
+	public void options_top(int frameX,int frameY) {
+		int textX;
+		int textY;
+		//String text="Options";
+		textX=getXforCenteredText("");
+		textY=frameY+gp.tileSize;
+		g2.setColor(Color.WHITE);
+		//g2.drawString(text,textX,textY);
+		
+		textX=frameX+gp.tileSize;
+		textY+=gp.tileSize*2;
+		BufferedImage[][] menuButton=new BufferedImage[3][3];
+		BufferedImage menuImage=null;
+				try {
+					menuImage=ImageIO.read(getClass().getResourceAsStream("/menu/button_atlas.png"));
+				}catch(IOException e) {
+					e.printStackTrace();
+				}
+		for(int i=0;i<3;i++)
+			for(int j=0;j<3;j++) {
+				menuButton[i][j]=menuImage.getSubimage(i*140, j*56, 140, 56);
+				g2.drawImage(menuButton[i][j],gp.tileSize*i*5,gp.tileSize*j*5,null);
+				}
+		
+//		g2.drawString("Full Screen", textX, textY);
+//		textY+=gp.tileSize*2;
+//		g2.drawString("Music", textX, textY);
+//		textY+=gp.tileSize*2;
+//		g2.drawString("Control", textX, textY);
+//		textY+=gp.tileSize*2;
+//		g2.drawString("End Game", textX, textY);
+//		textY+=gp.tileSize*2;
+//		g2.drawString("Quit ", textX, textY);
+		
+	}
 	public void drawPlayerLife() {
 		int x=gp.tileSize/2;
 		int y=gp.tileSize/2;
@@ -85,12 +198,12 @@ public class UI {
 		{
 			g2.drawImage(heart_full,x-(6-i)*gp.tileSize,y,null);
 		}
-		if(gp.player.life%2!=0) g2.drawImage(heart_half,x-(5-(gp.player.life/2))*gp.tileSize,y,null);
+		if(gp.player.life%2!=0 && gp.player.life>0) g2.drawImage(heart_half,x-(5-(gp.player.life/2))*gp.tileSize,y,null);
 		int x1=gp.tileSize*2;
 		int y1=gp.tileSize*4;
 		int x2=gp.tileSize*2;
 		int y2=gp.tileSize*5;
-		String wX=String.valueOf(gp.player.worldX/gp.tileSize);
+		String wX=String.valueOf(gp.player.speed);
 		String wY=String.valueOf(gp.player.currentMission);
 		g2.drawString(wX,x1,y1);
 		g2.drawString(wY, x2, y2);
@@ -134,11 +247,6 @@ public class UI {
 				break;
 			}
 	}
-	public void addMessage(String text) {
-		// TODO Auto-generated method stub
-		
-	}
-	
 	public void drawTitleScreen() {
 		g2.setColor(new Color(70,120,80));
 		g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
@@ -164,15 +272,6 @@ public class UI {
 		g2.drawImage(menu.image,x,y,gp.tileSize*5,gp.tileSize*6,null);
 	}
 	
-	public void drawCharacterScreen() {
-		final int frameX=gp.tileSize*2;
-		final int frameY=gp.tileSize;
-		final int frameWidth=gp.tileSize*5;
-		final int frameHeight=gp.tileSize*10;
-		drawSubWindow(frameX,frameY,frameWidth,frameHeight);
-		g2.setColor(Color.white);
-		g2.setFont(g2.getFont().deriveFont(32F));
-	}
 	
 	public void drawInventory() {
 		// FRAME
@@ -181,7 +280,7 @@ public class UI {
 		int frameWidth = gp.tileSize*6;
 		int frameHeight = gp.tileSize*5 ;
 		drawSubWindow(frameX, frameY, frameWidth, frameHeight);
-		
+
 		// SLOT
 		final int slotXstart = frameX + 20 ;
 		final int slotYstart = frameY + 20 ;
@@ -191,6 +290,8 @@ public class UI {
 		
 		//DRAW PLAYER'S ITEMS
 		for(int i= 0;i< gp.player.inventory.size();i++) {
+			
+			
 			g2.drawImage(gp.player.inventory.get(i).down1,slotX, slotY, null);
 			slotX += slotSize;
 					
@@ -216,7 +317,8 @@ public class UI {
 		int dFrameY = frameY+ frameHeight;
 		int dFrameWidth = frameWidth;
 		int dFrameHeight = gp.tileSize*3;
-		drawSubWindow(dFrameX, dFrameY, dFrameWidth, dFrameHeight);
+		// cut dong nay drawsubwindow
+		
 		
 		// DRAW DESCRIPTION TEXT
 		int textX = dFrameX + 20;
@@ -225,6 +327,9 @@ public class UI {
 		
 		int itemIndex = getItemIndexOnSlot();
 		if(itemIndex < gp.player.inventory.size()) {
+			//paste 
+			drawSubWindow(dFrameX, dFrameY, dFrameWidth, dFrameHeight);
+			// xuoi day
 			for(String line: gp.player.inventory.get(itemIndex).description.split("\n")) {
 			g2.drawString(line, textX, textY);
 			textY += 32;
@@ -251,5 +356,7 @@ public int getItemIndexOnSlot() {
 		int length=(int)g2.getFontMetrics().getStringBounds(text,g2).getWidth();
 		int x=gp.screenWidth/2-length/2;
 		return x;
+	}
+	public void drawCharacterScreen() {
 	}
 }

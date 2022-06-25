@@ -1,4 +1,4 @@
-package entity;
+	package entity;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -32,6 +32,7 @@ public class Entity {
 	public int invincibleCounter = 0;//  creating invincible time(DANG)
 	boolean attacking = false;
 	public boolean collision;
+	public int shotAvailableCounter = 0;
 	public int width;
 	public int height;
 	public boolean alive=true;
@@ -39,6 +40,10 @@ public class Entity {
 	public int dyingcounter;
 	boolean hpBarOn = false;
 	int hpBarCounter = 0;
+	public boolean knockBack = false;
+	int knockBackCounter = 0;
+	public int defaultSpeed;
+	public int knockBackPower = 0;
 	public int numberDialogue;
 	public String[] dialogue = new String[20];
 	public int type;//0-player;1-npc;2-monster;
@@ -56,6 +61,12 @@ public class Entity {
 	public int coin;
 	public Entity currentWeapon;
 	public Entity currentShield; 
+	// bo sung itemdrops(Dang)
+		public int type_pickupOnly = 7;
+		public int value;
+		// bo sung projectile(dang)
+		public Projectile projectile;
+		// het bo sung
 	public int attackValue;
 	public int defenseValue;
 	public String description = "";
@@ -71,8 +82,50 @@ public class Entity {
 	}
 	public void speak(){}
 	public void update() {
-		setAction();
+		// bo sung knockBack(Dang)
+		 if(knockBack == true){
+			collisionOn=false;
+		gp.cChecker.checkTile(this);
+		gp.cChecker.checkObject(this, false);
+		gp.cChecker.checkEntity(this, gp.monster); // checking collision between Entities(DANG)
+		boolean contactPlayer = gp.cChecker.checkPlayer(this);
+
+		if(this.type == monsterType && contactPlayer == true){
+			damagePlayer(attack);
+			System.out.println(attack);
+		}
+		if(collisionOn == true){
+			knockBackCounter = 0;
+			knockBack = false;
+			speed = defaultSpeed;
+		}
+		else if(collisionOn == false){
+			switch(gp.player.direction){
+				case "up":
+				worldY-=speed;
+				break;
+			case "down":
+				worldY+=speed;
+				break;
+			case "left":
+				worldX-=speed;
+				break;
+			case "right":
+				worldX+=speed;
+				break;
+			}
+		}
 		
+		knockBackCounter ++;
+		if(knockBackCounter == 10){
+			knockBackCounter = 0;
+			knockBack = false;
+			speed = defaultSpeed;
+		}
+		 }
+		 else{
+			setAction();
+	
 		collisionOn=false;
 		gp.cChecker.checkTile(this);
 		gp.cChecker.checkObject(this, false);
@@ -80,11 +133,7 @@ public class Entity {
 		boolean contactPlayer = gp.cChecker.checkPlayer(this);
 
 		if(this.type == monsterType && contactPlayer == true){
-			if(gp.player.invincible == false){
-				//we can give damage
-				gp.player.life -= 1;
-				gp.player.invincible = true;
-			}
+			damagePlayer(attack);
 		}
 		if(collisionOn==false) {
 			switch(direction) {
@@ -102,6 +151,10 @@ public class Entity {
 				break;
 			}
 		}
+		}
+		// het bo sung knockBack(Dang)
+		
+		
 		spriteCounter++;
 		if(spriteCounter>12)
 		{
@@ -116,44 +169,36 @@ public class Entity {
 			if(invincibleCounter>40){
 				invincible = false;
 				invincibleCounter = 0;
-			}
+			}	
+		}
+		// bo sung projectile(Dang)
+		if(shotAvailableCounter < 30){
+			shotAvailableCounter ++;
+		}
+		// het bo sung
+	}
+	public void damagePlayer(int attack){
+		if(gp.player.invincible == false){
+			//we can give damage
+			gp.player.life -= 1;
+			gp.player.invincible = true;
 		}
 	}
-//	public void update() {
-//		setAction();
-//		
-//		collisionOn=false;
-//		gp.cChecker.checkTile(this);
-//		gp.cChecker.checkObject(this, false);
-//		gp.cChecker.checkPlayer(this);
-//		if(collisionOn==false) {
-//			switch(direction) {
-//			case "up":
-//				worldY-=speed;
-//				break;
-//			case "down":
-//				worldY+=speed;
-//				break;
-//			case "left":
-//				worldX-=speed;
-//				break;
-//			case "right":
-//				worldX+=speed;
-//				break;
-//			}
-//		}
-//		spriteCounter++;
-//		if(spriteCounter>15)
-//		{
-//			if(spriteNum==1)
-//				spriteNum=2;
-//		else if(spriteNum==2)
-//			spriteNum=1;
-//		spriteCounter=0;
-//		}
-//		
-//	}
-	
+	public void use(Entity entity) {
+	}
+	public void checkDrop(){
+	}
+	public void dropItem(Entity droppedItem){
+		for(int i = 0; i< gp.obj.length; i++){
+			if(gp.obj[i] == null){
+				gp.obj[i] = droppedItem; 
+				gp.obj[i].worldX = worldX; // the dead monster's worldX
+				gp.obj[i].worldY = worldY;
+				break;
+			} 
+		}
+	}
+
 	public BufferedImage setup(String imagePath,int width,int height) {
 		UtilityTool uTool=new UtilityTool();
 		this.width=width;
@@ -168,53 +213,7 @@ public class Entity {
 		return image;
 		
 	}
-//	public void draw(Graphics2D g2) {
-//		BufferedImage image=null;
-//		switch(direction) {
-//		case "up":
-//			if(spriteNum==1)
-//			image=up1;
-//			if(spriteNum==2)
-//				image=up2;
-//			break;
-//		case "down":
-//			if(spriteNum==1)
-//				image=down1;
-//			if(spriteNum==2)
-//				image=down2;
-//			break;
-//		case "left":
-//			if(spriteNum==1)
-//				image=left1;
-//				if(spriteNum==2)
-//					image=left2;
-//			break;
-//		case "right":
-//			if(spriteNum==1)
-//				image=right1;
-//				if(spriteNum==2)
-//					image=right2;
-//			break;
-//		}
-//		int screenX=worldX-gp.player.worldX+gp.player.screenX;
-//		int screenY=worldY-gp.player.worldY+gp.player.screenY;
-//		if(gp.player.screenX>gp.player.worldX) {
-//			screenX=worldX;
-//		}
-//		if(gp.player.screenY>gp.player.worldY) {
-//			screenY=worldY;
-//		}
-//		int rightOffset=gp.screenWidth-gp.player.screenX;
-//		 if(rightOffset>gp.worldWidth-gp.player.worldX) {
-//			 screenX=gp.screenWidth-(gp.worldWidth-worldX);
-//		 }
-//		int bottomOffset=gp.screenHeight-gp.player.screenY;
-//			if(bottomOffset>gp.worldHeight-gp.player.worldY) {
-//				screenY=gp.screenHeight- (gp.worldHeight-worldY);
-//		 }		
-//		else
-//		g2.drawImage(image,screenX,screenY,gp.tileSize,gp.tileSize,null); 
-//}
+
 	public void draw(Graphics2D g2) {
 		BufferedImage image=null;
 		int screenX = worldX - gp.player.worldX + gp.player.screenX;

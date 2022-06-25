@@ -17,6 +17,7 @@ import main.UtilityTool;
 import object.OBJ_Key;
 import object.OBJ_Shield_Wood;
 import object.OBJ_Sword_Normal;
+import object.OBJ_Fireball;
 public class Player extends Entity{
 
 	KeyHandler keyH;
@@ -54,8 +55,9 @@ public class Player extends Entity{
 	public void setDefaultValues() {
 		worldX=gp.tileSize*40;
 		worldY=gp.tileSize*40;
+		defaultSpeed = 5;
 		//set character in the center
-		speed=10;
+		speed=defaultSpeed;
 		direction="down";
 		maxLife=10;
 		life=maxLife;
@@ -66,6 +68,7 @@ public class Player extends Entity{
 		coin=0;
 		currentWeapon=new OBJ_Sword_Normal(gp);
 		currentShield=new OBJ_Shield_Wood(gp);
+		projectile = new OBJ_Fireball(gp);
 	}
 	public void setItems() {
 		inventory.add(new OBJ_Sword_Normal(gp));
@@ -106,70 +109,7 @@ public class Player extends Entity{
 //		
 		
 	}
-//	public void update() {
-//		if(keyH.upPressed==true || keyH.downPressed==true 
-//				|| keyH.leftPressed==true || keyH.rightPressed==true|| keyH.enterPressed==true) {
-//		if(keyH.upPressed==true)
-//		{
-//			direction="up";
-//			
-//			
-//		}
-//		else if(keyH.downPressed==true)
-//		{	
-//			direction="down";
-//			
-//		}
-//		else if(keyH.rightPressed==true)
-//		{	
-//			direction="right";
-//		
-//		}
-//		else if(keyH.leftPressed==true)
-//		{	
-//			direction="left";
-//		
-//		}
-//		else if(keyH.enterPressed==true) {
-//			
-//		}
-//		//CHECK TILE COLLISON
-//		collisionOn=false;
-//		gp.cChecker.checkTile(this);
-//		//gp.cChecker.checkEntity(this,gp.npc);
-//		//CHECK OBJECT COLLISION
-//		int objIndex=gp.cChecker.checkObject(this, true);
-//		pickUpObject(objIndex);
-//		int npcIndex=gp.cChecker.checkEntity(this,gp.npc);
-//		interact(npcIndex);
-//		//if collision is false,player can move
-//		if(collisionOn==false) {
-//			switch(direction) {
-//			case "up":
-//				worldY-=speed;
-//				break;
-//			case "down":
-//				worldY+=speed;
-//				break;
-//			case "left":
-//				worldX-=speed;
-//				break;
-//			case "right":
-//				worldX+=speed;
-//				break;
-//			}
-//		}
-//		spriteCounter++;
-//		if(spriteCounter>10)
-//		{
-//			if(spriteNum==1)
-//				spriteNum=2;
-//		else if(spriteNum==2)
-//			spriteNum=1;
-//		spriteCounter=0;
-//		}
-//		}
-//	}
+
 
 	public void update() {
 		if(attacking == true){
@@ -244,6 +184,12 @@ public class Player extends Entity{
 		spriteCounter=0;
 		}
 		}
+		if(gp.keyH.shotKeyPressed == true && projectile.alive == false){
+			projectile.set(worldX, worldY, direction, true, this);
+
+		// add it to the list
+		gp.projectileList.add(projectile);
+		}
 		//THIS NEEDS TO BE OUTSIDE OF KEY IF STATEMENT(DANG)
 		if(invincible == true){
 			invincibleCounter++;
@@ -251,6 +197,14 @@ public class Player extends Entity{
 				invincible = false;
 				invincibleCounter = 0;
 			}
+		}
+		if(shotAvailableCounter < 30){
+			shotAvailableCounter ++;
+		}
+		// het bo sung
+		// bo sung (Dang)
+		if(life > maxLife){
+			life = maxLife;
 		}
 	}
 	// bo sung tu 160-202(DANG)
@@ -283,7 +237,7 @@ public class Player extends Entity{
 
 			// check monster collision with the updated worldX, worldY, solideArea
 			int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
-			damageMonster(monsterIndex);
+			damageMonster(monsterIndex, attack, 3);
 
 			//After checking collision, restrore the original data
 			worldX = currentWorldX;
@@ -297,23 +251,22 @@ public class Player extends Entity{
 			spriteCounter = 0;
 			attacking = false;
 		}
-		// ket thuc bo sung
+		// het bo sung
 	}
 	public void pickUpObject(int i) {
 		
 		if(i!=999) {
-			 String objectName=gp.obj[i].name;
+			 
+			String objectName=gp.obj[i].name;
 			 switch(objectName) {
 			 case "Key":
-				 gp.obj[i]=null;
 				 break;
-
+			 case "Heart":
+				 this.life+=1;
 			 case "Boots":
-				 	gp.obj[i]=null;
-				 	this.speed+=2;
+				 //	this.speed+=2;
 				 	break;
 			 case "Apple":
-				 gp.obj[i]=null;
 				 apple++;
 				 if(apple==5) currentMission++;
 				// gp.stopMusic();
@@ -321,9 +274,18 @@ public class Player extends Entity{
 				 break;
 				 //xem lai video 10
 				 }
-			 
-			 
-		}
+			 //them code o day dong 323-334
+			 String text ;
+			 if(inventory.size() != maxInventorySize) {
+				 inventory.add(gp.obj[i]);
+				 text = "Got a " + gp.obj[i].name + "!";
+				 }
+			 else {
+				 text = "You cannot carry any more!";
+			 }
+			 gp.ui.addMessage(text);
+			 gp.obj[i] = null;
+				 }
 	}
 	public void interact(int i){
 		if(gp.keyH.enterPressed == true){
@@ -344,18 +306,29 @@ public class Player extends Entity{
 			}
 		}
 	}	
-	public void damageMonster(int i){
+	public void damageMonster(int i, int attack, int knockBackPower){
 		if(i != 999){
 			if(gp.monster[i].invincible == false){
+
+				if(knockBackPower >0){
+					knockBack(gp.monster[i], knockBackPower);
+				}
+
 				gp.monster[i].life -= 1;
 				gp.monster[i].invincible = true;
 				gp.monster[i].damageReaction();
-
 				if(gp.monster[i].life <= 0){
 					gp.monster[i].dying = true;
 				}
 			}
 		}	
+	}
+
+	public void knockBack (Entity entity, int knockBackPower){
+		entity.direction = direction;
+		entity.speed += knockBackPower;
+		entity.knockBack = true;
+
 	}
 	public void draw(Graphics2D g2) {
 		BufferedImage image=null;
@@ -430,6 +403,7 @@ public class Player extends Entity{
 		int rightOffset=gp.screenWidth-screenX;
 		 if(rightOffset>gp.worldWidth-worldX) {
 			 
+			 
 			 tempScreenX=gp.screenWidth-(gp.worldWidth-worldX);
 			 if(attacking==true && direction=="left") tempScreenX-=gp.tileSize;
 			
@@ -448,51 +422,6 @@ public class Player extends Entity{
 		g2.drawString("Invincible:"+invincibleCounter, 10, 400);
 
 }
-//	public void draw(Graphics2D g2) {
-//		BufferedImage image=null;
-//		switch(direction) {
-//		case "up":
-//			if(spriteNum==1)
-//			image=up1;
-//			if(spriteNum==2)
-//				image=up2;
-//			break;
-//		case "down":
-//			if(spriteNum==1)
-//				image=down1;
-//			if(spriteNum==2)
-//				image=down2;
-//			break;
-//		case "left":
-//			if(spriteNum==1)
-//				image=left1;
-//				if(spriteNum==2)
-//					image=left2;
-//			break;
-//		case "right":
-//			if(spriteNum==1)
-//				image=right1;
-//				if(spriteNum==2)
-//					image=right2;
-//			break;
-//		}
-//		int x=screenX;
-//		int y=screenY;
-//		if(screenX>worldX) {
-//			x=worldX;}
-//		if(screenY>worldY) {
-//			y=worldY;
-//		}
-//		
-//		int rightOffset=gp.screenWidth-screenX;
-//		 if(rightOffset>gp.worldWidth-worldX) {
-//			 x=gp.screenWidth-(gp.worldWidth-worldX);
-//		 }
-//		int bottomOffset=gp.screenHeight-screenY;
-//			if(bottomOffset>gp.worldHeight-worldY) {
-//				y=gp.screenHeight- (gp.worldHeight-worldY);
-//		 }
-//		g2.drawImage(image,x,y,null);
-//	}
+
 }
 
