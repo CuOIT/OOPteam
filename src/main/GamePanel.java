@@ -20,16 +20,17 @@ public class GamePanel extends JPanel implements Runnable {
 	public final int originalTileSize = 16;//16x16 tile;
 	public	final int scale=3;
 	public final int tileSize=originalTileSize*scale;	
-	public final int maxScreenCol=30;
-	public final int maxScreenRow=20;
+	public final int maxScreenCol=25;
+	public final int maxScreenRow=15;
 	public final int screenWidth=tileSize * maxScreenCol;//768 pixels
 	public final int screenHeight=tileSize * maxScreenRow;//576 pixels
 	
+	public final int maxMap=5;
 	public final int maxWorldCol=50;
 	public final int maxWorldRow=50;
 	public final int worldWidth=tileSize*maxWorldCol;
 	public final int worldHeight=tileSize*maxWorldRow;
-	
+	public int currentMap=0;
 	int screenWidth2=screenWidth;
 	int screenHeight2=screenHeight;
 	BufferedImage tempScreen;
@@ -52,9 +53,9 @@ public class GamePanel extends JPanel implements Runnable {
 	
 	//entity and object
 	public Player player=new Player(this,keyH);
-	public Entity obj[] = new Entity[50];
-	public Entity npc[]= new Entity[10];
-	public Entity monster[]=new Entity[20];
+	public Entity obj[][] = new Entity[maxMap][50];
+	public Entity npc[][]= new Entity[maxMap][10];
+	public Entity monster[][]=new Entity[maxMap][20];
 	public ArrayList<Entity> entityList=new ArrayList<>();
 	public ArrayList<Entity> projectileList=new ArrayList<>();	
 	//GAME STATE
@@ -126,17 +127,17 @@ public class GamePanel extends JPanel implements Runnable {
 		if(gameState==playState) 
 			player.update();
 	//	if(player.life<=0) gameState=gameOverState;
-		for(int i=0;i<npc.length;i++)
-			if(npc[i]!=null)	
-				npc[i].update();
-		for(int i=0;i<monster.length;i++){
-			if(monster[i]!=null){
-				if(monster[i].alive == true && monster[i].dying == false){
-					monster[i].update();
+		for(int i=0;i<npc[0].length;i++)
+			if(npc[currentMap][i]!=null)	
+				npc[currentMap][i].update();
+		for(int i=0;i<monster[0].length;i++){
+			if(monster[currentMap][i]!=null){
+				if(monster[currentMap][i].alive == true && monster[currentMap][i].dying == false){
+					monster[currentMap][i].update();
 				}	
-				if(monster[i].alive == false){
-					monster[i].checkDrop();
-					monster[i] = null;
+				if(monster[currentMap][i].alive == false){
+					monster[currentMap][i].checkDrop();
+					monster[currentMap][i] = null;
 				}
 			}
 		}
@@ -154,7 +155,7 @@ public class GamePanel extends JPanel implements Runnable {
 		if(gameState==pauseState) {
 		}
 		if(gameState==loadState) {
-			tileM.loadMap("/map/test.txt");
+			
 		}
 		if(gameState==characterState) {
 			ui.drawCharacterScreen();
@@ -186,22 +187,22 @@ public class GamePanel extends JPanel implements Runnable {
 					tileM.draw(g2);
 					
 					entityList.add(player);
-					for(int i=0;i<npc.length;i++) {
-						if(npc[i]!=null)
+					for(int i=0;i<npc[0].length;i++) {
+						if(npc[currentMap][i]!=null)
 						{
-							entityList.add(npc[i]);
+							entityList.add(npc[currentMap][i]);
 						}
 					}
-						for(int i=0;i<obj.length;i++) {
-							if(obj[i]!=null)
+						for(int i=0;i<obj[0].length;i++) {
+							if(obj[currentMap][i]!=null)
 							{
-								entityList.add(obj[i]);
+								entityList.add(obj[currentMap][i]);
 							}
 					}
-						for(int i=0;i<monster.length;i++) {
-							if(monster[i]!=null)
+						for(int i=0;i<monster[0].length;i++) {
+							if(monster[currentMap][i]!=null)
 							{
-								entityList.add(monster[i]);	
+								entityList.add(monster[currentMap][i]);	
 							}
 						}
 						for(int i=0;i<projectileList.size();i++) {

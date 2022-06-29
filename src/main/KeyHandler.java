@@ -36,7 +36,7 @@ public class KeyHandler implements KeyListener{
 		else if(gp.gameState==gp.optionState) {
 			optionState(code);
 		}
-		System.out.println(gp.gameState);
+
 	}
 	
 	public void playState(int code) {
@@ -62,7 +62,9 @@ public class KeyHandler implements KeyListener{
 			gp.gameState=gp.characterState;
 		}
 		else if(code==KeyEvent.VK_L) {
-			gp.tileM.loadMap("/map/test.txt");
+			if(gp.currentMap==0) gp.currentMap=1;
+			else gp.currentMap=0;
+				
 		} 
 		else if(code == KeyEvent.VK_F){
 			shotKeyPressed=true;	
@@ -116,7 +118,7 @@ public class KeyHandler implements KeyListener{
 			gp.gameState=gp.playState;
 		}
 		else if(code == KeyEvent.VK_SPACE) {
-			gp.npc[gp.player.npcIndex].numberDialogue++;
+			gp.npc[gp.currentMap][gp.player.npcIndex].numberDialogue++;
 		}
 	}
 	public void characterState(int code) {

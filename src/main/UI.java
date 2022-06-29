@@ -203,8 +203,11 @@ public class UI {
 		int y1=gp.tileSize*4;
 		int x2=gp.tileSize*2;
 		int y2=gp.tileSize*5;
-		String wX=String.valueOf(gp.player.speed);
-		String wY=String.valueOf(gp.player.currentMission);
+		
+		//DEBUG
+		
+		String wX=String.valueOf(gp.player.worldX/gp.tileSize);
+		String wY=String.valueOf(gp.player.worldY/gp.tileSize);
 		g2.drawString(wX,x1,y1);
 		g2.drawString(wY, x2, y2);
 	}
@@ -227,20 +230,20 @@ public class UI {
 				g2.drawString(currentDialogue,x,y);
 				break;
 			case 1:
-				currentDialogue=gp.npc[0].dialogue[gp.npc[0].numberDialogue];
+				currentDialogue=gp.npc[gp.currentMap][0].dialogue[gp.npc[gp.currentMap][0].numberDialogue];
 				if(currentDialogue!=null) {
 					g2.drawString(currentDialogue,x,y);
 				}
 				break;
 			case 2:
-				currentDialogue=gp.npc[0].dialogue[10];
+				currentDialogue=gp.npc[gp.currentMap][0].dialogue[10];
 				g2.drawString(currentDialogue,x,y);
 				break;
 			case 3:
 				if(gp.player.npcIndex==0)
-					currentDialogue=gp.npc[0].dialogue[11];
+					currentDialogue=gp.npc[gp.currentMap][0].dialogue[11];
 				else if(gp.player.npcIndex==1)
-					currentDialogue=gp.npc[1].dialogue[gp.npc[1].numberDialogue];
+					currentDialogue=gp.npc[gp.currentMap][1].dialogue[gp.npc[gp.currentMap][1].numberDialogue];
 					if(currentDialogue!=null) {
 						g2.drawString(currentDialogue,x,y);
 					}

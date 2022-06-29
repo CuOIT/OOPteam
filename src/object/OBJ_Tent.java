@@ -10,7 +10,7 @@ public class OBJ_Tent extends Entity{
 	super(gp);
 	name="Tent";
 	collision=true;
-	solidArea=new Rectangle(0,0,96,96);
+	solidArea=new Rectangle(32,0,64,32);
 	down1=setup("/objects/tent", gp.tileSize*2, gp.tileSize*2);
 }
 }

@@ -53,9 +53,9 @@ public class Player extends Entity{
 		setItems();
 	}
 	public void setDefaultValues() {
-		worldX=gp.tileSize*40;
-		worldY=gp.tileSize*40;
-		defaultSpeed = 5;
+		worldX=gp.tileSize*10;
+		worldY=gp.tileSize*7;
+		defaultSpeed = 10;
 		//set character in the center
 		speed=defaultSpeed;
 		direction="down";
@@ -103,7 +103,7 @@ public class Player extends Entity{
 		}
 	}
 	public void setDialogue() {
-		dialogue[0]="Hmmmm.....where am I????Orgggg.....I'm too hungryyy.Let's find something to fill my stomach.";
+		dialogue[0]="Where am i?";
 //		dialogue[1]="Where is this???";
 //		dialogue[2]="Where can I find him?";
 //		
@@ -141,7 +141,7 @@ public class Player extends Entity{
 		
 		//CHECK TILE COLLISON
 		collisionOn=false;
-		gp.cChecker.checkTile(this);
+		//gp.cChecker.checkTile(this);
 		
 		//CHECK OBJECT COLLISION
 		int objIndex=gp.cChecker.checkObject(this, true);
@@ -257,7 +257,7 @@ public class Player extends Entity{
 		
 		if(i!=999) {
 			 
-			String objectName=gp.obj[i].name;
+			String objectName=gp.obj[gp.currentMap][i].name;
 			 switch(objectName) {
 			 case "Key":
 				 break;
@@ -272,19 +272,23 @@ public class Player extends Entity{
 				// gp.stopMusic();
 				 //gp.playSE(4);
 				 break;
+			 case "Entry_Cave":
+				 worldX=15*gp.tileSize;
+				 worldY=29*gp.tileSize;
+				 gp.currentMap=1;
 				 //xem lai video 10
 				 }
 			 //them code o day dong 323-334
 			 String text ;
 			 if(inventory.size() != maxInventorySize) {
-				 inventory.add(gp.obj[i]);
-				 text = "Got a " + gp.obj[i].name + "!";
+				 inventory.add(gp.obj[gp.currentMap][i]);
+				 text = "Got a " + gp.obj[gp.currentMap][i].name + "!";
 				 }
 			 else {
 				 text = "You cannot carry any more!";
 			 }
 			 gp.ui.addMessage(text);
-			 gp.obj[i] = null;
+			// gp.obj[gp.currentMap][i] = null;
 				 }
 	}
 	public void interact(int i){
@@ -308,17 +312,17 @@ public class Player extends Entity{
 	}	
 	public void damageMonster(int i, int attack, int knockBackPower){
 		if(i != 999){
-			if(gp.monster[i].invincible == false){
+			if(gp.monster[gp.currentMap][i].invincible == false){
 
 				if(knockBackPower >0){
-					knockBack(gp.monster[i], knockBackPower);
+					knockBack(gp.monster[gp.currentMap][i], knockBackPower);
 				}
 
-				gp.monster[i].life -= 1;
-				gp.monster[i].invincible = true;
-				gp.monster[i].damageReaction();
-				if(gp.monster[i].life <= 0){
-					gp.monster[i].dying = true;
+				gp.monster[gp.currentMap][i].life -= 1;
+				gp.monster[gp.currentMap][i].invincible = true;
+				gp.monster[gp.currentMap][i].damageReaction();
+				if(gp.monster[gp.currentMap][i].life <= 0){
+					gp.monster[gp.currentMap][i].dying = true;
 				}
 			}
 		}	

@@ -92,7 +92,7 @@ public class Entity {
 
 		if(this.type == monsterType && contactPlayer == true){
 			damagePlayer(attack);
-			System.out.println(attack);
+			
 		}
 		if(collisionOn == true){
 			knockBackCounter = 0;
@@ -189,11 +189,11 @@ public class Entity {
 	public void checkDrop(){
 	}
 	public void dropItem(Entity droppedItem){
-		for(int i = 0; i< gp.obj.length; i++){
-			if(gp.obj[i] == null){
-				gp.obj[i] = droppedItem; 
-				gp.obj[i].worldX = worldX; // the dead monster's worldX
-				gp.obj[i].worldY = worldY;
+		for(int i = 0; i< gp.obj[0].length; i++){
+			if(gp.obj[gp.currentMap][i] == null){
+				gp.obj[gp.currentMap][i] = droppedItem; 
+				gp.obj[gp.currentMap][i].worldX = worldX; // the dead monster's worldX
+				gp.obj[gp.currentMap][i].worldY = worldY;
 				break;
 			} 
 		}
