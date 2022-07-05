@@ -13,8 +13,6 @@ import javax.imageio.ImageIO;
 
 import entity.Entity;
 import object.OBJ_Heart;
-import object.OBJ_Key;
-
 
 public class UI {
 	Font arial_40,arial_80B;
@@ -55,8 +53,8 @@ public class UI {
 
 	public void drawMessage() {
 		// TODO Auto-generated method stub
-		int messageX= gp.tileSize*2;
-		int messageY = gp.tileSize*7;
+		int messageX= gp.TILE_SIZE*2;
+		int messageY = gp.TILE_SIZE*7;
 		g2.setFont(g2.getFont().deriveFont(Font.BOLD, 32F));
 		
 		for(int i= 0 ; i<message.size();i++) {
@@ -113,12 +111,12 @@ public class UI {
 	public void drawOptionState() {
 		g2.setColor(Color.white);
 		g2.setFont(g2.getFont().deriveFont(32F));
-		int frameX=gp.tileSize*11;
-		int frameY=gp.tileSize;
-		int frameWidth=gp.tileSize*8;
-		int frameHeight=gp.tileSize*12;
+		int frameX=gp.TILE_SIZE*11;
+		int frameY=gp.TILE_SIZE;
+		int frameWidth=gp.TILE_SIZE*8;
+		int frameHeight=gp.TILE_SIZE*12;
 	//	drawSubWindow(frameX,frameY,frameWidth,frameHeight);
-		g2.drawImage(menu.image,frameX,frameY,gp.tileSize*10,gp.tileSize*12,null);
+		g2.drawImage(menu.image,frameX,frameY,gp.TILE_SIZE*10,gp.TILE_SIZE*12,null);
 		BufferedImage[][] menuButton=new BufferedImage[3][3];
 		BufferedImage menuImage=null;
 				try {
@@ -130,20 +128,20 @@ public class UI {
 			for(int j=0;j<3;j++) {
 				menuButton[i][j]=menuImage.getSubimage(i*140, j*56, 140, 56);
 				menuButton[i][j]=uTool.scaledImage(menuButton[i][j],210,84);
-			//	g2.drawImage(menuButton[i][j],gp.tileSize*i*5,gp.tileSize*j*5,null);
+			//	g2.drawImage(menuButton[i][j],gp.TILE_SIZE*i*5,gp.TILE_SIZE*j*5,null);
 				}
-		g2.drawImage(menuButton[0][i],gp.tileSize*14,gp.tileSize*i*2+5*gp.tileSize,null);
+		g2.drawImage(menuButton[0][i],gp.TILE_SIZE*14,gp.TILE_SIZE*i*2+5*gp.TILE_SIZE,null);
 		}
 			
 		switch(subState) {
 		case 0: 
-			g2.drawImage(menuButton[1][0],gp.tileSize*14,gp.tileSize*0*2+5*gp.tileSize,null);
+			g2.drawImage(menuButton[1][0],gp.TILE_SIZE*14,gp.TILE_SIZE*0*2+5*gp.TILE_SIZE,null);
 			break;
 		case 1:
-			g2.drawImage(menuButton[1][1],gp.tileSize*14,gp.tileSize*1*2+5*gp.tileSize,null);
+			g2.drawImage(menuButton[1][1],gp.TILE_SIZE*14,gp.TILE_SIZE*1*2+5*gp.TILE_SIZE,null);
 			break;
 		case 2:
-			g2.drawImage(menuButton[1][2],gp.tileSize*14,gp.tileSize*2*2+5*gp.tileSize,null);
+			g2.drawImage(menuButton[1][2],gp.TILE_SIZE*14,gp.TILE_SIZE*2*2+5*gp.TILE_SIZE,null);
 			break;
 		}
 		
@@ -154,12 +152,12 @@ public class UI {
 		int textY;
 		//String text="Options";
 		textX=getXforCenteredText("");
-		textY=frameY+gp.tileSize;
+		textY=frameY+gp.TILE_SIZE;
 		g2.setColor(Color.WHITE);
 		//g2.drawString(text,textX,textY);
 		
-		textX=frameX+gp.tileSize;
-		textY+=gp.tileSize*2;
+		textX=frameX+gp.TILE_SIZE;
+		textY+=gp.TILE_SIZE*2;
 		BufferedImage[][] menuButton=new BufferedImage[3][3];
 		BufferedImage menuImage=null;
 				try {
@@ -170,99 +168,121 @@ public class UI {
 		for(int i=0;i<3;i++)
 			for(int j=0;j<3;j++) {
 				menuButton[i][j]=menuImage.getSubimage(i*140, j*56, 140, 56);
-				g2.drawImage(menuButton[i][j],gp.tileSize*i*5,gp.tileSize*j*5,null);
+				g2.drawImage(menuButton[i][j],gp.TILE_SIZE*i*5,gp.TILE_SIZE*j*5,null);
 				}
 		
 //		g2.drawString("Full Screen", textX, textY);
-//		textY+=gp.tileSize*2;
+//		textY+=gp.TILE_SIZE*2;
 //		g2.drawString("Music", textX, textY);
-//		textY+=gp.tileSize*2;
+//		textY+=gp.TILE_SIZE*2;
 //		g2.drawString("Control", textX, textY);
-//		textY+=gp.tileSize*2;
+//		textY+=gp.TILE_SIZE*2;
 //		g2.drawString("End Game", textX, textY);
-//		textY+=gp.tileSize*2;
+//		textY+=gp.TILE_SIZE*2;
 //		g2.drawString("Quit ", textX, textY);
 		
 	}
 	public void drawPlayerLife() {
-		int x=gp.tileSize/2;
-		int y=gp.tileSize/2;
+		int x=gp.TILE_SIZE/2;
+		int y=gp.TILE_SIZE/2;
 		int temp=0;
 		//temp luu so tym
 		while(temp<gp.player.maxLife/2) {
 			g2.drawImage(heart_plank,x,y,null);
 			temp++;
-			x+=gp.tileSize;
+			x+=gp.TILE_SIZE;
 		}
 		for(int i=1;i<=gp.player.life/2;i++)
 		{
-			g2.drawImage(heart_full,x-(6-i)*gp.tileSize,y,null);
+			g2.drawImage(heart_full,x-(6-i)*gp.TILE_SIZE,y,null);
 		}
-		if(gp.player.life%2!=0 && gp.player.life>0) g2.drawImage(heart_half,x-(5-(gp.player.life/2))*gp.tileSize,y,null);
-		int x1=gp.tileSize*2;
-		int y1=gp.tileSize*4;
-		int x2=gp.tileSize*2;
-		int y2=gp.tileSize*5;
+		if(gp.player.life%2!=0 && gp.player.life>0) g2.drawImage(heart_half,x-(5-(gp.player.life/2))*gp.TILE_SIZE,y,null);
+		int x1=gp.TILE_SIZE*2;
+		int y1=gp.TILE_SIZE*4;
+		int x2=gp.TILE_SIZE*2;
+		int y2=gp.TILE_SIZE*5;
+		int x3=gp.TILE_SIZE*2;
+		int y3=gp.TILE_SIZE*6;
 		
 		//DEBUG
 		
-		String wX=String.valueOf(gp.player.worldX/gp.tileSize);
-		String wY=String.valueOf(gp.player.worldY/gp.tileSize);
+		String wX=String.valueOf(gp.player.worldX/gp.TILE_SIZE);
+		String wY=String.valueOf(gp.player.worldY/gp.TILE_SIZE);
+		String text=String.valueOf(gp.player.currentMission);
 		g2.drawString(wX,x1,y1);
 		g2.drawString(wY, x2, y2);
+		g2.drawString(text,x3,y3);
 	}
 	 
 	public void drawDialogueScreen() {
-			int x = gp.tileSize*2;
-			int y = gp.tileSize/2;
-			int width= gp.screenWidth - (gp.tileSize*4);
-			int height= gp.tileSize*4;
+			int x = gp.TILE_SIZE*2;
+			int y = gp.TILE_SIZE/2;
+			int width= gp.SCREEN_WIDTH - (gp.TILE_SIZE*4);
+			int height= gp.TILE_SIZE*4;
 			drawSubWindow(x,y,width,height);
 			
 			g2.setFont(g2.getFont().deriveFont(Font.PLAIN,32F));//marumonica
-			x+=gp.tileSize;
-			y+=gp.tileSize;
+			x+=gp.TILE_SIZE;
+			y+=gp.TILE_SIZE;
 
 			
 			switch(gp.player.currentMission) {
 			case 0:
 				currentDialogue=gp.player.dialogue[0];
 				g2.drawString(currentDialogue,x,y);
+				gp.player.currentMission++;
 				break;
 			case 1:
 				currentDialogue=gp.npc[gp.currentMap][0].dialogue[gp.npc[gp.currentMap][0].numberDialogue];
 				if(currentDialogue!=null) {
 					g2.drawString(currentDialogue,x,y);
+				}else {
+					gp.npc[gp.currentMap][gp.player.npcIndex].numberDialogue=10;
+					gp.gameState=gp.playState;
 				}
 				break;
 			case 2:
-				currentDialogue=gp.npc[gp.currentMap][0].dialogue[10];
-				g2.drawString(currentDialogue,x,y);
-				break;
+				//Nhiem vu giet lon
+				if(gp.player.npcIndex==0)
+				currentDialogue=gp.npc[gp.currentMap][0].dialogue[12];
+			else if(gp.player.npcIndex==1)
+				currentDialogue=gp.npc[gp.currentMap][1].dialogue[gp.npc[gp.currentMap][1].numberDialogue];
+				if(currentDialogue!=null) {
+					g2.drawString(currentDialogue,x,y);
+				}
+				else {
+					gp.npc[gp.currentMap][gp.player.npcIndex].numberDialogue=5;
+					gp.gameState=gp.playState;
+				}
+			break;
 			case 3:
 				if(gp.player.npcIndex==0)
-					currentDialogue=gp.npc[gp.currentMap][0].dialogue[11];
+				{
+					gp.gameState=gp.playState;
+				}
 				else if(gp.player.npcIndex==1)
 					currentDialogue=gp.npc[gp.currentMap][1].dialogue[gp.npc[gp.currentMap][1].numberDialogue];
 					if(currentDialogue!=null) {
 						g2.drawString(currentDialogue,x,y);
 					}
 				break;
+			case 4:
+				break;
 			}
 	}
 	public void drawTitleScreen() {
 		g2.setColor(new Color(70,120,80));
-		g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
+		g2.fillRect(0, 0, gp.SCREEN_WIDTH, gp.SCREEN_HEIGHT);
 	 	g2.setFont(g2.getFont().deriveFont(Font.BOLD,86F));
 		String text= "LOST TO ISLAND";
 		int x=getXforCenteredText(text);
-		int y=gp.tileSize*3;
+		int y=gp.TILE_SIZE*3;
 		g2.setColor(Color.white);
 		g2.drawString(text,x,y);
 		//g2.setColor(new (60,60,60));
 	String start="START";	
 	int x1=getXforCenteredText(start);
-	int y1=gp.tileSize*5;
+	int y1=gp.TILE_SIZE*5;
 	g2.setFont(g2.getFont().deriveFont(Font.PLAIN,50F));
 	g2.drawString(start, x1, y1);
 	}
@@ -270,18 +290,18 @@ public class UI {
 	public void drawPauseScreen()
 	{
 		String text="PAUSED";
-		int x=gp.screenWidth/2-gp.tileSize*5/2;
-		int y=gp.screenHeight/2-gp.tileSize*3;
-		g2.drawImage(menu.image,x,y,gp.tileSize*5,gp.tileSize*6,null);
+		int x=gp.SCREEN_WIDTH/2-gp.TILE_SIZE*5/2;
+		int y=gp.SCREEN_HEIGHT/2-gp.TILE_SIZE*3;
+		g2.drawImage(menu.image,x,y,gp.TILE_SIZE*5,gp.TILE_SIZE*6,null);
 	}
 	
 	
 	public void drawInventory() {
 		// FRAME
-		int frameX = gp.tileSize*9 ;
-		int frameY = gp.tileSize;
-		int frameWidth = gp.tileSize*6;
-		int frameHeight = gp.tileSize*5 ;
+		int frameX = gp.TILE_SIZE*9 ;
+		int frameY = gp.TILE_SIZE;
+		int frameWidth = gp.TILE_SIZE*6;
+		int frameHeight = gp.TILE_SIZE*5 ;
 		drawSubWindow(frameX, frameY, frameWidth, frameHeight);
 
 		// SLOT
@@ -289,13 +309,30 @@ public class UI {
 		final int slotYstart = frameY + 20 ;
 		int slotX = slotXstart  ;
 		int slotY = slotYstart  ;
-		int slotSize = gp.tileSize + 3;
+		int slotSize = gp.TILE_SIZE + 3;
 		
 		//DRAW PLAYER'S ITEMS
 		for(int i= 0;i< gp.player.inventory.size();i++) {
 			
 			
 			g2.drawImage(gp.player.inventory.get(i).down1,slotX, slotY, null);
+			if(gp.player.inventory.get(i).amount >1) {
+
+				g2.setFont(g2.getFont().deriveFont(32f));
+				int amountX;
+				int amountY;
+
+				String s = "" + gp.player.inventory.get(i).amount;
+				amountX = getXforAlignToRightText(s, slotX +44) ;
+				amountY = slotY + gp.TILE_SIZE ;
+
+				//SHADOW
+				g2.setColor(new Color(60,60,60));
+				g2.drawString(s, amountX, amountY);
+				//NUMBER
+				g2.setColor(Color.white);
+				g2.drawString(s, amountX, amountY);
+			}
 			slotX += slotSize;
 					
 			if(i==4 || i==9 || i==14) {
@@ -307,8 +344,8 @@ public class UI {
 		//CURSOR
 		int cursorX = slotXstart + (slotSize * slotCol -2);
 		int cursorY = slotXstart + (slotSize * slotRow -379);
-		int cursorWidth= gp.tileSize  ;
-		int cursorHeight= gp.tileSize ;
+		int cursorWidth= gp.TILE_SIZE  ;
+		int cursorHeight= gp.TILE_SIZE ;
 		
 		//DRAW CURSOR
 		g2.setColor(Color.white);
@@ -319,13 +356,13 @@ public class UI {
 		int dFrameX = frameX;
 		int dFrameY = frameY+ frameHeight;
 		int dFrameWidth = frameWidth;
-		int dFrameHeight = gp.tileSize*3;
+		int dFrameHeight = gp.TILE_SIZE*3;
 		// cut dong nay drawsubwindow
 		
 		
 		// DRAW DESCRIPTION TEXT
 		int textX = dFrameX + 20;
-		int textY = dFrameY + gp.tileSize;
+		int textY = dFrameY + gp.TILE_SIZE;
 		g2.setFont(g2.getFont().deriveFont(28F));
 		
 		int itemIndex = getItemIndexOnSlot();
@@ -354,10 +391,15 @@ public int getItemIndexOnSlot() {
 		g2.setStroke(new BasicStroke(5));
 		g2.drawRoundRect(x+5, y+5, width-10, height-10,25,25);
 	}
-	
+	public int getXforAlignToRightText(String text, int tailX) {
+
+		int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
+		int x = tailX - length;
+		return x;
+	}
 	public int getXforCenteredText(String text) {
 		int length=(int)g2.getFontMetrics().getStringBounds(text,g2).getWidth();
-		int x=gp.screenWidth/2-length/2;
+		int x=gp.SCREEN_WIDTH/2-length/2;
 		return x;
 	}
 	public void drawCharacterScreen() {

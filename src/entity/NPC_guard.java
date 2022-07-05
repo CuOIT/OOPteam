@@ -15,21 +15,21 @@ public class NPC_guard extends Entity{
 		setDialogue();
 	}
 	public void setDefaultValues() {
-		worldX=gp.tileSize*44;
-		worldY=gp.tileSize*44;
+		worldX=gp.TILE_SIZE*44;
+		worldY=gp.TILE_SIZE*44;
 	}
 	
 	
 
 	public void getImage() {
-		up1=setup("/npc/guard_Up1",gp.tileSize,gp.tileSize);
-		up2=setup("/npc/guard_Up2",gp.tileSize,gp.tileSize);
-		down2=setup("/npc/guard_Up2",gp.tileSize,gp.tileSize);
-		down1=setup("/npc/guard_Up1",gp.tileSize,gp.tileSize);
-		left1=setup("/npc/guard_Up1",gp.tileSize,gp.tileSize);
-		left2=setup("/npc/guard_Up2",gp.tileSize,gp.tileSize);
-		right1=setup("/npc/guard_Up1",gp.tileSize,gp.tileSize);
-		right2=setup("/npc/guard_Up2",gp.tileSize,gp.tileSize);
+		up1=setup("/npc/guard_Up1",gp.TILE_SIZE,gp.TILE_SIZE);
+		up2=setup("/npc/guard_Up2",gp.TILE_SIZE,gp.TILE_SIZE);
+		down2=setup("/npc/guard_Up2",gp.TILE_SIZE,gp.TILE_SIZE);
+		down1=setup("/npc/guard_Up1",gp.TILE_SIZE,gp.TILE_SIZE);
+		left1=setup("/npc/guard_Up1",gp.TILE_SIZE,gp.TILE_SIZE);
+		left2=setup("/npc/guard_Up2",gp.TILE_SIZE,gp.TILE_SIZE);
+		right1=setup("/npc/guard_Up1",gp.TILE_SIZE,gp.TILE_SIZE);
+		right2=setup("/npc/guard_Up2",gp.TILE_SIZE,gp.TILE_SIZE);
 	}
 	public void setDialogue() {
 		dialogue[0]="Where is this???";
@@ -40,8 +40,8 @@ public class NPC_guard extends Entity{
 		dialogue[5]="Firstly, you have to find 5 apple in the jungle in order to prove that you're worthy to meet him";
 		dialogue[6]="After that, I will let you come to meet him.";
 		dialogue[7]="Careful with the boars. They're stronger than you think.";
-		dialogue[10]="You don't have enough apples!";
-		dialogue[11]="Niceee.. Go to the East and you will see the headman!";
+		dialogue[10]="You don't have enough apples!\nYou have to find 5 apple in the jungle!";
+		dialogue[12]="Niceee.. Go to the East and you will see the headman!";
 	}
 	public void setAction() {
 		actionLockCounter++;

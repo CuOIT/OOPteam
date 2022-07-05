@@ -11,6 +11,6 @@ public class OBJ_Tent extends Entity{
 	name="Tent";
 	collision=true;
 	solidArea=new Rectangle(32,0,64,32);
-	down1=setup("/objects/tent", gp.tileSize*2, gp.tileSize*2);
+	down1=setup("/objects/tent", gp.TILE_SIZE*2, gp.TILE_SIZE*2);
 }
 }

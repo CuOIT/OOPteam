@@ -8,6 +8,6 @@ public class OBJ_Pit extends Entity{
 	super(gp);
 	name="Pit";
 	collision=true;
-	down1=setup("/objects/fire_pit", gp.tileSize, gp.tileSize);
+	down1=setup("/objects/fire_pit", gp.TILE_SIZE, gp.TILE_SIZE);
 }
 }

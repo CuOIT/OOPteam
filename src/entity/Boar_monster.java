@@ -9,6 +9,7 @@ import java.util.Random;
 
 import object.OBJ_Heart;
 import object.OBJ_Rock;
+import object.OBJ_Tooth;
 public class Boar_monster extends Entity{
 	GamePanel gp;
 	public Boar_monster(GamePanel gp) {
@@ -31,14 +32,14 @@ public class Boar_monster extends Entity{
     getImage();
     }
     public void getImage(){
-        up1=setup("/monster/Boar_Left_1", gp.tileSize, gp.tileSize);
-		up2=setup("/monster/Boar_Right_1", gp.tileSize, gp.tileSize);
-		down1=setup("/monster/Boar_Left_1", gp.tileSize, gp.tileSize);
-		down2=setup("/monster/Boar_Right_2", gp.tileSize, gp.tileSize);
-		left1=setup("/monster/Boar_Left_1", gp.tileSize, gp.tileSize);
-		left2=setup("/monster/Boar_Left_2", gp.tileSize, gp.tileSize);
-		right1=setup("/monster/Boar_Right_1", gp.tileSize, gp.tileSize);
-		right2=setup("/monster/Boar_Right_2", gp.tileSize, gp.tileSize);
+        up1=setup("/monster/Boar_Left_1", gp.TILE_SIZE, gp.TILE_SIZE);
+		up2=setup("/monster/Boar_Right_1", gp.TILE_SIZE, gp.TILE_SIZE);
+		down1=setup("/monster/Boar_Left_1", gp.TILE_SIZE, gp.TILE_SIZE);
+		down2=setup("/monster/Boar_Right_2", gp.TILE_SIZE, gp.TILE_SIZE);
+		left1=setup("/monster/Boar_Left_1", gp.TILE_SIZE, gp.TILE_SIZE);
+		left2=setup("/monster/Boar_Left_2", gp.TILE_SIZE, gp.TILE_SIZE);
+		right1=setup("/monster/Boar_Right_1", gp.TILE_SIZE, gp.TILE_SIZE);
+		right2=setup("/monster/Boar_Right_2", gp.TILE_SIZE, gp.TILE_SIZE);
     }
     public void setAction(){
         actionLockCounter++;
@@ -126,21 +127,21 @@ public class Boar_monster extends Entity{
 		if(gp.player.screenY>gp.player.worldY) {
 			screenY=worldY;
 		}
-		int rightOffset=gp.screenWidth-gp.player.screenX;
+		int rightOffset=gp.player.screenX;
 		 if(rightOffset>gp.worldWidth-gp.player.worldX) {
-			 screenX=gp.screenWidth-(gp.worldWidth-worldX);
+			 screenX=gp.SCREEN_WIDTH-(gp.worldWidth-worldX);
 		 }
-		int bottomOffset=gp.screenHeight-gp.player.screenY;
+		int bottomOffset=gp.SCREEN_HEIGHT-gp.player.screenY;
 			if(bottomOffset>gp.worldHeight-gp.player.worldY) {
-				screenY=gp.screenHeight- (gp.worldHeight-worldY);
+				screenY=gp.SCREEN_HEIGHT- (gp.worldHeight-worldY);
 		 }		
 		 // THEM TU DONG  THANH MAU CUA CON QUAI(DANG)
 		 if(hpBarOn == true ){
-			double oneScale = (double)gp.tileSize/maxLife;
+			double oneScale = (double)gp.TILE_SIZE/maxLife;
 			double hpBarValue = oneScale*life;
 
 			g2.setColor(new Color(35, 35, 35));
-			g2.fillRect(screenX -1, screenY - 16, gp.tileSize +2, 12);
+			g2.fillRect(screenX -1, screenY - 16, gp.TILE_SIZE +2, 12);
 			
 			g2.setColor(new Color(255,0,30));
 			g2.fillRect(screenX , screenY - 15, (int)hpBarValue, 10);
@@ -180,11 +181,7 @@ public class Boar_monster extends Entity{
 
 }	
 	public void checkDrop(){
-		// cast a die(Dang)
-		//int i = new Random().nextInt(100);
-
-		// set the monster drop
-		dropItem(new OBJ_Heart(gp));
+		dropItem(new OBJ_Tooth(gp));
 	}
 }
 

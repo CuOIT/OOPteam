@@ -15,32 +15,31 @@ public class NPC_headman extends Entity{
 		collision=true;
 	}
 	public void setDefaultValues() {
-		worldX=gp.tileSize*16;
-		worldY=gp.tileSize*16;
+		worldX=gp.TILE_SIZE*16;
+		worldY=gp.TILE_SIZE*16;
 	}
 	
 	
 
 	public void getImage() {
-		up1=setup("/npc/headman_Up1",gp.tileSize,gp.tileSize);
-		up2=setup("/npc/headman_Up2",gp.tileSize,gp.tileSize);
-		down2=setup("/npc/headman_Up2",gp.tileSize,gp.tileSize);
-		down1=setup("/npc/headman_Up1",gp.tileSize,gp.tileSize);
-		left1=setup("/npc/headman_Up1",gp.tileSize,gp.tileSize);
-		left2=setup("/npc/headman_Up2",gp.tileSize,gp.tileSize);
-		right1=setup("/npc/headman_Up1",gp.tileSize,gp.tileSize);
-		right2=setup("/npc/headman_Up2",gp.tileSize,gp.tileSize);
+		up1=setup("/npc/headman_Up1",gp.TILE_SIZE,gp.TILE_SIZE);
+		up2=setup("/npc/headman_Up2",gp.TILE_SIZE,gp.TILE_SIZE);
+		down2=setup("/npc/headman_Up2",gp.TILE_SIZE,gp.TILE_SIZE);
+		down1=setup("/npc/headman_Up1",gp.TILE_SIZE,gp.TILE_SIZE);
+		left1=setup("/npc/headman_Up1",gp.TILE_SIZE,gp.TILE_SIZE);
+		left2=setup("/npc/headman_Up2",gp.TILE_SIZE,gp.TILE_SIZE);
+		right1=setup("/npc/headman_Up1",gp.TILE_SIZE,gp.TILE_SIZE);
+		right2=setup("/npc/headman_Up2",gp.TILE_SIZE,gp.TILE_SIZE);
 	}
 	public void setDialogue() {
-		dialogue[0]="You can't leave this island with only a normal wooden boat for sure. LOL!!!";
-		dialogue[1]="Cause the distance from here to the nearest land is more than 100km.";
-		dialogue[2]="I sure that you would be a yummy meal for the brutal sharks out there";
-		dialogue[3]="How can I leave here??";
-		dialogue[4]="But i have an idea. Although it's very dangerous";
-		dialogue[5]="There's an evil monster hide in the East cave.It's holding a powerful crystal which may help you leaving there.";
-		dialogue[6]="In the past, there were many prirate want to have it but all of them were dead under its claws.";
-		dialogue[7]="If you defeat the monster and bring the crystal to me. I will told the villagers make a boat with the energy of crystal.";
-		dialogue[8]="Good luck!";
+		dialogue[0]="You can't leave this island with only a normal wooden boat for sure. LOL!!!\nCause the distance from here to the nearest land is more than 100km\nI sure that you would be a yummy meal for the brutal sharks out there";
+		dialogue[1]="How can I leave here??";
+		dialogue[2]="I have an idea. Although it's very dangerous";
+		dialogue[3]="There's an evil monster hide in the East cave.It's holding a powerful crystal which may help you leaving there.";
+		dialogue[4]="In the past, there were many prirate want to have it but all of them were dead under its claws.";
+		dialogue[5]="There is our sword.Use it to kill the boar monster and take 5 tooth for us and we will\ngive you to kill evil monster.";
+		dialogue[6]="If you defeat the monster and bring the crystal to me. I will told the villagers make a boat with the energy of crystal.";
+		dialogue[7]="Now go to the West and entry the cave, the evil monster is inside!";
 	
 	}
 	public void setAction() {

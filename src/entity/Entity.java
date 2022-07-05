@@ -5,12 +5,13 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
 import main.GamePanel;
 import main.UtilityTool;
-public class Entity {
+public abstract class Entity {
 	GamePanel gp;
 	public int worldX,worldY;	
 	public int speed;
@@ -47,28 +48,31 @@ public class Entity {
 	public int numberDialogue;
 	public String[] dialogue = new String[20];
 	public int type;//0-player;1-npc;2-monster;
-	int playerType=0;
+	final int playerType=0;
 	int monsterType=1;
 	int guardType=2;
 	int	headManType=3;
-	public int level;
-	public int strength;
-	public int dexterity;
 	public int attack;
-	public int defense;
-	public int exp;
-	public int nextLevelExp;
-	public int coin;
+//	public int level;
+//	public int strength;
+//	public int dexterity;
+//	public int defense;
+//	public int exp;
+//	public int nextLevelExp;
+//	public int coin;
 	public Entity currentWeapon;
-	public Entity currentShield; 
+	//public Entity currentProjectile; 
 	// bo sung itemdrops(Dang)
 		public int type_pickupOnly = 7;
 		public int value;
 		// bo sung projectile(dang)
-		public Projectile projectile;
+	public Projectile projectile;
 		// het bo sung
 	public int attackValue;
 	public int defenseValue;
+	public ArrayList<Entity> inventory = new ArrayList<>();
+	public int amount = 0;
+	public boolean stackable = false;
 	public String description = "";
 	public Entity(GamePanel gp) {
 		this.gp=gp;
@@ -198,7 +202,10 @@ public class Entity {
 			} 
 		}
 	}
-
+	public static Object get(int i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	public BufferedImage setup(String imagePath,int width,int height) {
 		UtilityTool uTool=new UtilityTool();
 		this.width=width;
@@ -263,21 +270,21 @@ public class Entity {
 		if(gp.player.screenY>gp.player.worldY) {
 			screenY=worldY;
 		}
-		int rightOffset=gp.screenWidth-gp.player.screenX;
+		int rightOffset=gp.SCREEN_WIDTH-gp.player.screenX;
 		 if(rightOffset>gp.worldWidth-gp.player.worldX) {
-			 screenX=gp.screenWidth-(gp.worldWidth-worldX);
+			 screenX=gp.SCREEN_WIDTH-(gp.worldWidth-worldX);
 		 }
-		int bottomOffset=gp.screenHeight-gp.player.screenY;
+		int bottomOffset=gp.SCREEN_HEIGHT-gp.player.screenY;
 			if(bottomOffset>gp.worldHeight-gp.player.worldY) {
-				screenY=gp.screenHeight- (gp.worldHeight-worldY);
+				screenY=gp.SCREEN_HEIGHT- (gp.worldHeight-worldY);
 		 }		
 		 // THEM TU DONG  THANH MAU CUA CON QUAI(DANG)
 		 if(type == monsterType && hpBarOn == true ){
-			double oneScale = (double)gp.tileSize/maxLife;
+			double oneScale = (double)gp.TILE_SIZE/maxLife;
 			double hpBarValue = oneScale*life;
 
 			g2.setColor(new Color(35, 35, 35));
-			g2.fillRect(screenX -1, screenY - 16, gp.tileSize +2, 12);
+			g2.fillRect(screenX -1, screenY - 16, gp.TILE_SIZE +2, 12);
 			
 			g2.setColor(new Color(255,0,30));
 			g2.fillRect(screenX , screenY - 15, (int)hpBarValue, 10);

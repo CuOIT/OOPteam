@@ -113,8 +113,8 @@ public class KeyHandler implements KeyListener{
 	}
 	public void dialogueState(int code){
 		if(code == KeyEvent.VK_ENTER){
-			if(gp.player.currentMission!=2 && gp.player.currentMission!=3)
-			gp.player.currentMission++;
+//			if(gp.player.currentMission!=2 && gp.player.currentMission!=3)
+//			gp.player.currentMission++;
 			gp.gameState=gp.playState;
 		}
 		else if(code == KeyEvent.VK_SPACE) {

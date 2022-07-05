@@ -12,12 +12,14 @@ import javax.imageio.ImageIO;
 import main.GamePanel;
 import main.KeyHandler;
 import main.UtilityTool;
-//import object.OBJ_Axe;
-//import object.OBJ_Hard_Shileld;
-import object.OBJ_Key;
+
 import object.OBJ_Shield_Wood;
 import object.OBJ_Sword_Normal;
-import object.OBJ_Fireball;
+import object.OBJ_Tooth;
+import object.OBJ_Arrow;
+import object.OBJ_Apple;
+import object.OBJ_Arrow;
+
 public class Player extends Entity{
 
 	KeyHandler keyH;
@@ -27,14 +29,13 @@ public class Player extends Entity{
 	public boolean[] mission = new boolean[10];
 	public int currentMission=0;
 	public int npcIndex;
-	public int apple=0;
 	public Player(GamePanel gp,KeyHandler keyH)
 	{
 		super(gp); 
 		this.keyH=keyH;
 		collision=true;
-		screenX=gp.screenWidth/2-(gp.tileSize/2);
-		screenY=gp.screenHeight/2-(gp.tileSize/2);
+		screenX=gp.SCREEN_WIDTH/2-(gp.TILE_SIZE/2);
+		screenY=gp.SCREEN_HEIGHT/2-(gp.TILE_SIZE/2);
 		//set character in the center
 		solidArea=new Rectangle();
 		solidArea.x=8;
@@ -53,49 +54,40 @@ public class Player extends Entity{
 		setItems();
 	}
 	public void setDefaultValues() {
-		worldX=gp.tileSize*10;
-		worldY=gp.tileSize*7;
+		worldX=gp.TILE_SIZE*10;
+		worldY=gp.TILE_SIZE*7;
 		defaultSpeed = 10;
 		//set character in the center
 		speed=defaultSpeed;
 		direction="down";
 		maxLife=10;
 		life=maxLife;
-		strength=1;
-		dexterity=1;
-		exp=0;
-		nextLevelExp=5;
-		coin=0;
+
 		currentWeapon=new OBJ_Sword_Normal(gp);
-		currentShield=new OBJ_Shield_Wood(gp);
-		projectile = new OBJ_Fireball(gp);
+		projectile = new OBJ_Arrow(gp);
 	}
 	public void setItems() {
-		inventory.add(new OBJ_Sword_Normal(gp));
-		inventory.add(new OBJ_Shield_Wood(gp));
-	//	inventory.add(new OBJ_Hard_Shileld(gp));
-		inventory.add(new OBJ_Key(gp));
 	//	inventory.add(new OBJ_Axe(gp));
 	}
 	public void getPlayerImage() {
-		up1=setup("/player/Up1",gp.tileSize,gp.tileSize);
-		up2=setup("/player/Up2",gp.tileSize,gp.tileSize);
-		down1=setup("/player/Down1",gp.tileSize,gp.tileSize);
-		down2=setup("/player/Down2",gp.tileSize,gp.tileSize);
-		left1=setup("/player/Left1",gp.tileSize,gp.tileSize);
-		left2=setup("/player/Left2",gp.tileSize,gp.tileSize);
-		right1=setup("/player/Right1",gp.tileSize,gp.tileSize);
-		right2=setup("/player/Right2",gp.tileSize,gp.tileSize);
+		up1=setup("/player/Up1",gp.TILE_SIZE,gp.TILE_SIZE);
+		up2=setup("/player/Up2",gp.TILE_SIZE,gp.TILE_SIZE);
+		down1=setup("/player/Down1",gp.TILE_SIZE,gp.TILE_SIZE);
+		down2=setup("/player/Down2",gp.TILE_SIZE,gp.TILE_SIZE);
+		left1=setup("/player/Left1",gp.TILE_SIZE,gp.TILE_SIZE);
+		left2=setup("/player/Left2",gp.TILE_SIZE,gp.TILE_SIZE);
+		right1=setup("/player/Right1",gp.TILE_SIZE,gp.TILE_SIZE);
+		right2=setup("/player/Right2",gp.TILE_SIZE,gp.TILE_SIZE);
 	}
 	public void getPlayerAttackImage() {
-		attackup1=setup("/player/boy_attack_up_1", gp.tileSize, gp.tileSize*2);
-		attackup2=setup("/player/boy_attack_up_2", gp.tileSize, gp.tileSize*2);
-		attackdown1=setup("/player/boy_attack_down_1", gp.tileSize, gp.tileSize*2);
-		attackdown2=setup("/player/boy_attack_down_2", gp.tileSize, gp.tileSize*2);
-		attackleft1=setup("/player/boy_attack_left_1", gp.tileSize*2, gp.tileSize);
-		attackleft2=setup("/player/boy_attack_left_2", gp.tileSize*2, gp.tileSize);
-		attackright1=setup("/player/boy_attack_right_1", gp.tileSize*2, gp.tileSize);
-		attackright2=setup("/player/boy_attack_right_2", gp.tileSize*2, gp.tileSize);
+		attackup1=setup("/player/boy_attack_up_1", gp.TILE_SIZE, gp.TILE_SIZE*2);
+		attackup2=setup("/player/boy_attack_up_2", gp.TILE_SIZE, gp.TILE_SIZE*2);
+		attackdown1=setup("/player/boy_attack_down_1", gp.TILE_SIZE, gp.TILE_SIZE*2);
+		attackdown2=setup("/player/boy_attack_down_2", gp.TILE_SIZE, gp.TILE_SIZE*2);
+		attackleft1=setup("/player/boy_attack_left_1", gp.TILE_SIZE*2, gp.TILE_SIZE);
+		attackleft2=setup("/player/boy_attack_left_2", gp.TILE_SIZE*2, gp.TILE_SIZE);
+		attackright1=setup("/player/boy_attack_right_1", gp.TILE_SIZE*2, gp.TILE_SIZE);
+		attackright2=setup("/player/boy_attack_right_2", gp.TILE_SIZE*2, gp.TILE_SIZE);
 	}
 	public void setMission() {
 		for(int i=0;i<10;i++) {
@@ -103,11 +95,7 @@ public class Player extends Entity{
 		}
 	}
 	public void setDialogue() {
-		dialogue[0]="Where am i?";
-//		dialogue[1]="Where is this???";
-//		dialogue[2]="Where can I find him?";
-//		
-		
+		dialogue[0]="Where am i?";	
 	}
 
 
@@ -141,7 +129,7 @@ public class Player extends Entity{
 		
 		//CHECK TILE COLLISON
 		collisionOn=false;
-		//gp.cChecker.checkTile(this);
+		gp.cChecker.checkTile(this);
 		
 		//CHECK OBJECT COLLISION
 		int objIndex=gp.cChecker.checkObject(this, true);
@@ -258,36 +246,61 @@ public class Player extends Entity{
 		if(i!=999) {
 			 
 			String objectName=gp.obj[gp.currentMap][i].name;
+			System.out.println("Day la "+objectName);
+
 			 switch(objectName) {
-			 case "Key":
-				 break;
+//			 case "Key":
+//				 String text  ;
+//
+//				 if(canObtainItem(gp.obj[gp.currentMap][i])==true);
+//				 gp.obj[gp.currentMap][i]=null;
+//				 break;
 			 case "Heart":
+
+				 if(canObtainItem(gp.obj[gp.currentMap][i])==true);
+				 gp.obj[gp.currentMap][i]=null;
 				 this.life+=1;
+				 break;
 			 case "Boots":
-				 //	this.speed+=2;
+				 System.out.println(objectName+"Boots");
+				 if(canObtainItem(gp.obj[gp.currentMap][i])==true);
+				 gp.obj[gp.currentMap][i]=null;
+
+				 this.speed+=2;
 				 	break;
 			 case "Apple":
-				 apple++;
-				 if(apple==5) currentMission++;
+				 System.out.println("apple");
+				 if(canObtainItem(gp.obj[gp.currentMap][i])==true);
+				 gp.obj[gp.currentMap][i]=null;
+
+				 OBJ_Apple.numberCollected++;
+				 if(OBJ_Apple.numberCollected==5) currentMission=2;
 				// gp.stopMusic();
 				 //gp.playSE(4);
 				 break;
+			 case "Tooth":
+				 if(canObtainItem(gp.obj[gp.currentMap][i])==true);
+				 gp.obj[gp.currentMap][i]=null;
+				 OBJ_Tooth.numberCollected++;
+				 if(OBJ_Tooth.numberCollected==5) currentMission=3;
+				 break;
 			 case "Entry_Cave":
-				 worldX=15*gp.tileSize;
-				 worldY=29*gp.tileSize;
+				 if(gp.currentMap==0) {
+				 worldX=15*gp.TILE_SIZE;
+				 worldY=28*gp.TILE_SIZE;
 				 gp.currentMap=1;
+				 }
+				 else {
+					 worldX=15*gp.TILE_SIZE;
+					 worldY=43*gp.TILE_SIZE;
+					 gp.currentMap=0;
+					 
+				 }
 				 //xem lai video 10
+				 break;
 				 }
 			 //them code o day dong 323-334
-			 String text ;
-			 if(inventory.size() != maxInventorySize) {
-				 inventory.add(gp.obj[gp.currentMap][i]);
-				 text = "Got a " + gp.obj[gp.currentMap][i].name + "!";
-				 }
-			 else {
-				 text = "You cannot carry any more!";
-			 }
-			 gp.ui.addMessage(text);
+			 
 			// gp.obj[gp.currentMap][i] = null;
 				 }
 	}
@@ -327,7 +340,45 @@ public class Player extends Entity{
 			}
 		}	
 	}
+	public int searchItemInInventory(String itemName) {
+		int itemIndex = 999;
 
+		for(int i=0;i < gp.player.inventory.size();i++) {
+			if(gp.player.inventory.get(i).name.equals(itemName)) {
+				itemIndex = i;
+				break;
+			}
+		}
+		return itemIndex;
+	}
+	public boolean canObtainItem(Entity item) {
+
+		boolean canObtain = true;
+
+		//CHECK IF STACKABLE
+		if(item.stackable == true) {
+			int index = searchItemInInventory(item.name);
+
+			if(index != 999) {
+		inventory.get(index).amount++;
+				canObtain = true;
+			}
+			else {//New item so need to check vacancy
+					if(inventory.size() != maxInventorySize) {
+						inventory.add(item);
+						canObtain = true;
+					}
+		       }
+
+	}
+		else {//NOT STACKABLE so check vacancy 
+			if(inventory.size() != maxInventorySize) {
+
+				canObtain = false;
+			}
+		}
+		return canObtain;
+	}
 	public void knockBack (Entity entity, int knockBackPower){
 		entity.direction = direction;
 		entity.speed += knockBackPower;
@@ -347,7 +398,7 @@ public class Player extends Entity{
 			}
 			if (attacking == true){
 				//BO SUNG 244(DANG)
-				tempScreenY = screenY - gp.tileSize;
+				tempScreenY = screenY - gp.TILE_SIZE;
 				//HET BO SUNG
 				if(spriteNum==1) image=attackup1;
 				if(spriteNum==2) image=attackup2;
@@ -373,7 +424,7 @@ public class Player extends Entity{
 			}
 			if (attacking == true){
 				//BO SUNG 268(DANG)
-				tempScreenX = screenX - gp.tileSize;
+				tempScreenX = screenX - gp.TILE_SIZE;
 				//HET BO SUNG
 				if(spriteNum==1) image=attackleft1;
 				if(spriteNum==2) image=attackleft2;
@@ -397,25 +448,25 @@ public class Player extends Entity{
 		}
 		// HET BO SUNG
 		if(screenX>worldX) {
-			if(attacking==true && direction=="left") tempScreenX=worldX-gp.tileSize;
+			if(attacking==true && direction=="left") tempScreenX=worldX-gp.TILE_SIZE;
 			else tempScreenX=worldX;}
 		if(screenY>worldY) {
-			if(attacking==true && direction=="up") tempScreenY=worldY-gp.tileSize;
+			if(attacking==true && direction=="up") tempScreenY=worldY-gp.TILE_SIZE;
 			else tempScreenY=worldY;
 		}
 		
-		int rightOffset=gp.screenWidth-screenX;
+		int rightOffset=gp.SCREEN_WIDTH-screenX;
 		 if(rightOffset>gp.worldWidth-worldX) {
 			 
 			 
-			 tempScreenX=gp.screenWidth-(gp.worldWidth-worldX);
-			 if(attacking==true && direction=="left") tempScreenX-=gp.tileSize;
+			 tempScreenX=gp.SCREEN_WIDTH-(gp.worldWidth-worldX);
+			 if(attacking==true && direction=="left") tempScreenX-=gp.TILE_SIZE;
 			
 		 }
-		int bottomOffset=gp.screenHeight-screenY;
+		int bottomOffset=gp.SCREEN_HEIGHT-screenY;
 			if(bottomOffset>gp.worldHeight-worldY) {
-				tempScreenY=gp.screenHeight- (gp.worldHeight-worldY);
-				if(attacking==true && direction=="up") tempScreenY-=gp.tileSize;
+				tempScreenY=gp.SCREEN_HEIGHT- (gp.worldHeight-worldY);
+				if(attacking==true && direction=="up") tempScreenY-=gp.TILE_SIZE;
 		 }
 		g2.drawImage(image,tempScreenX, tempScreenY, null);
 		// Reset alpha(DANG)

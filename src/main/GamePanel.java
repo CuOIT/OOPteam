@@ -17,22 +17,22 @@ import entity.Entity;
 import entity.Player;
 public class GamePanel extends JPanel implements Runnable {
 //screen settings
-	public final int originalTileSize = 16;//16x16 tile;
-	public	final int scale=3;
-	public final int tileSize=originalTileSize*scale;	
-	public final int maxScreenCol=25;
-	public final int maxScreenRow=15;
-	public final int screenWidth=tileSize * maxScreenCol;//768 pixels
-	public final int screenHeight=tileSize * maxScreenRow;//576 pixels
+	public final int ORIGINAL_TILE_SIZE = 16;//16x16 tile;
+	public	final int SCALE=3;
+	public final int TILE_SIZE=ORIGINAL_TILE_SIZE*SCALE;	
+	public final int MAX_SCREEN_COL=25;
+	public final int MAX_SCREEN_ROW=15;
+	public final int SCREEN_WIDTH=TILE_SIZE * MAX_SCREEN_COL;//768 pixels
+	public final int SCREEN_HEIGHT=TILE_SIZE * MAX_SCREEN_ROW;//576 pixels
 	
-	public final int maxMap=5;
-	public final int maxWorldCol=50;
-	public final int maxWorldRow=50;
-	public final int worldWidth=tileSize*maxWorldCol;
-	public final int worldHeight=tileSize*maxWorldRow;
+	public final int MAX_MAP=5;
+	public final int MAX_WORLD_COL=50;
+	public final int MAX_WORLD_ROW=50;
+	public final int worldWidth=TILE_SIZE*MAX_WORLD_COL;
+	public final int worldHeight=TILE_SIZE*MAX_WORLD_ROW;
 	public int currentMap=0;
-	int screenWidth2=screenWidth;
-	int screenHeight2=screenHeight;
+	int screenWidth2=SCREEN_WIDTH;
+	int screenHeight2=SCREEN_HEIGHT;
 	BufferedImage tempScreen;
 	Graphics2D g2;
 	//FPS
@@ -41,9 +41,9 @@ public class GamePanel extends JPanel implements Runnable {
 	//SYSTEM
 	TileManager tileM=new TileManager(this);
 	
-	public KeyHandler keyH=new KeyHandler(this);	
 	  
 	Sound music=new Sound();	
+	public KeyHandler keyH=new KeyHandler(this);	
 	Sound se=new Sound();
 	public UI ui=new UI(this);
 	
@@ -53,9 +53,9 @@ public class GamePanel extends JPanel implements Runnable {
 	
 	//entity and object
 	public Player player=new Player(this,keyH);
-	public Entity obj[][] = new Entity[maxMap][50];
-	public Entity npc[][]= new Entity[maxMap][10];
-	public Entity monster[][]=new Entity[maxMap][20];
+	public Entity obj[][] = new Entity[MAX_MAP][50];
+	public Entity npc[][]= new Entity[MAX_MAP][10];
+	public Entity monster[][]=new Entity[MAX_MAP][20];
 	public ArrayList<Entity> entityList=new ArrayList<>();
 	public ArrayList<Entity> projectileList=new ArrayList<>();	
 	//GAME STATE
@@ -71,7 +71,7 @@ public class GamePanel extends JPanel implements Runnable {
 	
 	public GamePanel()
 	{
-		this.setPreferredSize(new Dimension(screenWidth,screenHeight));
+		this.setPreferredSize(new Dimension(SCREEN_WIDTH,SCREEN_HEIGHT));
 		//set size of this class
 		this.setBackground(Color.black);
 		this.setDoubleBuffered(true);
@@ -86,7 +86,7 @@ public class GamePanel extends JPanel implements Runnable {
 		//stopMusic();
 		gameState=titleState;
 		
-		tempScreen=new BufferedImage(screenWidth,screenHeight,BufferedImage.TYPE_INT_ARGB);
+		tempScreen=new BufferedImage(SCREEN_WIDTH,SCREEN_HEIGHT,BufferedImage.TYPE_INT_ARGB);
 		g2=(Graphics2D)tempScreen.getGraphics();
 		//setFullScreen();
 		}
@@ -233,67 +233,6 @@ public class GamePanel extends JPanel implements Runnable {
 				
 				
 	}
-//	public void paintComponent(Graphics g) {
-//		super.paintComponent(g);
-//		Graphics2D g2=(Graphics2D)g;
-//	
-//		
-//		//DEBUG
-//		long drawStart = 0;
-//		if(keyH.checkDrawTime==true) {
-//			drawStart=System.nanoTime();
-//		}
-//		
-//		if(gameState==titleState) {
-//			ui.draw(g2);
-//		}
-//		else 
-//		{
-//			//TILE
-////			
-//			tileM.draw(g2);
-//			
-//			entityList.add(player);
-//			for(int i=0;i<npc.length;i++) {
-//				if(npc[i]!=null)
-//				{
-//					entityList.add(npc[i]);
-//				}
-//			}
-//				for(int i=0;i<obj.length;i++) {
-//					if(obj[i]!=null)
-//					{
-//						entityList.add(obj[i]);
-//					}
-//			}
-//				Collections.sort(entityList,new Comparator<Entity>() {
-//
-//					@Override
-//					public int compare(Entity o1, Entity o2) {
-//						int result = Integer.compare(o1.worldY, o2.worldY);
-//						return result;
-//					}
-//				});
-//			
-//		for(int i=0;i<entityList.size();i++)
-//		{
-//				entityList.get(i).draw(g2);
-//		}
-//		for(int i=0;i<entityList.size();i++)
-//		{
-//				entityList.remove(i);
-//		}
-//		ui.draw(g2);
-//		if(gameState==characterState) {
-//			ui.drawCharacterScreen();
-//		}
-//	}
-//		
-//		
-//
-//		g2.dispose();
-//		
-//	}
 	public void drawToScreen() {
 		Graphics g=getGraphics();
 		g.drawImage(tempScreen,0,0,screenWidth2,screenHeight2,null);
