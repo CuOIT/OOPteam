@@ -3,11 +3,13 @@ package main;
 import object.OBJ_Entry_Cave;
 import object.OBJ_Pine_tree;
 import object.OBJ_Pit;
+import object.OBJ_Sword;
 import object.OBJ_Tent;
 import object.OBJ_Tree;
 import entity.NPC_guard;
 import entity.NPC_headman;
 import object.OBJ_Apple;
+import object.OBJ_Arrow;
 import entity.Boar_monster;
 public class AssetSetter {
 
@@ -311,11 +313,6 @@ public class AssetSetter {
 		gp.obj[mapNum][100]=new OBJ_Apple(gp);
 		gp.obj[mapNum][100].worldX=22*gp.TILE_SIZE;
 		gp.obj[mapNum][100].worldY=9*gp.TILE_SIZE;
-		
-		
-		
-		
-		
 		
 		
 		

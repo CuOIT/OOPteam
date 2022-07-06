@@ -9,7 +9,7 @@
 			super(gp);
 			name="Apple";
 			down1=setup("/objects/apple",gp.TILE_SIZE,gp.TILE_SIZE);
-			description = "[" + name + "]Give them to the guard";
+			description = "[" + name + "]\nGive them to the guard";
 			stackable=true;
 		}
 		

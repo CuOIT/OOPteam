@@ -76,6 +76,7 @@ public class KeyHandler implements KeyListener{
 		else if(code==KeyEvent.VK_ESCAPE) {
 			gp.gameState=gp.optionState;
 		}
+	
 		
 	}
 	public void optionState(int code) {
@@ -167,6 +168,10 @@ public class KeyHandler implements KeyListener{
 				gp.ui.slotCol++;
 			}
             }
+            //them code tu day dong 172-174
+            if (code == KeyEvent.VK_ENTER) {
+              	gp.player.selectItem();
+              }//them code den day dong 174
 		}
 	}
 	@Override

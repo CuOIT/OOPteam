@@ -16,6 +16,7 @@ import main.UtilityTool;
 
 import object.OBJ_Tooth;
 import object.OBJ_Arrow;
+import object.OBJ_Sword;
 import object.OBJ_Apple;
 import object.OBJ_Arrow;
 
@@ -28,6 +29,7 @@ public class Player extends Entity{
 	public boolean[] mission = new boolean[10];
 	public int currentMission=0;
 	public int npcIndex;
+	public int strength;
 	public Player(GamePanel gp,KeyHandler keyH)
 	{
 		super(gp); 
@@ -62,13 +64,16 @@ public class Player extends Entity{
 		maxLife=10;
 		life=maxLife;
 		projectile = new OBJ_Arrow(gp);
+		currentWeapon = new OBJ_Sword(gp);//them doan code nay
 
 	}
 	
 	public void setItems() {
-	//	inventory.add(new OBJ_Axe(gp));
 	}
-	
+	public int getAttack() {
+		attackArea = currentWeapon.attackArea;
+		return attack = strength * currentWeapon.attackValue;
+	}
 	public void getPlayerImage() {
 		up1=setup("/player/Up1",gp.TILE_SIZE,gp.TILE_SIZE);
 		up2=setup("/player/Up2",gp.TILE_SIZE,gp.TILE_SIZE);
@@ -284,6 +289,7 @@ public class Player extends Entity{
 				 if(canObtainItem(gp.obj[gp.currentMap][i])==true);
 				 gp.obj[gp.currentMap][i]=null;
 				 break; 
+			
 			 case "Bow":
 				 if(canObtainItem(gp.obj[gp.currentMap][i])==true);
 				 gp.obj[gp.currentMap][i]=null;
@@ -394,6 +400,24 @@ public class Player extends Entity{
 		entity.knockBack = true;
 
 	}
+	
+	//them code o day dong 405-418
+	public void selectItem() {
+		int itemIndex = gp.ui.getItemIndexOnSlot();
+		
+		if (itemIndex < gp.player.inventory.size()) {
+			Entity selectedItem = gp.player.inventory.get(itemIndex);
+			
+			if (selectedItem.type == swordType || selectedItem.type == arrowType) {
+				
+				currentWeapon = selectedItem;
+				attack = getAttack();
+				getPlayerAttackImage();
+			}
+		}
+	}//them code den day dong 418
+	
+
 	public void draw(Graphics2D g2) {
 		BufferedImage image=null;
 		int tempScreenX= screenX;

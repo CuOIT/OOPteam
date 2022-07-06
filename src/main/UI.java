@@ -324,6 +324,13 @@ public class UI {
 		//DRAW PLAYER'S ITEMS
 		for(int i= 0;i< gp.player.inventory.size();i++) {
 			
+			//them code tu 328-333
+			//EQUIP CURSOR
+			if(gp.player.inventory.get(i) == gp.player.currentWeapon ||
+					gp.player.inventory.get(i) == gp.player.projectile) {
+				g2.setColor(new Color(240,190,90));
+				g2.fillRoundRect(slotX, slotY, gp.TILE_SIZE, gp.TILE_SIZE, 10,10);
+			}//them code den day 333
 			
 			g2.drawImage(gp.player.inventory.get(i).down1,slotX, slotY, null);
 			if(gp.player.inventory.get(i).amount >1) {

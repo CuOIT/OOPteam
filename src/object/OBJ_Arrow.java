@@ -10,6 +10,7 @@ public class OBJ_Arrow extends Projectile {
          super(gp);
          this.gp = gp;
 
+         type = arrowType;//them dong code nay
          name = "Fireball";
          speed = 8;
          maxLife = 80;
@@ -17,6 +18,7 @@ public class OBJ_Arrow extends Projectile {
          attack = 2;
          alive = false;
          knockBackPower = 5; 
+     	stackable=true;//them dong code nay
          getImage();
 
      }

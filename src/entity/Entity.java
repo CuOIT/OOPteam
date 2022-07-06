@@ -54,6 +54,8 @@ public abstract class Entity {
 	int monsterType=1;
 	int guardType=2;
 	int	headManType=3;
+	public final int swordType = 4;//them dong code nay
+	public final int arrowType = 5;//them dong code nay
 	public int attack;
 	public Entity currentWeapon;
 	public int type_pickupOnly = 7;
@@ -63,6 +65,7 @@ public abstract class Entity {
 	public int amount = 0;
 	public boolean stackable = false;
 	public String description = "";
+	public int attackValue;
 	public Entity(GamePanel gp) {
 		this.gp=gp;
 	}
