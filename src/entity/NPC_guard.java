@@ -38,8 +38,8 @@ public class NPC_guard extends Entity{
 		dialogue[1][3]="Let's meet our headman. He will give you the solution.";
 		dialogue[1][4]="Where can I find him?";
 		dialogue[1][5]="Firstly, you have to find 5 apple in the jungle in order to prove that you're worthy to meet him";
-		dialogue[2][6]="Niceee..I have a gift for you. It will be helpful soon";
-		dialogue[2][7]="And now, go to the East and you will see the headman!";
+		dialogue[2][0]="Niceee..I have a gift for you. It will be helpful soon";
+		dialogue[2][1]="And now, go to the East and you will see the headman!";
 		
 	}
 	public void setAction() {

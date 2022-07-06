@@ -262,8 +262,13 @@ public class Player extends Entity{
 				 gp.obj[gp.currentMap][i]=null;
 				 OBJ_Apple.numberCollected++;
 				 //System.out.println(OBJ_Apple.numberCollected);
-				 if(OBJ_Apple.numberCollected==4) currentMission=2;
-				// gp.stopMusic();
+				 if(OBJ_Apple.numberCollected==4) 
+					 {
+					 currentMission=2;
+					 }
+				 for(int j=0;j<gp.npc[gp.currentMap].length;j++)
+				if( gp.npc[gp.currentMap][j]!=null)
+				 gp.npc[gp.currentMap][j].numberDialogue=0;
 				 //gp.playSE(4);
 				 break;
 			 case "Tooth":
@@ -271,11 +276,18 @@ public class Player extends Entity{
 				 gp.obj[gp.currentMap][i]=null;
 				 OBJ_Tooth.numberCollected++;
 				 if(OBJ_Tooth.numberCollected==5) currentMission=3;
+				 for(int j=0;j<gp.npc[gp.currentMap].length;j++)
+					 if( gp.npc[gp.currentMap][j]!=null)
+					 gp.npc[gp.currentMap][j].numberDialogue=0;
 				 break;
 			 case "Sword":
 				 if(canObtainItem(gp.obj[gp.currentMap][i])==true);
 				 gp.obj[gp.currentMap][i]=null;
-				 
+				 break; 
+			 case "Bow":
+				 if(canObtainItem(gp.obj[gp.currentMap][i])==true);
+				 gp.obj[gp.currentMap][i]=null;
+				 break; 
 			 case "Entry_Cave":
 				 if(gp.player.currentMission>=3) {
 				 if(gp.currentMap==0) {

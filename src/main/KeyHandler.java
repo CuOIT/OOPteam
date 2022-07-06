@@ -2,6 +2,7 @@
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import object.OBJ_Bow;
 import object.OBJ_Sword; 
 public class KeyHandler implements KeyListener{
 	public boolean upPressed,rightPressed,downPressed,leftPressed,enterPressed,shotKeyPressed;
@@ -115,21 +116,28 @@ public class KeyHandler implements KeyListener{
 	}
 	public void dialogueState(int code){
 		if(code == KeyEvent.VK_ENTER){
-//			if(gp.player.currentMission!=2 && gp.player.currentMission!=3)
-//			gp.player.currentMission++;
+			if(gp.player.currentMission==0) {
+				gp.gameState=gp.playState;
+				gp.player.currentMission=1;
+			}
+		if(gp.npc[gp.currentMap][gp.player.npcIndex].dialogue[gp.player.currentMission][gp.npc[gp.currentMap][gp.player.npcIndex].numberDialogue]!=null) {
+			
+			
+		gp.npc[gp.currentMap][gp.player.npcIndex].numberDialogue++;
+		if(gp.player.npcIndex==0 && gp.npc[gp.currentMap][gp.player.npcIndex].numberDialogue==1 && gp.player.currentMission==2)
+		{
+			gp.npc[gp.currentMap][gp.player.npcIndex].dropItem(new OBJ_Sword(gp), gp.npc[gp.currentMap][gp.player.npcIndex].worldX,gp.npc[gp.currentMap][gp.player.npcIndex].worldY+gp.TILE_SIZE);
+		}
+		if(gp.player.npcIndex==1 && gp.npc[gp.currentMap][gp.player.npcIndex].numberDialogue==1 && gp.player.currentMission==3)
+		{
+			gp.npc[gp.currentMap][gp.player.npcIndex].dropItem(new OBJ_Bow(gp), gp.npc[gp.currentMap][gp.player.npcIndex].worldX,gp.npc[gp.currentMap][gp.player.npcIndex].worldY+gp.TILE_SIZE);
+		}
+	}else {
 			gp.gameState=gp.playState;
 		}
+		}
 		else if(code == KeyEvent.VK_SPACE) {
-			if(gp.npc[gp.currentMap][gp.player.npcIndex].dialogue[gp.player.currentMission][gp.npc[gp.currentMap][gp.player.npcIndex].numberDialogue]!=null)
-			gp.npc[gp.currentMap][gp.player.npcIndex].numberDialogue++;
-			if(gp.player.npcIndex==0 && gp.npc[gp.currentMap][gp.player.npcIndex].numberDialogue==7 && gp.player.currentMission==2)
-			{
-				gp.npc[gp.currentMap][gp.player.npcIndex].dropItem(new OBJ_Sword(gp), gp.npc[gp.currentMap][gp.player.npcIndex].worldX,gp.npc[gp.currentMap][gp.player.npcIndex].worldY+gp.TILE_SIZE);
-			}
-			else {
-				//gp.gameState=gp.playState;
-				System.out.println("NULL");
-			}
+			gp.gameState=gp.playState;
 		}
 	}
 	public void characterState(int code) {

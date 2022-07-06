@@ -228,7 +228,6 @@ public class UI {
 			if(gp.player.currentMission==0) {
 			currentDialogue=gp.player.dialogue[0][0];
 			g2.drawString(currentDialogue,x,y);
-			gp.player.currentMission++;
 			}
 			else {
 			currentDialogue=gp.npc[gp.currentMap][i].dialogue[gp.player.currentMission][gp.npc[gp.currentMap][i].numberDialogue];

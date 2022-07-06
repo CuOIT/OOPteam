@@ -118,7 +118,7 @@ public class TileManager {
 		setup(72,"dark.water2",false);
 		setup(73,"mountain2",false);
 		setup(74,"black",true);
-			setup(75,"ground2",true);
+			setup(75,"ground2",false);
 		
 	}
 	public void setup(int index,String imagePath,boolean collision) {

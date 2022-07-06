@@ -39,10 +39,8 @@ public class NPC_headman extends Entity{
 		dialogue[2][4]="In the past, there were many prirate want to have it but all of them were dead under its claws.";
 		dialogue[2][5]="Go to kill the boar monster and take 5 tooth for us and we will\ngive you a powerful arrow to kill evil monster.";
 		
-		dialogue[3][6]="Nice try!!! Here is your arrow.";
-		dialogue[3][7]="If you defeat the monster and bring the crystal to me. I will told the villagers make a boat with the energy of crystal.";
-		
-		
+		dialogue[3][0]="Nice try!!! Here is your arrow.";
+		dialogue[3][1]="If you defeat the monster and bring the crystal to me. I will told the villagers make a boat with the energy of crystal.";
 		dialogue[3][2]="Now go to the West and entry the cave, the evil monster is inside!";
 	
 	}
