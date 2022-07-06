@@ -13,8 +13,7 @@ import main.GamePanel;
 import main.KeyHandler;
 import main.UtilityTool;
 
-import object.OBJ_Shield_Wood;
-import object.OBJ_Sword_Normal;
+
 import object.OBJ_Tooth;
 import object.OBJ_Arrow;
 import object.OBJ_Apple;
@@ -24,7 +23,7 @@ public class Player extends Entity{
 
 	KeyHandler keyH;
 	public final int screenX,screenY;
-	public ArrayList<Entity> inventory=new ArrayList<>();
+	//public ArrayList<Entity> inventory=new ArrayList<>();
 	public final int maxInventorySize=20;
 	public boolean[] mission = new boolean[10];
 	public int currentMission=0;
@@ -49,10 +48,10 @@ public class Player extends Entity{
 		setDefaultValues();
 		getPlayerImage();
 		getPlayerAttackImage();
-		setMission();
 		setDialogue();
 		setItems();
 	}
+	
 	public void setDefaultValues() {
 		worldX=gp.TILE_SIZE*10;
 		worldY=gp.TILE_SIZE*7;
@@ -62,13 +61,14 @@ public class Player extends Entity{
 		direction="down";
 		maxLife=10;
 		life=maxLife;
-
-		currentWeapon=new OBJ_Sword_Normal(gp);
 		projectile = new OBJ_Arrow(gp);
+
 	}
+	
 	public void setItems() {
 	//	inventory.add(new OBJ_Axe(gp));
 	}
+	
 	public void getPlayerImage() {
 		up1=setup("/player/Up1",gp.TILE_SIZE,gp.TILE_SIZE);
 		up2=setup("/player/Up2",gp.TILE_SIZE,gp.TILE_SIZE);
@@ -89,13 +89,9 @@ public class Player extends Entity{
 		attackright1=setup("/player/boy_attack_right_1", gp.TILE_SIZE*2, gp.TILE_SIZE);
 		attackright2=setup("/player/boy_attack_right_2", gp.TILE_SIZE*2, gp.TILE_SIZE);
 	}
-	public void setMission() {
-		for(int i=0;i<10;i++) {
-			mission[i]=false;
-		}
-	}
+	
 	public void setDialogue() {
-		dialogue[0]="Where am i?";	
+		dialogue[0][0]="Where am i?";	
 	}
 
 
@@ -136,6 +132,7 @@ public class Player extends Entity{
 		pickUpObject(objIndex);
 		npcIndex=gp.cChecker.checkEntity(this,gp.npc);
 		interact(npcIndex);
+		//System.out.println("INdex la "+npcIndex);
 		// CHECK MONSTER COLLISION 115-116(DANG)
 		int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
 		contactMonster(monsterIndex);
@@ -246,15 +243,7 @@ public class Player extends Entity{
 		if(i!=999) {
 			 
 			String objectName=gp.obj[gp.currentMap][i].name;
-			System.out.println("Day la "+objectName);
-
 			 switch(objectName) {
-//			 case "Key":
-//				 String text  ;
-//
-//				 if(canObtainItem(gp.obj[gp.currentMap][i])==true);
-//				 gp.obj[gp.currentMap][i]=null;
-//				 break;
 			 case "Heart":
 
 				 if(canObtainItem(gp.obj[gp.currentMap][i])==true);
@@ -262,19 +251,18 @@ public class Player extends Entity{
 				 this.life+=1;
 				 break;
 			 case "Boots":
-				 System.out.println(objectName+"Boots");
-				 if(canObtainItem(gp.obj[gp.currentMap][i])==true);
-				 gp.obj[gp.currentMap][i]=null;
-
-				 this.speed+=2;
+//				 System.out.println(objectName+"Boots");
+//				 if(canObtainItem(gp.obj[gp.currentMap][i])==true);
+//				 gp.obj[gp.currentMap][i]=null;
+//
+//				 this.speed+=2;
 				 	break;
 			 case "Apple":
-				 System.out.println("apple");
 				 if(canObtainItem(gp.obj[gp.currentMap][i])==true);
 				 gp.obj[gp.currentMap][i]=null;
-
 				 OBJ_Apple.numberCollected++;
-				 if(OBJ_Apple.numberCollected==5) currentMission=2;
+				 //System.out.println(OBJ_Apple.numberCollected);
+				 if(OBJ_Apple.numberCollected==4) currentMission=2;
 				// gp.stopMusic();
 				 //gp.playSE(4);
 				 break;
@@ -284,10 +272,15 @@ public class Player extends Entity{
 				 OBJ_Tooth.numberCollected++;
 				 if(OBJ_Tooth.numberCollected==5) currentMission=3;
 				 break;
+			 case "Sword":
+				 if(canObtainItem(gp.obj[gp.currentMap][i])==true);
+				 gp.obj[gp.currentMap][i]=null;
+				 
 			 case "Entry_Cave":
+				 if(gp.player.currentMission>=3) {
 				 if(gp.currentMap==0) {
-				 worldX=15*gp.TILE_SIZE;
-				 worldY=28*gp.TILE_SIZE;
+				 worldX=3*gp.TILE_SIZE;
+				 worldY=39*gp.TILE_SIZE;
 				 gp.currentMap=1;
 				 }
 				 else {
@@ -295,6 +288,7 @@ public class Player extends Entity{
 					 worldY=43*gp.TILE_SIZE;
 					 gp.currentMap=0;
 					 
+				 }
 				 }
 				 //xem lai video 10
 				 break;
@@ -308,7 +302,8 @@ public class Player extends Entity{
 		if(gp.keyH.enterPressed == true){
 			if(i != 999){
 				gp.gameState = gp.dialogueState;
-				gp.ui.drawDialogueScreen();
+				//System.out.println("truoc khi tuong tac : "+i);
+				gp.ui.drawDialogueScreen(i);
 			}
 			else{
 				attacking = true;
@@ -360,6 +355,8 @@ public class Player extends Entity{
 			int index = searchItemInInventory(item.name);
 
 			if(index != 999) {
+			if(inventory.get(index).amount==0) inventory.get(index).amount++;
+			
 		inventory.get(index).amount++;
 				canObtain = true;
 			}

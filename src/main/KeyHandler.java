@@ -1,6 +1,8 @@
  package main;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener; 
+import java.awt.event.KeyListener;
+
+import object.OBJ_Sword; 
 public class KeyHandler implements KeyListener{
 	public boolean upPressed,rightPressed,downPressed,leftPressed,enterPressed,shotKeyPressed;
 	//DEBUG
@@ -118,7 +120,16 @@ public class KeyHandler implements KeyListener{
 			gp.gameState=gp.playState;
 		}
 		else if(code == KeyEvent.VK_SPACE) {
+			if(gp.npc[gp.currentMap][gp.player.npcIndex].dialogue[gp.player.currentMission][gp.npc[gp.currentMap][gp.player.npcIndex].numberDialogue]!=null)
 			gp.npc[gp.currentMap][gp.player.npcIndex].numberDialogue++;
+			if(gp.player.npcIndex==0 && gp.npc[gp.currentMap][gp.player.npcIndex].numberDialogue==7 && gp.player.currentMission==2)
+			{
+				gp.npc[gp.currentMap][gp.player.npcIndex].dropItem(new OBJ_Sword(gp), gp.npc[gp.currentMap][gp.player.npcIndex].worldX,gp.npc[gp.currentMap][gp.player.npcIndex].worldY+gp.TILE_SIZE);
+			}
+			else {
+				//gp.gameState=gp.playState;
+				System.out.println("NULL");
+			}
 		}
 	}
 	public void characterState(int code) {

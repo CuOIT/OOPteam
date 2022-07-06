@@ -8,7 +8,6 @@ public class OBJ_Heart extends Entity{
 		super(gp);
 		this.gp=gp;
 		name="Heart";
-		value = 2;
 		down1=setup("/objects/hp_full",gp.TILE_SIZE,gp.TILE_SIZE);
 		image=setup("/objects/hp_full",gp.TILE_SIZE,gp.TILE_SIZE);
 		image2=setup("/objects/hp_half",gp.TILE_SIZE,gp.TILE_SIZE);
@@ -16,8 +15,8 @@ public class OBJ_Heart extends Entity{
 		
 }
 	public void use(Entity entity){
-		gp.gameState = gp.dialogueState;
-		entity.life += value;
+		//gp.gameState = gp.dialogueState;
+		entity.life += 1;
 }
 }
 

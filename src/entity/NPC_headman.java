@@ -32,14 +32,18 @@ public class NPC_headman extends Entity{
 		right2=setup("/npc/headman_Up2",gp.TILE_SIZE,gp.TILE_SIZE);
 	}
 	public void setDialogue() {
-		dialogue[0]="You can't leave this island with only a normal wooden boat for sure. LOL!!!\nCause the distance from here to the nearest land is more than 100km\nI sure that you would be a yummy meal for the brutal sharks out there";
-		dialogue[1]="How can I leave here??";
-		dialogue[2]="I have an idea. Although it's very dangerous";
-		dialogue[3]="There's an evil monster hide in the East cave.It's holding a powerful crystal which may help you leaving there.";
-		dialogue[4]="In the past, there were many prirate want to have it but all of them were dead under its claws.";
-		dialogue[5]="There is our sword.Use it to kill the boar monster and take 5 tooth for us and we will\ngive you to kill evil monster.";
-		dialogue[6]="If you defeat the monster and bring the crystal to me. I will told the villagers make a boat with the energy of crystal.";
-		dialogue[7]="Now go to the West and entry the cave, the evil monster is inside!";
+		dialogue[2][0]="You can't leave this island with only a normal wooden boat for sure. LOL!!!\nCause the distance from here to the nearest land is more than 100km\nI sure that you would be a yummy meal for the brutal sharks out there";
+		dialogue[2][1]="How can I leave here??";
+		dialogue[2][2]="I have an idea. Although it's very dangerous";
+		dialogue[2][3]="There's an evil monster hide in the East cave.It's holding a powerful crystal which may help you leaving there.";
+		dialogue[2][4]="In the past, there were many prirate want to have it but all of them were dead under its claws.";
+		dialogue[2][5]="Go to kill the boar monster and take 5 tooth for us and we will\ngive you a powerful arrow to kill evil monster.";
+		
+		dialogue[3][6]="Nice try!!! Here is your arrow.";
+		dialogue[3][7]="If you defeat the monster and bring the crystal to me. I will told the villagers make a boat with the energy of crystal.";
+		
+		
+		dialogue[3][2]="Now go to the West and entry the cave, the evil monster is inside!";
 	
 	}
 	public void setAction() {

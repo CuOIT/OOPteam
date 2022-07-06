@@ -53,7 +53,7 @@ public class GamePanel extends JPanel implements Runnable {
 	
 	//entity and object
 	public Player player=new Player(this,keyH);
-	public Entity obj[][] = new Entity[MAX_MAP][50];
+	public Entity obj[][] = new Entity[MAX_MAP][200];
 	public Entity npc[][]= new Entity[MAX_MAP][10];
 	public Entity monster[][]=new Entity[MAX_MAP][20];
 	public ArrayList<Entity> entityList=new ArrayList<>();
@@ -161,7 +161,7 @@ public class GamePanel extends JPanel implements Runnable {
 			ui.drawCharacterScreen();
 		}
 		if(gameState==dialogueState) {
-			ui.drawDialogueScreen();
+			ui.drawDialogueScreen(player.npcIndex);
 		}
 		if(gameState==gameOverState) {
 			

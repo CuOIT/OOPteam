@@ -96,7 +96,7 @@ public class UI {
 		}
 		else if(gp.gameState==gp.dialogueState)
 		{	drawPlayerLife();
-			drawDialogueScreen();
+			drawDialogueScreen(gp.player.npcIndex);
 		}
 		else if(gp.gameState==gp.characterState)
 		{
@@ -214,7 +214,7 @@ public class UI {
 		g2.drawString(text,x3,y3);
 	}
 	 
-	public void drawDialogueScreen() {
+	public void drawDialogueScreen(int i) {
 			int x = gp.TILE_SIZE*2;
 			int y = gp.TILE_SIZE/2;
 			int width= gp.SCREEN_WIDTH - (gp.TILE_SIZE*4);
@@ -224,51 +224,62 @@ public class UI {
 			g2.setFont(g2.getFont().deriveFont(Font.PLAIN,32F));//marumonica
 			x+=gp.TILE_SIZE;
 			y+=gp.TILE_SIZE;
-
 			
-			switch(gp.player.currentMission) {
-			case 0:
-				currentDialogue=gp.player.dialogue[0];
-				g2.drawString(currentDialogue,x,y);
-				gp.player.currentMission++;
-				break;
-			case 1:
-				currentDialogue=gp.npc[gp.currentMap][0].dialogue[gp.npc[gp.currentMap][0].numberDialogue];
-				if(currentDialogue!=null) {
-					g2.drawString(currentDialogue,x,y);
-				}else {
-					gp.npc[gp.currentMap][gp.player.npcIndex].numberDialogue=10;
-					gp.gameState=gp.playState;
-				}
-				break;
-			case 2:
-				//Nhiem vu giet lon
-				if(gp.player.npcIndex==0)
-				currentDialogue=gp.npc[gp.currentMap][0].dialogue[12];
-			else if(gp.player.npcIndex==1)
-				currentDialogue=gp.npc[gp.currentMap][1].dialogue[gp.npc[gp.currentMap][1].numberDialogue];
-				if(currentDialogue!=null) {
-					g2.drawString(currentDialogue,x,y);
-				}
-				else {
-					gp.npc[gp.currentMap][gp.player.npcIndex].numberDialogue=5;
-					gp.gameState=gp.playState;
-				}
-			break;
-			case 3:
-				if(gp.player.npcIndex==0)
-				{
-					gp.gameState=gp.playState;
-				}
-				else if(gp.player.npcIndex==1)
-					currentDialogue=gp.npc[gp.currentMap][1].dialogue[gp.npc[gp.currentMap][1].numberDialogue];
-					if(currentDialogue!=null) {
-						g2.drawString(currentDialogue,x,y);
-					}
-				break;
-			case 4:
-				break;
+			if(gp.player.currentMission==0) {
+			currentDialogue=gp.player.dialogue[0][0];
+			g2.drawString(currentDialogue,x,y);
+			gp.player.currentMission++;
 			}
+			else {
+			currentDialogue=gp.npc[gp.currentMap][i].dialogue[gp.player.currentMission][gp.npc[gp.currentMap][i].numberDialogue];
+			System.out.println("[ "+i+" ]: "+currentDialogue);
+			if(currentDialogue!=null) {
+				g2.drawString(currentDialogue, x, y);
+			}
+			}
+//			switch(gp.player.currentMission) {
+//			case 0:
+//				currentDialogue=gp.player.dialogue[0];
+//				g2.drawString(currentDialogue,x,y);
+//				gp.player.currentMission++;
+//				break;
+//			case 1:
+//				currentDialogue=gp.npc[gp.currentMap][0].dialogue[gp.npc[gp.currentMap][0].numberDialogue];
+//				if(currentDialogue!=null) {
+//					g2.drawString(currentDialogue,x,y);
+//				}else {
+//					gp.npc[gp.currentMap][gp.player.npcIndex].numberDialogue=10;
+//					gp.gameState=gp.playState;
+//				}
+//				break;
+//			case 2:
+//				//Nhiem vu giet lon
+//				if(gp.player.npcIndex==0)
+//				currentDialogue=gp.npc[gp.currentMap][0].dialogue[12];
+//			else if(gp.player.npcIndex==1)
+//				currentDialogue=gp.npc[gp.currentMap][1].dialogue[gp.npc[gp.currentMap][1].numberDialogue];
+//				if(currentDialogue!=null) {
+//					g2.drawString(currentDialogue,x,y);
+//				}
+//				else {
+//					gp.npc[gp.currentMap][gp.player.npcIndex].numberDialogue=5;
+//					gp.gameState=gp.playState;
+//				}
+//			break;
+//			case 3:
+//				if(gp.player.npcIndex==0)
+//				{
+//					gp.gameState=gp.playState;
+//				}
+//				else if(gp.player.npcIndex==1)
+//					currentDialogue=gp.npc[gp.currentMap][1].dialogue[gp.npc[gp.currentMap][1].numberDialogue];
+//					if(currentDialogue!=null) {
+//						g2.drawString(currentDialogue,x,y);
+//					}
+//				break;
+//			case 4:
+//				break;
+//			}
 	}
 	public void drawTitleScreen() {
 		g2.setColor(new Color(70,120,80));

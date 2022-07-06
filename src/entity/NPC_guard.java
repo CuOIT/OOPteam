@@ -32,16 +32,15 @@ public class NPC_guard extends Entity{
 		right2=setup("/npc/guard_Up2",gp.TILE_SIZE,gp.TILE_SIZE);
 	}
 	public void setDialogue() {
-		dialogue[0]="Where is this???";
-		dialogue[1]="You're in Mystery Island.";
-		dialogue[2]="How can I get out there?";
-		dialogue[3]="Let's meet our headman. He will give you the solution.";
-		dialogue[4]="Where can I find him?";
-		dialogue[5]="Firstly, you have to find 5 apple in the jungle in order to prove that you're worthy to meet him";
-		dialogue[6]="After that, I will let you come to meet him.";
-		dialogue[7]="Careful with the boars. They're stronger than you think.";
-		dialogue[10]="You don't have enough apples!\nYou have to find 5 apple in the jungle!";
-		dialogue[12]="Niceee.. Go to the East and you will see the headman!";
+		dialogue[1][0]="Where is this???";
+		dialogue[1][1]="You're in Mystery Island.";
+		dialogue[1][2]="How can I get out there?";
+		dialogue[1][3]="Let's meet our headman. He will give you the solution.";
+		dialogue[1][4]="Where can I find him?";
+		dialogue[1][5]="Firstly, you have to find 5 apple in the jungle in order to prove that you're worthy to meet him";
+		dialogue[2][6]="Niceee..I have a gift for you. It will be helpful soon";
+		dialogue[2][7]="And now, go to the East and you will see the headman!";
+		
 	}
 	public void setAction() {
 		actionLockCounter++;

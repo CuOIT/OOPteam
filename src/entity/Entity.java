@@ -1,4 +1,5 @@
-	package entity;
+package entity;
+
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -46,30 +47,18 @@ public abstract class Entity {
 	public int defaultSpeed;
 	public int knockBackPower = 0;
 	public int numberDialogue;
-	public String[] dialogue = new String[20];
+	public String[][] dialogue = new String[10][20];
+	//10-maxMission 20-dialogue per mission
 	public int type;//0-player;1-npc;2-monster;
 	final int playerType=0;
 	int monsterType=1;
 	int guardType=2;
 	int	headManType=3;
 	public int attack;
-//	public int level;
-//	public int strength;
-//	public int dexterity;
-//	public int defense;
-//	public int exp;
-//	public int nextLevelExp;
-//	public int coin;
 	public Entity currentWeapon;
-	//public Entity currentProjectile; 
-	// bo sung itemdrops(Dang)
-		public int type_pickupOnly = 7;
-		public int value;
-		// bo sung projectile(dang)
+	public int type_pickupOnly = 7;
 	public Projectile projectile;
-		// het bo sung
-	public int attackValue;
-	public int defenseValue;
+
 	public ArrayList<Entity> inventory = new ArrayList<>();
 	public int amount = 0;
 	public boolean stackable = false;
@@ -78,8 +67,7 @@ public abstract class Entity {
 		this.gp=gp;
 	}
 	
-	public void setAction() {
-		
+	public void setAction() {	
 	};
 	public void damageReaction(){
 
@@ -192,12 +180,12 @@ public abstract class Entity {
 	}
 	public void checkDrop(){
 	}
-	public void dropItem(Entity droppedItem){
+	public void dropItem(Entity droppedItem,int x,int y){
 		for(int i = 0; i< gp.obj[0].length; i++){
 			if(gp.obj[gp.currentMap][i] == null){
 				gp.obj[gp.currentMap][i] = droppedItem; 
-				gp.obj[gp.currentMap][i].worldX = worldX; // the dead monster's worldX
-				gp.obj[gp.currentMap][i].worldY = worldY;
+				gp.obj[gp.currentMap][i].worldX = x; // the dead monster's worldX
+				gp.obj[gp.currentMap][i].worldY = y;
 				break;
 			} 
 		}

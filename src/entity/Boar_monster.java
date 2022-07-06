@@ -181,7 +181,7 @@ public class Boar_monster extends Entity{
 
 }	
 	public void checkDrop(){
-		dropItem(new OBJ_Tooth(gp));
+		dropItem(new OBJ_Tooth(gp),worldX,worldY);
 	}
 }
 

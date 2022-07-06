@@ -25,26 +25,6 @@ public class TileManager {
 	loadMap("/map/cave.txt",1);
 	}
 	public void getTileImage() {
-//		setup(0,"water",true);
-//		setup(1,"beach_above_sand",false);
-//		setup(2,"beach_sand_Rightcorner",false);
-//		setup(3,"beach_sand_right",false);
-//		setup(4,"beach_sand_leftunder",false);
-//		setup(5,"beach_sand_left",false);
-//		setup(6,"grass",false);
-//		setup(7,"tree_sand",true);
-//		setup(8,"Pine_tree",true);
-//		setup(9,"sand",false);
-//		setup(10,"beach_sand_Leftcorner",false);
-//		setup(11,"Palm_tree",true);
-//		setup(12,"earth",false);
-//		setup(13,"beach_above_2_sand",false);
-//		setup(14,"beach_sand_rightunder",false);
-//		setup(15,"beach_sand_leftunder_2",false);
-//		setup(16,"sand_water_corner_right",false);
-//		setup(17,"sand_water_corner_left",false);
-//		setup(18,"beach_sand_Leftcorner_2",false);
-//		setup(19,"beach_sand_Leftcorner_3",false);
 		setup(0,"water",true);
 		setup(1,"sand",false);
 		setup(2,"grass1",false);
@@ -62,15 +42,15 @@ public class TileManager {
 		
 		
 		//Nui
-		setup(11,"mountain.above",false);
-		setup(12,"mountain.right.above",false);
-		setup(13,"mountain.right.side",false);
+		setup(11,"mountain.above",true);
+		setup(12,"mountain.right.above",true);
+		setup(13,"mountain.right.side",true);
+		setup(15,"moutain.left.above",true);
+		setup(16,"moutain.left.side",true);
+		setup(17,"moutain.left.under",true);
+		setup(18,"moutain.right.under",true);
+		setup(19,"moutain.under",true);
 		setup(14,"mountain.stair",false);
-		setup(15,"moutain.left.above",false);
-		setup(16,"moutain.left.side",false);
-		setup(17,"moutain.left.under",false);
-		setup(18,"moutain.right.under",false);
-		setup(19,"moutain.under",false);
 		
 		//Ho
 		setup(20,"lake",true);
@@ -137,7 +117,8 @@ public class TileManager {
 		setup(71,"right.under.corner",false);
 		setup(72,"dark.water2",false);
 		setup(73,"mountain2",false);
-		
+		setup(74,"black",true);
+			setup(75,"ground2",true);
 		
 	}
 	public void setup(int index,String imagePath,boolean collision) {
