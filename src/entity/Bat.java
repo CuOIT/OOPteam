@@ -10,19 +10,20 @@ import java.util.Random;
 import object.OBJ_Heart;
 import object.OBJ_Rock;
 import object.OBJ_Tooth;
-public class Boar_monster extends Entity{
-	GamePanel gp;
-	public Boar_monster(GamePanel gp) {
+
+public class Bat extends Entity {
+    GamePanel gp;
+	public Bat(GamePanel gp) {
         super(gp);
 		this.gp = gp;
     type = MONSTER_TYPE;
-	name = "Boar_Monster";
+	name = "Bat";
     defaultSpeed = 1;
 	speed = defaultSpeed;
     maxLife= 4;
     life=maxLife;
-    attack=1;
-    
+    projectile = new OBJ_Rock(gp);
+
     solidArea.x = 3; 
     solidArea.y= 18;
     solidArea.width = 42;
@@ -33,14 +34,14 @@ public class Boar_monster extends Entity{
     getImage();
     }
     public void getImage(){
-        up1=setup("/monster/Boar_Left_1", gp.TILE_SIZE, gp.TILE_SIZE);
-		up2=setup("/monster/Boar_Right_1", gp.TILE_SIZE, gp.TILE_SIZE);
-		down1=setup("/monster/Boar_Left_1", gp.TILE_SIZE, gp.TILE_SIZE);
-		down2=setup("/monster/Boar_Right_2", gp.TILE_SIZE, gp.TILE_SIZE);
-		left1=setup("/monster/Boar_Left_1", gp.TILE_SIZE, gp.TILE_SIZE);
-		left2=setup("/monster/Boar_Left_2", gp.TILE_SIZE, gp.TILE_SIZE);
-		right1=setup("/monster/Boar_Right_1", gp.TILE_SIZE, gp.TILE_SIZE);
-		right2=setup("/monster/Boar_Right_2", gp.TILE_SIZE, gp.TILE_SIZE);
+        up1=setup("/monster/bat.up.1", gp.TILE_SIZE, gp.TILE_SIZE);
+		up2=setup("/monster/bat.up.2", gp.TILE_SIZE, gp.TILE_SIZE);
+		down1=setup("/monster/bat.down.1", gp.TILE_SIZE, gp.TILE_SIZE);
+		down2=setup("/monster/bat.down.2", gp.TILE_SIZE, gp.TILE_SIZE);
+		left1=setup("/monster/bat.left.1", gp.TILE_SIZE, gp.TILE_SIZE);
+		left2=setup("/monster/bat.left.2", gp.TILE_SIZE, gp.TILE_SIZE);
+		right1=setup("/monster/bat.right.1", gp.TILE_SIZE, gp.TILE_SIZE);
+		right2=setup("/monster/bat.right.2", gp.TILE_SIZE, gp.TILE_SIZE);
     }
     public void setAction(){
         actionLockCounter++;
@@ -64,11 +65,15 @@ public class Boar_monster extends Entity{
 			}
 			actionLockCounter=0;
 		}
+        int i = new Random().nextInt(100)+1;
+		if( i != 99 && type == MONSTER_TYPE && shotAvailableCounter >= 60){
+			projectile.set(worldX, worldY, direction , true, this);
+        	gp.projectileList.add(projectile);
+			shotAvailableCounter = 0;
+		}
 
-		if(distanceToPlayer()<200) pathFinding();
-		else speed=1;
     }
-    //Tinh khoang cach den nhan vat
+    
     public void draw(Graphics2D g2) {
 		BufferedImage image=null;
 		int screenX = worldX - gp.player.worldX + gp.player.screenX;
@@ -137,6 +142,7 @@ public class Boar_monster extends Entity{
 				screenY=gp.SCREEN_HEIGHT- (gp.worldHeight-worldY);
 		 }		
 		 // THEM TU DONG  THANH MAU CUA CON QUAI(DANG)
+		 if(hpBarOn == true ){
 			double oneScale = (double)gp.TILE_SIZE/maxLife;
 			double hpBarValue = oneScale*life;
 
@@ -146,25 +152,21 @@ public class Boar_monster extends Entity{
 			g2.setColor(new Color(255,0,30));
 			g2.fillRect(screenX , screenY - 15, (int)hpBarValue, 10);
 			
-			g2.drawImage(image,screenX,screenY,width,height,null); 
-			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f));
-			changeAlpha(g2,1F);
-		// HET BO SUNG(DANG)
-	// bo sung hieu ung quai chet di tu 194-231(DANG)
+			hpBarCounter++;
+
+			if(hpBarCounter > 1000){
+				hpBarCounter = 0;
+				hpBarOn = false;
+			}
+		}	
+		
+		g2.drawImage(image,screenX,screenY,width,height,null); 
+	
+		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f));
+		changeAlpha(g2,1F);
+
 	}
-    public double distanceToPlayer(){
-    	return Math.sqrt(Math.pow(this.worldX-gp.player.worldX,2)+Math.pow(this.worldY-gp.player.worldY,2));
-    }
-    public void pathFinding() {
-    	this.speed=4;
-    	if(Math.abs(this.worldY-gp.player.worldY)>10) {
-    	if(this.worldY<gp.player.worldY) direction="down";
-    	else direction="up";
-    	}
-    	else if(this.worldX<gp.player.worldX) direction="right";
-    	else direction="left";
-    	
-    }
+
 
     public void damageReaction(){
 	actionLockCounter = 0;
@@ -172,8 +174,7 @@ public class Boar_monster extends Entity{
 
 }	
 	public void checkDrop(){
-		dropItem(new OBJ_Tooth(gp),worldX,worldY);
+		dropItem(new OBJ_Heart(gp),worldX,worldY);
 	}
 }
-
 

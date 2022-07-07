@@ -21,6 +21,17 @@ public class KeyHandler implements KeyListener{
 	public void keyPressed(KeyEvent e)
 	{
 		int code=e.getKeyCode();
+		if(code == KeyEvent.VK_F11) {
+			if(gp.ui.fullScreen=false)
+			{
+			gp.setFullScreen();
+			gp.ui.fullScreen=true;
+			}
+			else{
+				gp.drawToTempScreen();
+				gp.ui.fullScreen=false;
+			}
+		}
 		if(gp.gameState==gp.PLAY_STATE) {
 					playState(code);
 		}
@@ -107,7 +118,7 @@ public class KeyHandler implements KeyListener{
 		if(code==KeyEvent.VK_ENTER) {
 		enterPressed=true;
 		if(gp.ui.subState==0) {
-			gp.gameState=gp.PLAY_STATE;
+			gp.gameState=gp.DIALOGUE_STATE;
 		}
 		else if(gp.ui.subState==1) {
 			//draw SFX

@@ -37,6 +37,22 @@ public class Projectile extends Entity {
             case "down": worldY += speed; break;
             case "left": worldX -= speed; break;
             case "right": worldX += speed; break;
+            case "upleft":
+            	worldX-=speed;
+            	worldY-=speed;
+            break;
+            case "upright":
+            	worldX+=speed;
+            	worldY-=speed;
+            break;
+            case "downleft":
+            	worldX-=speed;
+            	worldY+=speed;
+            break;
+            case "downright":
+            	worldX+=speed;
+            	worldY+=speed;
+            break;
         }
 
         life --;

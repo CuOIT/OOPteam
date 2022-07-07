@@ -14,49 +14,59 @@ import main.GamePanel;
 import main.UtilityTool;
 public abstract class Entity {
 	GamePanel gp;
+	public String name;
 	public int worldX,worldY;	
 	public int speed;
-	public BufferedImage up1,up2,down1,down2,left1,left2,right1,right2;
-	public BufferedImage attackup1, attackup2, attackdown1, attackdown2, attackleft1, attackleft2, attackright1, attackright2;
-	public String direction="down";
+	
+	
+	//Graphics
 	public int spriteCounter=0;
 	public int spriteNum=1;
-	public Rectangle solidArea = new Rectangle(0,0,48,48);
+	public BufferedImage up1,up2,down1,down2,left1,left2,right1,right2;
+	public BufferedImage attackup1, attackup2, attackdown1, attackdown2, attackleft1, attackleft2, attackright1, attackright2;
 	public BufferedImage image,image2,image3;
-	public String name;
-	public Rectangle attackArea = new Rectangle(0,0,0,0);
-	public int solidAreaDefaultX,solidAreaDefaultY;
+	public String direction="down";
+	
+	//Collsion
 	public boolean collisionOn=false;
+	public int solidAreaDefaultX,solidAreaDefaultY;
+	public Rectangle solidArea = new Rectangle(0,0,48,48);
+	public Rectangle attackArea = new Rectangle(0,0,0,0);
+	
+	//HP
 	public int maxLife;
 	public int life;
 	public int hp;
 	public int maxHp;
+	boolean hpBarOn = false;
+	int hpBarCounter = 0;
+	
+	//Attacking
 	public int actionLockCounter=0;
+	public int shotAvailableCounter = 0;
+	boolean attacking = false;
+	public int attack;
 	public boolean invincible=false;
 	public int invincibleCounter = 0;//  creating invincible time(DANG)
-	boolean attacking = false;
 	public boolean collision;
-	public int shotAvailableCounter = 0;
+	
 	public int width;
 	public int height;
+	
+	//State
 	public boolean alive=true;
 	public boolean dying=false;
 	public int dyingcounter;
-	boolean hpBarOn = false;
-	int hpBarCounter = 0;
 	public boolean knockBack = false;
-	int knockBackCounter = 0;
+	int knockBackCounter;
 	public int defaultSpeed;
-	public int knockBackPower = 0;
+	public int knockBackPower;
 	public int numberDialogue;
 	public String[][] dialogue = new String[10][20];
 	//10-maxMission 20-dialogue per mission
-	public int type;//0-player;1-npc;2-monster;
-	final int playerType=0;
-	int monsterType=1;
-	int guardType=2;
-	int	headManType=3;
-	public int attack;
+	public int type;//0-non_monster;1-monster;
+	public final int MONSTER_TYPE=1;
+
 	public Entity currentWeapon;
 	public Entity bow;
 	public Projectile projectile;
@@ -82,7 +92,7 @@ public abstract class Entity {
 		gp.cChecker.checkEntity(this, gp.monster); // checking collision between Entities(DANG)
 		boolean contactPlayer = gp.cChecker.checkPlayer(this);
 
-		if(this.type == monsterType && contactPlayer == true){
+		if(this.type == MONSTER_TYPE && contactPlayer == true){
 			damagePlayer(attack);
 			
 		}
@@ -124,7 +134,7 @@ public abstract class Entity {
 		gp.cChecker.checkEntity(this, gp.monster); // checking collision between Entities(DANG)
 		boolean contactPlayer = gp.cChecker.checkPlayer(this);
 
-		if(this.type == monsterType && contactPlayer == true){
+		if(this.type == MONSTER_TYPE && contactPlayer == true){
 			damagePlayer(attack);
 		}
 		if(collisionOn==false) {
@@ -164,15 +174,14 @@ public abstract class Entity {
 			}	
 		}
 		// bo sung projectile(Dang)
-		if(shotAvailableCounter < 30){
+		
 			shotAvailableCounter ++;
-		}
 		// het bo sung
 	}
 	public void damagePlayer(int attack){
 		if(gp.player.invincible == false){
 			//we can give damage
-			gp.player.life -= attack;
+			gp.player.hp -= attack;
 			gp.player.invincible = true;
 		}
 	}
@@ -234,6 +243,26 @@ public abstract class Entity {
 				if(spriteNum==2)
 					image=right2;
 			break;
+		case "upleft":
+			if(spriteNum==1)
+			image=up1;
+			if(spriteNum==2)
+				image=up2;
+		case "upright":
+			if(spriteNum==1)
+			image=up1;
+			if(spriteNum==2)
+				image=up2;
+		case "downleft":
+			if(spriteNum==1)
+			image=up1;
+			if(spriteNum==2)
+				image=up2;
+		case "downright":
+			if(spriteNum==1)
+			image=up1;
+			if(spriteNum==2)
+				image=up2;
 		}
 
 		if(invincible == true){
@@ -262,7 +291,7 @@ public abstract class Entity {
 				screenY=gp.SCREEN_HEIGHT- (gp.worldHeight-worldY);
 		 }		
 		 // THEM TU DONG  THANH MAU CUA CON QUAI(DANG)
-		 if(type == monsterType && hpBarOn == true ){
+		 if(type == MONSTER_TYPE ){
 			double oneScale = (double)gp.TILE_SIZE/maxLife;
 			double hpBarValue = oneScale*life;
 
@@ -272,20 +301,12 @@ public abstract class Entity {
 			g2.setColor(new Color(255,0,30));
 			g2.fillRect(screenX , screenY - 15, (int)hpBarValue, 10);
 			
-			hpBarCounter++;
-
-			if(hpBarCounter > 600){
-				hpBarCounter = 0;
-				hpBarOn = false;
-			}
 		}	
 		
 		g2.drawImage(image,screenX,screenY,width,height,null); 
-	
 		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f));
 		changeAlpha(g2,1F);
-		// HET BO SUNG(DANG)
-	// bo sung hieu ung quai chet di tu 194-231(DANG)
+
 	}
 	public void dyingAnimation(Graphics2D g2){
 		dyingcounter++;

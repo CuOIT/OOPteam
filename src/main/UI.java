@@ -18,8 +18,7 @@ public class UI {
 	Font arial_40,arial_80B;
 	GamePanel gp;
 	Graphics2D g2;
-	BufferedImage heart_full,heart_half,heart_plank;
-	public boolean gameFinished = false; 
+	public boolean fullScreen = false; 
 	Menu menu=new Menu(gp);
 	//ArrayList<String> message = new ArrayList<>();
 	//ArrayList<Integer> messageCounter = new ArrayList<>();
@@ -30,21 +29,7 @@ public class UI {
 	public int slotRow = 0 ;
 	public int subState=0;
 	public UI(GamePanel gp) {
-		this.gp=gp;
-
-//		try {
-//			//FONT CHU
-//		}catch(FontFormatException e) {
-//			e.printStackTrace();
-//		}catch(IOException e) {
-//			e.printStackTrace();
-//		}
-		Entity heart = new OBJ_Heart(gp);
-		heart_full=heart.image;
-		heart_half=heart.image2;
-		heart_plank=heart.image3;	
-
-		
+		this.gp=gp;	
 	}
 
 	public void draw(Graphics2D g2) {
@@ -167,8 +152,16 @@ public class UI {
 		g2.setColor(new Color(255,0,30));
 		g2.fillRoundRect(x , y - 15, (int)hpBarValue , 23, 20, 20);
 
-		for (int i=0;i<gp.player.life;i++) {
-			g2.drawImage(heart_full , x + 6 + gp.TILE_SIZE * i , y +6 , null);
+		try {
+			BufferedImage heartImage=ImageIO.read(getClass().getResourceAsStream("/objects/hp_full.png"));
+			heartImage=UtilityTool.scaledImage(heartImage, gp.TILE_SIZE, gp.TILE_SIZE);
+			
+			
+			for (int i=0;i<gp.player.life;i++) {
+				g2.drawImage(heartImage , x + 6 + gp.TILE_SIZE * i , y +6 , null);
+			}
+		} catch (IOException e1) {
+			e1.printStackTrace();
 		}
 		
 		//DEBUG
@@ -208,49 +201,7 @@ public class UI {
 				g2.drawString(currentDialogue, x, y);
 			}
 			}
-//			switch(gp.player.currentMission) {
-//			case 0:
-//				currentDialogue=gp.player.dialogue[0];
-//				g2.drawString(currentDialogue,x,y);
-//				gp.player.currentMission++;
-//				break;
-//			case 1:
-//				currentDialogue=gp.npc[gp.currentMap][0].dialogue[gp.npc[gp.currentMap][0].numberDialogue];
-//				if(currentDialogue!=null) {
-//					g2.drawString(currentDialogue,x,y);
-//				}else {
-//					gp.npc[gp.currentMap][gp.player.npcIndex].numberDialogue=10;
-//					gp.gameState=gp.playState;
-//				}
-//				break;
-//			case 2:
-//				//Nhiem vu giet lon
-//				if(gp.player.npcIndex==0)
-//				currentDialogue=gp.npc[gp.currentMap][0].dialogue[12];
-//			else if(gp.player.npcIndex==1)
-//				currentDialogue=gp.npc[gp.currentMap][1].dialogue[gp.npc[gp.currentMap][1].numberDialogue];
-//				if(currentDialogue!=null) {
-//					g2.drawString(currentDialogue,x,y);
-//				}
-//				else {
-//					gp.npc[gp.currentMap][gp.player.npcIndex].numberDialogue=5;
-//					gp.gameState=gp.playState;
-//				}
-//			break;
-//			case 3:
-//				if(gp.player.npcIndex==0)
-//				{
-//					gp.gameState=gp.playState;
-//				}
-//				else if(gp.player.npcIndex==1)
-//					currentDialogue=gp.npc[gp.currentMap][1].dialogue[gp.npc[gp.currentMap][1].numberDialogue];
-//					if(currentDialogue!=null) {
-//						g2.drawString(currentDialogue,x,y);
-//					}
-//				break;
-//			case 4:
-//				break;
-//			}
+
 	}
 	public void drawTitleScreen() {
 		g2.setColor(new Color(70,120,80));
@@ -269,12 +220,6 @@ public class UI {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		//g2.setColor(new (60,60,60));
-//	String start="START";	
-//	int x1=getXforCenteredText(start);
-//	int y1=gp.TILE_SIZE*5;
-//	g2.setFont(g2.getFont().deriveFont(Font.PLAIN,50F));
-//	g2.drawString(start, x1, y1);
 		BufferedImage[][] menuButton=new BufferedImage[3][3];
 		BufferedImage menuImage=null;
 				try {

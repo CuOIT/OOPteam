@@ -206,9 +206,6 @@ public class Player extends Entity{
 				invincibleCounter = 0;
 			}
 		}
-		if(shotAvailableCounter < 30){
-			shotAvailableCounter ++;
-		}
 		// het bo sung
 		// bo sung (Dang)
 		if(life > maxLife){
@@ -217,7 +214,7 @@ public class Player extends Entity{
 		if(hp > maxHp) {
 			hp = maxHp;
 		}
-		if (hp == 0) {
+		if (hp <= 0) {
 			if(life > 0) {
 				life --;
 				hp = maxHp;
@@ -364,6 +361,7 @@ public class Player extends Entity{
 	public void contactMonster(int i){
 		if(i !=999){
 			if(invincible == false){
+
 				hp-=gp.monster[gp.currentMap][i].attack;
 			invincible = true;	
 			}

@@ -92,7 +92,7 @@ public class GamePanel extends JPanel implements Runnable {
 		
 		tempScreen=new BufferedImage(SCREEN_WIDTH,SCREEN_HEIGHT,BufferedImage.TYPE_INT_ARGB);
 		g2=(Graphics2D)tempScreen.getGraphics();
-		//setFullScreen();
+		
 		}
 	public void startGameThread() {
 		gameThread = new Thread(this);
@@ -126,7 +126,7 @@ public class GamePanel extends JPanel implements Runnable {
 				timer=0;
 			}
 		}
-		System.exit(1);
+			System.exit(1);
 	}
 	public void update() {
 		if(gameState==PLAY_STATE) 
