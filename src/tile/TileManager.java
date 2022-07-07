@@ -122,11 +122,10 @@ public class TileManager {
 		
 	}
 	public void setup(int index,String imagePath,boolean collision) {
-		UtilityTool uTool=new UtilityTool();
 		try {
 			tile[index]=new Tile();
 			tile[index].image=ImageIO.read(getClass().getResourceAsStream("/tiles/"+imagePath+".png"));
-			tile[index].image=uTool.scaledImage(tile[index].image, gp.TILE_SIZE, gp.TILE_SIZE);
+			tile[index].image=UtilityTool.scaledImage(tile[index].image, gp.TILE_SIZE, gp.TILE_SIZE);
 			tile[index].collision=collision;
 		}
 		catch(IOException e) {

@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
@@ -182,38 +183,50 @@ public class UI {
 //		g2.drawString("Quit ", textX, textY);
 		
 	}
+	//sua code o day dong 188-208
 	public void drawPlayerLife() {
-		int x=gp.TILE_SIZE/2;
-		int y=gp.TILE_SIZE/2;
-		int temp=0;
-		//temp luu so tym
-		while(temp<gp.player.maxLife/2) {
-			g2.drawImage(heart_plank,x,y,null);
-			temp++;
-			x+=gp.TILE_SIZE;
+		
+		
+		
+		
+		
+		// FRAME
+		int frameX = gp.TILE_SIZE ;
+		int frameY = gp.TILE_SIZE * 3 /2;
+		int frameWidth = gp.TILE_SIZE*4;
+		int frameHeight = gp.TILE_SIZE / 5 *2 ;
+		
+
+		double oneScale = (double)gp.TILE_SIZE/gp.player.maxHp;
+		double hpBarValue = oneScale* gp.player.hp * 4;
+		g2.setColor(new Color(35, 35, 35));
+		g2.fillRoundRect(frameX - 1, frameY - 16,frameWidth  ,frameHeight +6, 20, 20);
+		
+		g2.setColor(new Color(255,0,30));
+		g2.fillRoundRect(frameX , frameY - 15, (int)hpBarValue , 23, 20, 20);
+
+		for (int i=0;i<gp.player.life;i++) {
+			g2.drawImage(heart_full , frameX + 6 + gp.TILE_SIZE * i , frameY +6 , null);
 		}
-		for(int i=1;i<=gp.player.life/2;i++)
+		
+		//draw Weapon
+		
+		if(gp.player.currentWeapon!=null)
+		
 		{
-			g2.drawImage(heart_full,x-(6-i)*gp.TILE_SIZE,y,null);
+			BufferedImage wImage=gp.player.currentWeapon.down1;
+			wImage=UtilityTool.scaledImage(wImage, gp.TILE_SIZE/2, gp.TILE_SIZE/2);
+			g2.drawImage(wImage , frameX + gp.TILE_SIZE * 4, frameY , null);
 		}
-		if(gp.player.life%2!=0 && gp.player.life>0) g2.drawImage(heart_half,x-(5-(gp.player.life/2))*gp.TILE_SIZE,y,null);
-		int x1=gp.TILE_SIZE*2;
-		int y1=gp.TILE_SIZE*4;
-		int x2=gp.TILE_SIZE*2;
-		int y2=gp.TILE_SIZE*5;
-		int x3=gp.TILE_SIZE*2;
-		int y3=gp.TILE_SIZE*6;
+		else if (gp.player.projectile != null){
+			BufferedImage pImage=gp.player.projectile.down1;
+			pImage=UtilityTool.scaledImage(pImage, gp.TILE_SIZE/2, gp.TILE_SIZE/2);
+			g2.drawImage(pImage , frameX + gp.TILE_SIZE * 4, frameY , null);
+		}
 		
-		//DEBUG
-		
-		String wX=String.valueOf(gp.player.worldX/gp.TILE_SIZE);
-		String wY=String.valueOf(gp.player.worldY/gp.TILE_SIZE);
-		String text=String.valueOf(gp.player.currentMission);
-		g2.drawString(wX,x1,y1);
-		g2.drawString(wY, x2, y2);
-		g2.drawString(text,x3,y3);
 	}
-	 
+	
+
 	public void drawDialogueScreen(int i) {
 			int x = gp.TILE_SIZE*2;
 			int y = gp.TILE_SIZE/2;
@@ -322,76 +335,76 @@ public class UI {
 		int slotSize = gp.TILE_SIZE + 3;
 		
 		//DRAW PLAYER'S ITEMS
-		for(int i= 0;i< gp.player.inventory.size();i++) {
-			
-			//them code tu 328-333
-			//EQUIP CURSOR
-			if(gp.player.inventory.get(i) == gp.player.currentWeapon ||
-					gp.player.inventory.get(i) == gp.player.projectile) {
-				g2.setColor(new Color(240,190,90));
-				g2.fillRoundRect(slotX, slotY, gp.TILE_SIZE, gp.TILE_SIZE, 10,10);
-			}//them code den day 333
-			
-			g2.drawImage(gp.player.inventory.get(i).down1,slotX, slotY, null);
-			if(gp.player.inventory.get(i).amount >1) {
-
-				g2.setFont(g2.getFont().deriveFont(32f));
-				int amountX;
-				int amountY;
-
-				String s = "" + gp.player.inventory.get(i).amount;
-				amountX = getXforAlignToRightText(s, slotX +44) ;
-				amountY = slotY + gp.TILE_SIZE ;
-
-				//SHADOW
-				g2.setColor(new Color(60,60,60));
-				g2.drawString(s, amountX, amountY);
-				//NUMBER
-				g2.setColor(Color.white);
-				g2.drawString(s, amountX, amountY);
-			}
-			slotX += slotSize;
+				for(int i= 0;i< gp.player.inventory.size();i++) {
 					
-			if(i==4 || i==9 || i==14) {
-				slotX = slotXstart;
-				slotY += slotSize;
+					//them code tu 328-333
+					//EQUIP CURSOR
+					if(gp.player.inventory.get(i) == gp.player.currentWeapon ||
+							gp.player.inventory.get(i) == gp.player.projectile) {
+						g2.setColor(new Color(240,190,90));
+						g2.fillRoundRect(slotX, slotY, gp.TILE_SIZE, gp.TILE_SIZE, 10,10);
+					}//them code den day 333
+					
+					g2.drawImage(gp.player.inventory.get(i).down1,slotX, slotY, null);
+					if(gp.player.inventory.get(i).amount >1) {
+
+						g2.setFont(g2.getFont().deriveFont(32f));
+						int amountX;
+						int amountY;
+
+						String s = "" + gp.player.inventory.get(i).amount;
+						amountX = getXforAlignToRightText(s, slotX +44) ;
+						amountY = slotY + gp.TILE_SIZE ;
+
+						//SHADOW
+						g2.setColor(new Color(60,60,60));
+						g2.drawString(s, amountX, amountY);
+						//NUMBER
+						g2.setColor(Color.white);
+						g2.drawString(s, amountX, amountY);
+					}
+					slotX += slotSize;
+							
+					if(i==4 || i==9 || i==14) {
+						slotX = slotXstart;
+						slotY += slotSize;
+					}
+				}
+				
+				//CURSOR
+				int cursorX = slotXstart + (slotSize * slotCol -2);
+				int cursorY = slotXstart + (slotSize * slotRow -379);
+				int cursorWidth= gp.TILE_SIZE  ;
+				int cursorHeight= gp.TILE_SIZE ;
+				
+				//DRAW CURSOR
+				g2.setColor(Color.white);
+				g2.setStroke(new BasicStroke(3));
+				g2.drawRoundRect(cursorX, cursorY, cursorWidth, cursorHeight, 10, 10);
+				
+				// DESCRIPTION FRAME 
+				int dFrameX = frameX;
+				int dFrameY = frameY+ frameHeight;
+				int dFrameWidth = frameWidth;
+				int dFrameHeight = gp.TILE_SIZE*3;
+				// cut dong nay drawsubwindow
+				
+				
+				// DRAW DESCRIPTION TEXT
+				int textX = dFrameX + 20;
+				int textY = dFrameY + gp.TILE_SIZE;
+				g2.setFont(g2.getFont().deriveFont(28F));
+				
+				int itemIndex = getItemIndexOnSlot();
+				if(itemIndex < gp.player.inventory.size()) {
+					//paste 
+					drawSubWindow(dFrameX, dFrameY, dFrameWidth, dFrameHeight);
+					// xuoi day
+					for(String line: gp.player.inventory.get(itemIndex).description.split("\n")) {
+					g2.drawString(line, textX, textY);
+					textY += 32;
 			}
-		}
-		
-		//CURSOR
-		int cursorX = slotXstart + (slotSize * slotCol -2);
-		int cursorY = slotXstart + (slotSize * slotRow -379);
-		int cursorWidth= gp.TILE_SIZE  ;
-		int cursorHeight= gp.TILE_SIZE ;
-		
-		//DRAW CURSOR
-		g2.setColor(Color.white);
-		g2.setStroke(new BasicStroke(3));
-		g2.drawRoundRect(cursorX, cursorY, cursorWidth, cursorHeight, 10, 10);
-		
-		// DESCRIPTION FRAME 
-		int dFrameX = frameX;
-		int dFrameY = frameY+ frameHeight;
-		int dFrameWidth = frameWidth;
-		int dFrameHeight = gp.TILE_SIZE*3;
-		// cut dong nay drawsubwindow
-		
-		
-		// DRAW DESCRIPTION TEXT
-		int textX = dFrameX + 20;
-		int textY = dFrameY + gp.TILE_SIZE;
-		g2.setFont(g2.getFont().deriveFont(28F));
-		
-		int itemIndex = getItemIndexOnSlot();
-		if(itemIndex < gp.player.inventory.size()) {
-			//paste 
-			drawSubWindow(dFrameX, dFrameY, dFrameWidth, dFrameHeight);
-			// xuoi day
-			for(String line: gp.player.inventory.get(itemIndex).description.split("\n")) {
-			g2.drawString(line, textX, textY);
-			textY += 32;
-	}
-	}
+			}
 	}
 	
 public int getItemIndexOnSlot() {

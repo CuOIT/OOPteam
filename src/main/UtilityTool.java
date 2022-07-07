@@ -4,7 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
  
 public class UtilityTool {
-	public BufferedImage scaledImage(BufferedImage original,int width,int height)
+	public static BufferedImage scaledImage(BufferedImage original,int width,int height)
 	{
 		BufferedImage scaledImage = new BufferedImage(width,height,original.getType());
 		Graphics2D g2=scaledImage.createGraphics();

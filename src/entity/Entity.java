@@ -50,14 +50,14 @@ public abstract class Entity {
 	public String[][] dialogue = new String[10][20];
 	//10-maxMission 20-dialogue per mission
 	public int type;//0-player;1-npc;2-monster;
-	final int playerType=0;
+	public final int playerType=0;//them dong code nay
 	int monsterType=1;
 	int guardType=2;
 	int	headManType=3;
 	public final int swordType = 4;//them dong code nay
 	public final int arrowType = 5;//them dong code nay
 	public int attack;
-	public Entity currentWeapon;
+	public Entity currentWeapon=null;
 	public int type_pickupOnly = 7;
 	public Projectile projectile;
 
@@ -175,7 +175,7 @@ public abstract class Entity {
 	public void damagePlayer(int attack){
 		if(gp.player.invincible == false){
 			//we can give damage
-			gp.player.life -= 1;
+			gp.player.hp -= 1;
 			gp.player.invincible = true;
 		}
 	}
@@ -198,13 +198,12 @@ public abstract class Entity {
 		return null;
 	}
 	public BufferedImage setup(String imagePath,int width,int height) {
-		UtilityTool uTool=new UtilityTool();
 		this.width=width;
 		this.height=height;
 		BufferedImage image=null;
 		try {
 			image=ImageIO.read(getClass().getResourceAsStream(imagePath+".png"));
-			image=uTool.scaledImage(image, width, height);
+			image=UtilityTool.scaledImage(image, width, height);
 		}catch(IOException e) {
 			e.printStackTrace();
 		}

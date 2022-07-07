@@ -16,6 +16,7 @@ import main.UtilityTool;
 
 import object.OBJ_Tooth;
 import object.OBJ_Arrow;
+import object.OBJ_Bow;
 import object.OBJ_Sword;
 import object.OBJ_Apple;
 import object.OBJ_Arrow;
@@ -30,6 +31,8 @@ public class Player extends Entity{
 	public int currentMission=0;
 	public int npcIndex;
 	public int strength;
+	public double hp;//them dong code nay
+	public double maxHp = 10;//them dong code nay
 	public Player(GamePanel gp,KeyHandler keyH)
 	{
 		super(gp); 
@@ -61,19 +64,18 @@ public class Player extends Entity{
 		//set character in the center
 		speed=defaultSpeed;
 		direction="down";
-		maxLife=10;
+		maxHp = 10;
+		hp = maxHp;//them dong code nay
+		maxLife=3;//them dong code nay
 		life=maxLife;
-		projectile = new OBJ_Arrow(gp);
+		projectile = new OBJ_Arrow(gp) ;
 		currentWeapon = new OBJ_Sword(gp);//them doan code nay
-
+		
 	}
 	
 	public void setItems() {
 	}
-	public int getAttack() {
-		attackArea = currentWeapon.attackArea;
-		return attack = strength * currentWeapon.attackValue;
-	}
+	
 	public void getPlayerImage() {
 		up1=setup("/player/Up1",gp.TILE_SIZE,gp.TILE_SIZE);
 		up2=setup("/player/Up2",gp.TILE_SIZE,gp.TILE_SIZE);
@@ -196,6 +198,18 @@ public class Player extends Entity{
 		if(life > maxLife){
 			life = maxLife;
 		}
+		if(hp > maxHp) {
+			hp = maxHp;
+		}
+		if (hp == 0) {
+			if(life > 0) {
+				life --;
+				hp = maxHp;
+			}
+			else {
+				gp.gameState = gp.gameOverState;
+			}
+		}
 	}
 	// bo sung tu 160-202(DANG)
 	public void attacking (){
@@ -288,6 +302,8 @@ public class Player extends Entity{
 			 case "Sword":
 				 if(canObtainItem(gp.obj[gp.currentMap][i])==true);
 				 gp.obj[gp.currentMap][i]=null;
+				 currentWeapon = new OBJ_Sword(gp);
+				 attack = currentWeapon.attack;
 				 break; 
 			
 			 case "Bow":
@@ -331,7 +347,7 @@ public class Player extends Entity{
 	public void contactMonster(int i){
 		if(i !=999){
 			if(invincible == false){
-				life-=1;
+				hp-=1;
 			invincible = true;	
 			}
 		}
@@ -344,7 +360,7 @@ public class Player extends Entity{
 					knockBack(gp.monster[gp.currentMap][i], knockBackPower);
 				}
 
-				gp.monster[gp.currentMap][i].life -= 1;
+				gp.monster[gp.currentMap][i].life -= attack;
 				gp.monster[gp.currentMap][i].invincible = true;
 				gp.monster[gp.currentMap][i].damageReaction();
 				if(gp.monster[gp.currentMap][i].life <= 0){
@@ -408,10 +424,14 @@ public class Player extends Entity{
 		if (itemIndex < gp.player.inventory.size()) {
 			Entity selectedItem = gp.player.inventory.get(itemIndex);
 			
-			if (selectedItem.type == swordType || selectedItem.type == arrowType) {
+			if (selectedItem.type == swordType ) {
 				
 				currentWeapon = selectedItem;
-				attack = getAttack();
+				
+				getPlayerAttackImage();
+			}
+			if(selectedItem.type == arrowType) {
+				projectile = (Projectile) selectedItem;
 				getPlayerAttackImage();
 			}
 		}
