@@ -313,11 +313,45 @@ public class Player extends Entity{
 	public void contactMonster(int i){
 		if(i !=999){
 			if(invincible == false){
-				life-=1;
-			invincible = true;	
+				life--;
+				invincible = true;	
 			}
+			
 		}
 	}	
+	// public void takeDamage(Graphics2D g2){
+	// 	takingDamageCounter++;
+		
+	// 	int i =5;
+
+	// 	if(takingDamageCounter <= i){	
+	// 		changeAlpha(g2, 0f);
+	// 	}
+	// 	if(takingDamageCounter > i && takingDamageCounter <= i*2){
+	// 		changeAlpha(g2, 1f);
+	// 	}
+	// 	if(takingDamageCounter > i*2 && takingDamageCounter <= i*3){
+	// 		changeAlpha(g2, 0f);
+	// 	}
+	// 	if(takingDamageCounter > i*3 && takingDamageCounter <= i*4){
+	// 		changeAlpha(g2, 1f);
+	// 	}
+	// 	if(takingDamageCounter > i*4 && takingDamageCounter <= i*5){
+	// 		changeAlpha(g2, 0f);
+	// 	}
+	// 	if(takingDamageCounter > i*5 && takingDamageCounter <= i*6){
+	// 		changeAlpha(g2, 1f);
+	// 	}
+	// 	if(takingDamageCounter > i*6 && takingDamageCounter <= i*7){
+	// 		changeAlpha(g2, 0f);
+	// 	}
+	// 	if(takingDamageCounter > i*7 && takingDamageCounter <=i*8){
+	// 		changeAlpha(g2, 1f);
+	// 	}
+	// 	if(takingDamageCounter >i*8){
+	// 		invincible = false;
+	// 	}
+	// }
 	public void damageMonster(int i, int attack, int knockBackPower){
 		if(i != 999){
 			if(gp.monster[gp.currentMap][i].invincible == false){
@@ -394,7 +428,7 @@ public class Player extends Entity{
 			break;
 			}
 			if (attacking == true){
-				//BO SUNG 244(DANG)
+				//BO SUNG (DANG)
 				tempScreenY = screenY - gp.TILE_SIZE;
 				//HET BO SUNG
 				if(spriteNum==1) image=attackup1;
@@ -420,7 +454,7 @@ public class Player extends Entity{
 			break;
 			}
 			if (attacking == true){
-				//BO SUNG 268(DANG)
+				//BO SUNG(DANG)
 				tempScreenX = screenX - gp.TILE_SIZE;
 				//HET BO SUNG
 				if(spriteNum==1) image=attackleft1;
@@ -439,9 +473,9 @@ public class Player extends Entity{
 			break;
 			}
 		}	
-		// BO SUNG 289-291(DANG)
+		// BO SUNG(DANG)
 		if(invincible == true){
-			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f));
+			dyingAnimation(g2);
 		}
 		// HET BO SUNG
 		if(screenX>worldX) {

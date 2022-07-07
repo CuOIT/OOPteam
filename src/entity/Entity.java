@@ -40,6 +40,7 @@ public abstract class Entity {
 	public boolean alive=true;
 	public boolean dying=false;
 	public int dyingcounter;
+	public int takingDamageCounter;
 	boolean hpBarOn = false;
 	int hpBarCounter = 0;
 	public boolean knockBack = false;
@@ -163,8 +164,10 @@ public abstract class Entity {
 				invincibleCounter = 0;
 			}	
 		}
+
+
 		// bo sung projectile(Dang)
-		if(shotAvailableCounter < 30){
+		if(shotAvailableCounter < 180){
 			shotAvailableCounter ++;
 		}
 		// het bo sung
@@ -172,8 +175,9 @@ public abstract class Entity {
 	public void damagePlayer(int attack){
 		if(gp.player.invincible == false){
 			//we can give damage
-			gp.player.life -= 1;
+		
 			gp.player.invincible = true;
+	
 		}
 	}
 	public void use(Entity entity) {

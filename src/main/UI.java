@@ -232,7 +232,7 @@ public class UI {
 			}
 			else {
 			currentDialogue=gp.npc[gp.currentMap][i].dialogue[gp.player.currentMission][gp.npc[gp.currentMap][i].numberDialogue];
-			System.out.println("[ "+i+" ]: "+currentDialogue);
+			//System.out.println("[ "+i+" ]: "+currentDialogue);
 			if(currentDialogue!=null) {
 				g2.drawString(currentDialogue, x, y);
 			}

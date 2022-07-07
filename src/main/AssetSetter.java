@@ -9,6 +9,8 @@ import entity.NPC_guard;
 import entity.NPC_headman;
 import object.OBJ_Apple;
 import entity.Boar_monster;
+import entity.Boss;
+import entity.Bat;
 public class AssetSetter {
 
 	GamePanel gp;
@@ -420,6 +422,22 @@ public class AssetSetter {
 		gp.monster[mapNum][6]= new Boar_monster(gp);
 		gp.monster[mapNum][6].worldX=gp.TILE_SIZE*10;
 		gp.monster[mapNum][6].worldY=gp.TILE_SIZE*44;
+
+		mapNum ++;
+	 
+		gp.monster[mapNum][7]= new Boss(gp);
+		gp.monster[mapNum][7].worldX = gp.TILE_SIZE*24;
+		gp.monster[mapNum][7].worldY = gp.TILE_SIZE*9;
+
+		gp.monster[mapNum][8]= new Bat(gp);
+		gp.monster[mapNum][8].worldX = gp.TILE_SIZE*14;
+		gp.monster[mapNum][8].worldY = gp.TILE_SIZE*13;
+
+		if(gp.player.life == 10){
+			gp.monster[mapNum][9]= new Bat(gp);
+			gp.monster[mapNum][9].worldX = gp.TILE_SIZE*18;
+			gp.monster[mapNum][9].worldY = gp.TILE_SIZE*13;
+			}
 
 		
 	}
