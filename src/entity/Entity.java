@@ -29,6 +29,8 @@ public abstract class Entity {
 	public boolean collisionOn=false;
 	public int maxLife;
 	public int life;
+	public int hp;
+	public int maxHp;
 	public int actionLockCounter=0;
 	public boolean invincible=false;
 	public int invincibleCounter = 0;//  creating invincible time(DANG)
@@ -56,9 +58,8 @@ public abstract class Entity {
 	int	headManType=3;
 	public int attack;
 	public Entity currentWeapon;
-	public int type_pickupOnly = 7;
+	public Entity bow;
 	public Projectile projectile;
-
 	public ArrayList<Entity> inventory = new ArrayList<>();
 	public int amount = 0;
 	public boolean stackable = false;
@@ -71,8 +72,7 @@ public abstract class Entity {
 	};
 	public void damageReaction(){
 
-	}
-	public void speak(){}
+	};
 	public void update() {
 		// bo sung knockBack(Dang)
 		 if(knockBack == true){
@@ -172,7 +172,7 @@ public abstract class Entity {
 	public void damagePlayer(int attack){
 		if(gp.player.invincible == false){
 			//we can give damage
-			gp.player.life -= 1;
+			gp.player.life -= attack;
 			gp.player.invincible = true;
 		}
 	}
@@ -190,18 +190,13 @@ public abstract class Entity {
 			} 
 		}
 	}
-	public static Object get(int i) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	public BufferedImage setup(String imagePath,int width,int height) {
-		UtilityTool uTool=new UtilityTool();
 		this.width=width;
 		this.height=height;
 		BufferedImage image=null;
 		try {
 			image=ImageIO.read(getClass().getResourceAsStream(imagePath+".png"));
-			image=uTool.scaledImage(image, width, height);
+			image=UtilityTool.scaledImage(image, width, height);
 		}catch(IOException e) {
 			e.printStackTrace();
 		}

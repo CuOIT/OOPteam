@@ -33,24 +33,28 @@ public class GamePanel extends JPanel implements Runnable {
 	public int currentMap=0;
 	int screenWidth2=SCREEN_WIDTH;
 	int screenHeight2=SCREEN_HEIGHT;
+	
+	//Graphics
 	BufferedImage tempScreen;
 	Graphics2D g2;
-	//FPS
-	int FPS=60;
 	
-	//SYSTEM
-	TileManager tileM=new TileManager(this);
-	
-	  
+	//Sound
 	Sound music=new Sound();	
-	public KeyHandler keyH=new KeyHandler(this);	
 	Sound se=new Sound();
-	public UI ui=new UI(this);
 	
+	//FPS
+	public final int FPS=60;
+	
+	//Manager
+	TileManager tileM=new TileManager(this);
+	public KeyHandler keyH=new KeyHandler(this);	
+	public UI ui=new UI(this);
 	public CollisionChecker cChecker=new CollisionChecker(this);
 	public AssetSetter aSetter=new AssetSetter(this);
-	Thread gameThread;
 	
+	//Thread
+	Thread gameThread;
+
 	//entity and object
 	public Player player=new Player(this,keyH);
 	public Entity obj[][] = new Entity[MAX_MAP][200];
@@ -58,15 +62,15 @@ public class GamePanel extends JPanel implements Runnable {
 	public Entity monster[][]=new Entity[MAX_MAP][20];
 	public ArrayList<Entity> entityList=new ArrayList<>();
 	public ArrayList<Entity> projectileList=new ArrayList<>();	
+	
 	//GAME STATE
 	public int gameState;
-	public final int titleState=0;
-	public final int playState=1;
-	public final int pauseState=2;
-	public final int loadState=3;
-	public final int dialogueState=4;
-	public final int characterState=5;
-	public final int optionState=6; 
+	public final int TITLE_STATE=0;
+	public final int PLAY_STATE=1;
+	public final int PAUSE_STATE=2;
+	public final int DIALOGUE_STATE=3;
+	public final int CHARACTER_STATE=5;
+	public final int OPTION_STATE=6; 
 	public final int gameOverState=7;
 	
 	public GamePanel()
@@ -84,7 +88,7 @@ public class GamePanel extends JPanel implements Runnable {
 		aSetter.setMonster();
 		//playMusic(0); 
 		//stopMusic();
-		gameState=titleState;
+		gameState=TITLE_STATE;
 		
 		tempScreen=new BufferedImage(SCREEN_WIDTH,SCREEN_HEIGHT,BufferedImage.TYPE_INT_ARGB);
 		g2=(Graphics2D)tempScreen.getGraphics();
@@ -122,9 +126,10 @@ public class GamePanel extends JPanel implements Runnable {
 				timer=0;
 			}
 		}
+		System.exit(1);
 	}
 	public void update() {
-		if(gameState==playState) 
+		if(gameState==PLAY_STATE) 
 			player.update();
 	//	if(player.life<=0) gameState=gameOverState;
 		for(int i=0;i<npc[0].length;i++)
@@ -152,15 +157,15 @@ public class GamePanel extends JPanel implements Runnable {
 			}
 		}
 	
-		if(gameState==pauseState) {
+		if(gameState==PAUSE_STATE) {
 		}
-		if(gameState==loadState) {
-			
-		}
-		if(gameState==characterState) {
-			ui.drawCharacterScreen();
-		}
-		if(gameState==dialogueState) {
+//		if(gameState==loadState) {
+//			
+//		}
+//		if(gameState==CHARACTER_STATE) {
+//			ui.drawCharacterScreen();
+//		}
+		if(gameState==DIALOGUE_STATE) {
 			ui.drawDialogueScreen(player.npcIndex);
 		}
 		if(gameState==gameOverState) {
@@ -176,7 +181,7 @@ public class GamePanel extends JPanel implements Runnable {
 					drawStart=System.nanoTime();
 				}
 				
-				if(gameState==titleState) {
+				if(gameState==TITLE_STATE) {
 					ui.draw(g2);
 			
 				}
@@ -226,9 +231,9 @@ public class GamePanel extends JPanel implements Runnable {
 				}
 				entityList.clear();
 				ui.draw(g2);
-				if(gameState==characterState) {
-					ui.drawCharacterScreen();
-				}
+//				if(gameState==CHARACTER_STATE) {
+//					ui.drawCharacterScreen();
+//				}
 			}
 				
 				
@@ -242,7 +247,7 @@ public class GamePanel extends JPanel implements Runnable {
 		GraphicsEnvironment ge=GraphicsEnvironment.getLocalGraphicsEnvironment();
 		GraphicsDevice gd=ge.getDefaultScreenDevice();
 		gd.setFullScreenWindow(Main.window);
-		//GET FULL SCREEN WIDTH AND HEIGHT
+
 		screenWidth2=Main.window.getWidth();
 		screenHeight2=Main.window.getHeight();
 		

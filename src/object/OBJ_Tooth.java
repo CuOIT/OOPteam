@@ -8,7 +8,6 @@ public class OBJ_Tooth extends Entity {
     public OBJ_Tooth(GamePanel gp){
         super(gp);
         stackable=true;
-        type = type_pickupOnly;
         name = "Tooth";
         down1 = setup("/objects/tooth", gp.TILE_SIZE, gp.TILE_SIZE);
     }

@@ -19,20 +19,16 @@ public class UI {
 	GamePanel gp;
 	Graphics2D g2;
 	BufferedImage heart_full,heart_half,heart_plank;
-	BufferedImage keyImage;
-	public boolean messageOn = false;
 	public boolean gameFinished = false; 
 	Menu menu=new Menu(gp);
-	public int commandNum;
-	ArrayList<String> message = new ArrayList<>();
-	ArrayList<Integer> messageCounter = new ArrayList<>();
-	private Object drawMessage;
+	//ArrayList<String> message = new ArrayList<>();
+	//ArrayList<Integer> messageCounter = new ArrayList<>();
+	//private Object drawMessage;
 	private String currentDialogue;
 	private int numberDialogue=1;
 	public int slotCol =0 ;
 	public int slotRow = 0 ;
 	public int subState=0;
-	UtilityTool uTool=new UtilityTool();
 	public UI(GamePanel gp) {
 		this.gp=gp;
 
@@ -51,59 +47,28 @@ public class UI {
 		
 	}
 
-	public void drawMessage() {
-		// TODO Auto-generated method stub
-		int messageX= gp.TILE_SIZE*2;
-		int messageY = gp.TILE_SIZE*7;
-		g2.setFont(g2.getFont().deriveFont(Font.BOLD, 32F));
-		
-		for(int i= 0 ; i<message.size();i++) {
-			if(message.get(i) != null) {
-				g2.setColor(Color.white);
-				g2.drawString(message.get(i), messageX, messageY);
-				
-				int counter = messageCounter.get(i)+1;
-				messageCounter.set(i, counter);
-				messageY +=50;
-				
-				if(messageCounter.get(i) > 180) {
-					message.remove(i);
-					messageCounter.remove(i);
-				}
-			}
-		}
-	}
-	public void addMessage(String text) {
-		// TODO Auto-generated method stub
-		 message.add(text);
-		messageCounter.add(0);
-	}
 	public void draw(Graphics2D g2) {
 		this.g2=g2;
 		g2.setFont(arial_40);
 		g2.setColor(Color.white);
-		if(gp.gameState==gp.playState) {
+		if(gp.gameState==gp.PLAY_STATE) {
 			//
 			drawPlayerLife();
 		}
-		else if(gp.gameState==gp.titleState)
+		else if(gp.gameState==gp.TITLE_STATE)
 		{
 			drawTitleScreen();
 		}
-		else if(gp.gameState==gp.pauseState)
-		{	drawPlayerLife();
-			drawPauseScreen();
-		}
-		else if(gp.gameState==gp.dialogueState)
+		else if(gp.gameState==gp.DIALOGUE_STATE)
 		{	drawPlayerLife();
 			drawDialogueScreen(gp.player.npcIndex);
 		}
-		else if(gp.gameState==gp.characterState)
+		else if(gp.gameState==gp.CHARACTER_STATE)
 		{
-			drawCharacterScreen();
+			//drawCharacterScreen();
 			drawInventory();
 		}
-		else if(gp.gameState==gp.optionState) {
+		else if(gp.gameState==gp.OPTION_STATE) {
 			drawOptionState();
 		}
 	}
@@ -127,7 +92,7 @@ public class UI {
 		for(int i=0;i<3;i++) {
 			for(int j=0;j<3;j++) {
 				menuButton[i][j]=menuImage.getSubimage(i*140, j*56, 140, 56);
-				menuButton[i][j]=uTool.scaledImage(menuButton[i][j],210,84);
+				menuButton[i][j]=UtilityTool.scaledImage(menuButton[i][j],210,84);
 			//	g2.drawImage(menuButton[i][j],gp.TILE_SIZE*i*5,gp.TILE_SIZE*j*5,null);
 				}
 		g2.drawImage(menuButton[0][i],gp.TILE_SIZE*14,gp.TILE_SIZE*i*2+5*gp.TILE_SIZE,null);
@@ -183,29 +148,37 @@ public class UI {
 		
 	}
 	public void drawPlayerLife() {
-		int x=gp.TILE_SIZE/2;
-		int y=gp.TILE_SIZE/2;
-		int temp=0;
-		//temp luu so tym
-		while(temp<gp.player.maxLife/2) {
-			g2.drawImage(heart_plank,x,y,null);
-			temp++;
-			x+=gp.TILE_SIZE;
+		int x = gp.TILE_SIZE ;
+		int y = gp.TILE_SIZE * 3 /2;
+		int width = gp.TILE_SIZE*4;
+		int height = gp.TILE_SIZE / 5 *2 ;
+
+
+		double oneScale = (double)gp.TILE_SIZE/gp.player.maxHp;
+		double hpBarValue = oneScale* gp.player.hp * 4;
+		
+//		g2.setColor(Color.black);
+//		g2.fillRoundRect(x - 2, y - 18,width+6  ,height +8, 20, 20);
+		//Thanh maxHP
+		g2.setColor(new Color(35, 35, 35));
+		g2.fillRoundRect(x - 1, y - 16,width  ,height +6, 20, 20);
+
+		//Thanh hp
+		g2.setColor(new Color(255,0,30));
+		g2.fillRoundRect(x , y - 15, (int)hpBarValue , 23, 20, 20);
+
+		for (int i=0;i<gp.player.life;i++) {
+			g2.drawImage(heart_full , x + 6 + gp.TILE_SIZE * i , y +6 , null);
 		}
-		for(int i=1;i<=gp.player.life/2;i++)
-		{
-			g2.drawImage(heart_full,x-(6-i)*gp.TILE_SIZE,y,null);
-		}
-		if(gp.player.life%2!=0 && gp.player.life>0) g2.drawImage(heart_half,x-(5-(gp.player.life/2))*gp.TILE_SIZE,y,null);
+		
+		//DEBUG
+		
 		int x1=gp.TILE_SIZE*2;
 		int y1=gp.TILE_SIZE*4;
 		int x2=gp.TILE_SIZE*2;
 		int y2=gp.TILE_SIZE*5;
 		int x3=gp.TILE_SIZE*2;
 		int y3=gp.TILE_SIZE*6;
-		
-		//DEBUG
-		
 		String wX=String.valueOf(gp.player.worldX/gp.TILE_SIZE);
 		String wY=String.valueOf(gp.player.worldY/gp.TILE_SIZE);
 		String text=String.valueOf(gp.player.currentMission);
@@ -231,7 +204,6 @@ public class UI {
 			}
 			else {
 			currentDialogue=gp.npc[gp.currentMap][i].dialogue[gp.player.currentMission][gp.npc[gp.currentMap][i].numberDialogue];
-			System.out.println("[ "+i+" ]: "+currentDialogue);
 			if(currentDialogue!=null) {
 				g2.drawString(currentDialogue, x, y);
 			}
@@ -289,12 +261,47 @@ public class UI {
 		int y=gp.TILE_SIZE*3;
 		g2.setColor(Color.white);
 		g2.drawString(text,x,y);
+		try {
+			BufferedImage titleImage=ImageIO.read(getClass().getResourceAsStream("/menu/titleScreen.jpg"));
+			titleImage=UtilityTool.scaledImage(titleImage, gp.SCREEN_WIDTH, gp.SCREEN_HEIGHT);
+			g2.drawImage(titleImage,0,0,null);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		//g2.setColor(new (60,60,60));
-	String start="START";	
-	int x1=getXforCenteredText(start);
-	int y1=gp.TILE_SIZE*5;
-	g2.setFont(g2.getFont().deriveFont(Font.PLAIN,50F));
-	g2.drawString(start, x1, y1);
+//	String start="START";	
+//	int x1=getXforCenteredText(start);
+//	int y1=gp.TILE_SIZE*5;
+//	g2.setFont(g2.getFont().deriveFont(Font.PLAIN,50F));
+//	g2.drawString(start, x1, y1);
+		BufferedImage[][] menuButton=new BufferedImage[3][3];
+		BufferedImage menuImage=null;
+				try {
+					menuImage=ImageIO.read(getClass().getResourceAsStream("/menu/button_atlas.png"));
+				}catch(IOException e) {
+					e.printStackTrace();
+				}
+		for(int i=0;i<3;i++) {
+			for(int j=0;j<3;j++) {
+				menuButton[i][j]=menuImage.getSubimage(i*140, j*56, 140, 56);
+				menuButton[i][j]=UtilityTool.scaledImage(menuButton[i][j],210,84);
+			//	g2.drawImage(menuButton[i][j],gp.TILE_SIZE*i*5,gp.TILE_SIZE*j*5,null);
+				}
+		g2.drawImage(menuButton[0][i],gp.TILE_SIZE*10,gp.TILE_SIZE*i*2+7*gp.TILE_SIZE,null);
+		}
+			
+		switch(subState) {
+		case 0: 
+			g2.drawImage(menuButton[1][0],gp.TILE_SIZE*10,gp.TILE_SIZE*0*2+7*gp.TILE_SIZE,null);
+			break;
+		case 1:
+			g2.drawImage(menuButton[1][1],gp.TILE_SIZE*10,gp.TILE_SIZE*1*2+7*gp.TILE_SIZE,null);
+			break;
+		case 2:
+			g2.drawImage(menuButton[1][2],gp.TILE_SIZE*10,gp.TILE_SIZE*2*2+7*gp.TILE_SIZE,null);
+			break;
+		}
 	}
 	
 	public void drawPauseScreen()
@@ -323,8 +330,12 @@ public class UI {
 		
 		//DRAW PLAYER'S ITEMS
 		for(int i= 0;i< gp.player.inventory.size();i++) {
-			
-			
+//			
+//			if(gp.player.inventory.get(i) == gp.player.currentWeapon ||
+//					gp.player.inventory.get(i) == gp.player.bow) {
+//				g2.setColor(new Color(240,190,90));
+//				g2.fillRoundRect(slotX, slotY, gp.TILE_SIZE, gp.TILE_SIZE, 10,10);
+//			}
 			g2.drawImage(gp.player.inventory.get(i).down1,slotX, slotY, null);
 			if(gp.player.inventory.get(i).amount >1) {
 
@@ -387,7 +398,7 @@ public class UI {
 	}
 	}
 	
-public int getItemIndexOnSlot() {
+	public int getItemIndexOnSlot() {
 		int itemIndex = slotCol + (slotRow *5);
 		return itemIndex;
 	}
@@ -401,17 +412,19 @@ public int getItemIndexOnSlot() {
 		g2.setStroke(new BasicStroke(5));
 		g2.drawRoundRect(x+5, y+5, width-10, height-10,25,25);
 	}
+	
 	public int getXforAlignToRightText(String text, int tailX) {
 
 		int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
 		int x = tailX - length;
 		return x;
 	}
+	
 	public int getXforCenteredText(String text) {
 		int length=(int)g2.getFontMetrics().getStringBounds(text,g2).getWidth();
 		int x=gp.SCREEN_WIDTH/2-length/2;
 		return x;
 	}
-	public void drawCharacterScreen() {
-	}
+
+	
 }

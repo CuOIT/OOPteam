@@ -21,22 +21,20 @@ public class KeyHandler implements KeyListener{
 	public void keyPressed(KeyEvent e)
 	{
 		int code=e.getKeyCode();
-		if(gp.gameState==gp.playState) {
+		if(gp.gameState==gp.PLAY_STATE) {
 					playState(code);
 		}
-		else if(gp.gameState==gp.titleState) {
-					titleState(code);
+		else if(gp.gameState==gp.TITLE_STATE) {
+					tileState(code);
 		}
-		else if(gp.gameState==gp.pauseState) {
-					pauseState(code);
-		}
-		else if(gp.gameState==gp.dialogueState) {		
+
+		else if(gp.gameState==gp.DIALOGUE_STATE) {		
 			dialogueState(code);
 		}
-		else if(gp.gameState==gp.characterState) {
+		else if(gp.gameState==gp.CHARACTER_STATE) {
 					characterState(code);
 		}
-		else if(gp.gameState==gp.optionState) {
+		else if(gp.gameState==gp.OPTION_STATE) {
 			optionState(code);
 		}
 
@@ -58,29 +56,26 @@ public class KeyHandler implements KeyListener{
 		if(code == KeyEvent.VK_ENTER){
 			enterPressed=true;	
 		}
-		else if(code==KeyEvent.VK_P) {
-				gp.gameState=gp.pauseState;
-		}
 		else if(code==KeyEvent.VK_C) {
-			gp.gameState=gp.characterState;
+			gp.gameState=gp.CHARACTER_STATE;
 		}
 		else if(code==KeyEvent.VK_L) {
 			if(gp.currentMap==0) gp.currentMap=1;
 			else gp.currentMap=0;
-				
+		
 		} 
 		else if(code == KeyEvent.VK_F){
 			shotKeyPressed=true;	
 		}
 
 		else if(code==KeyEvent.VK_ESCAPE) {
-			gp.gameState=gp.optionState;
+			gp.gameState=gp.OPTION_STATE;
 		}
 		
 	}
 	public void optionState(int code) {
 		if(code==KeyEvent.VK_ESCAPE) { 
-			gp.gameState=gp.playState;
+			gp.gameState=gp.PLAY_STATE;
 		}
 		if(code==KeyEvent.VK_W) {
 			gp.ui.subState=(gp.ui.subState-1)%3;
@@ -91,33 +86,41 @@ public class KeyHandler implements KeyListener{
 		if(code==KeyEvent.VK_ENTER) {
 		enterPressed=true;
 		if(gp.ui.subState==0) {
-			gp.gameState=gp.playState;
+			gp.gameState=gp.PLAY_STATE;
 		}
 		else if(gp.ui.subState==1) {
 			
 		}
 		else if(gp.ui.subState==2) {
-			gp.gameState=gp.titleState;
+			gp.gameState=gp.TITLE_STATE;
 		}
 		}
 		
 	}
-	public void titleState(int code) {
-		if(code==KeyEvent.VK_ENTER)
-		{
-			gp.gameState=gp.dialogueState;
+	public void tileState(int code) {
+		if(code==KeyEvent.VK_W) {
+			gp.ui.subState=(gp.ui.subState-1)%3;
 		}
-	}
-	public void pauseState(int code) {
-		if(code==KeyEvent.VK_P) {
-			gp.gameState=gp.playState;
+		else if(code==KeyEvent.VK_S) {
+			gp.ui.subState=(gp.ui.subState+1)%3;
 		}
-		 
+		if(code==KeyEvent.VK_ENTER) {
+		enterPressed=true;
+		if(gp.ui.subState==0) {
+			gp.gameState=gp.PLAY_STATE;
+		}
+		else if(gp.ui.subState==1) {
+			//draw SFX
+		}
+		else if(gp.ui.subState==2) {
+			gp.gameThread=null;
+		}
+		}
 	}
 	public void dialogueState(int code){
 		if(code == KeyEvent.VK_ENTER){
 			if(gp.player.currentMission==0) {
-				gp.gameState=gp.playState;
+				gp.gameState=gp.PLAY_STATE;
 				gp.player.currentMission=1;
 			}
 		if(gp.npc[gp.currentMap][gp.player.npcIndex].dialogue[gp.player.currentMission][gp.npc[gp.currentMap][gp.player.npcIndex].numberDialogue]!=null) {
@@ -133,18 +136,23 @@ public class KeyHandler implements KeyListener{
 			gp.npc[gp.currentMap][gp.player.npcIndex].dropItem(new OBJ_Bow(gp), gp.npc[gp.currentMap][gp.player.npcIndex].worldX,gp.npc[gp.currentMap][gp.player.npcIndex].worldY+gp.TILE_SIZE);
 		}
 	}else {
-			gp.gameState=gp.playState;
+			gp.gameState=gp.PLAY_STATE;
 		}
 		}
 		else if(code == KeyEvent.VK_SPACE) {
-			gp.gameState=gp.playState;
+			gp.gameState=gp.PLAY_STATE;
 		}
 	}
 	public void characterState(int code) {
 		if(code==KeyEvent.VK_C) {
-			gp.gameState=gp.playState;
+			gp.gameState=gp.PLAY_STATE;
 		}
 		else {
+//			if (code == KeyEvent.VK_ENTER) {
+//				//gp.player.selectItem();
+//				//gp.gameState=gp.PLAY_STATE;
+//				System.out.println("Done");
+//			}//them code den day dong 174
 			if (code ==KeyEvent.VK_W) {
 				if(gp.ui.slotRow != 0) {
 					gp.ui.slotRow--;
@@ -184,8 +192,6 @@ public class KeyHandler implements KeyListener{
 		}
 		else if(code==KeyEvent.VK_D) {
 			rightPressed=false;
-		}else if(code==KeyEvent.VK_L) {
-			gp.gameState=gp.playState;
 		}
 		else if(code==KeyEvent.VK_F){
 			shotKeyPressed = false;

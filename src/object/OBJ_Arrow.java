@@ -14,7 +14,7 @@ public class OBJ_Arrow extends Projectile {
          speed = 8;
          maxLife = 80;
          life = maxLife;
-         attack = 2;
+         attack = 5;
          alive = false;
          knockBackPower = 5; 
          getImage();

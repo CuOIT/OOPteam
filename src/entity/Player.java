@@ -16,6 +16,7 @@ import main.UtilityTool;
 
 import object.OBJ_Tooth;
 import object.OBJ_Arrow;
+import object.OBJ_Bow;
 import object.OBJ_Apple;
 import object.OBJ_Arrow;
 
@@ -23,9 +24,7 @@ public class Player extends Entity{
 
 	KeyHandler keyH;
 	public final int screenX,screenY;
-	//public ArrayList<Entity> inventory=new ArrayList<>();
 	public final int maxInventorySize=20;
-	public boolean[] mission = new boolean[10];
 	public int currentMission=0;
 	public int npcIndex;
 	public Player(GamePanel gp,KeyHandler keyH)
@@ -49,7 +48,6 @@ public class Player extends Entity{
 		getPlayerImage();
 		getPlayerAttackImage();
 		setDialogue();
-		setItems();
 	}
 	
 	public void setDefaultValues() {
@@ -59,15 +57,16 @@ public class Player extends Entity{
 		//set character in the center
 		speed=defaultSpeed;
 		direction="down";
-		maxLife=10;
+		maxLife=3;
+		attack=1;
 		life=maxLife;
+		maxHp=10;
+		hp=maxHp;
+		
 		projectile = new OBJ_Arrow(gp);
+		System.out.println(projectile.attack);
 
-	}
-	
-	public void setItems() {
-	//	inventory.add(new OBJ_Axe(gp));
-	}
+	}	
 	
 	public void getPlayerImage() {
 		up1=setup("/player/Up1",gp.TILE_SIZE,gp.TILE_SIZE);
@@ -89,11 +88,35 @@ public class Player extends Entity{
 		attackright1=setup("/player/boy_attack_right_1", gp.TILE_SIZE*2, gp.TILE_SIZE);
 		attackright2=setup("/player/boy_attack_right_2", gp.TILE_SIZE*2, gp.TILE_SIZE);
 	}
-	
+		
 	public void setDialogue() {
 		dialogue[0][0]="Where am i?";	
 	}
 
+//	public void selectItem() {
+//		int itemIndex = gp.ui.getItemIndexOnSlot();
+//
+//		if (itemIndex < gp.player.inventory.size()) {
+//			Entity selectedItem = gp.player.inventory.get(itemIndex);
+//
+//			if (selectedItem.name == "Sword" ) {
+//
+////				currentWeapon = selectedItem;
+////				attack = selectedItem.attack;
+////				getPlayerAttackBySwordImage();
+//			}
+//			else if(selectedItem.name=="Bow") {
+//				
+//				//attack=selectedItem.attack;
+//			}
+//			
+//		}
+//	}
+	public void getPlayerAttackBySwordImage() {
+		// tam thoi
+		getPlayerAttackImage();
+		
+	}
 
 	public void update() {
 		if(attacking == true){
@@ -169,7 +192,7 @@ public class Player extends Entity{
 		spriteCounter=0;
 		}
 		}
-		if(gp.keyH.shotKeyPressed == true && projectile.alive == false){
+		if(gp.keyH.shotKeyPressed == true && projectile.alive == false && bow!=null){
 			projectile.set(worldX, worldY, direction, true, this);
 
 		// add it to the list
@@ -190,6 +213,18 @@ public class Player extends Entity{
 		// bo sung (Dang)
 		if(life > maxLife){
 			life = maxLife;
+		}
+		if(hp > maxHp) {
+			hp = maxHp;
+		}
+		if (hp == 0) {
+			if(life > 0) {
+				life --;
+				hp = maxHp;
+			}
+			else {
+				gp.gameState = gp.gameOverState;
+			}
 		}
 	}
 	// bo sung tu 160-202(DANG)
@@ -282,10 +317,14 @@ public class Player extends Entity{
 				 break;
 			 case "Sword":
 				 if(canObtainItem(gp.obj[gp.currentMap][i])==true);
+				 currentWeapon = gp.obj[gp.currentMap][i];
+					attack = currentWeapon.attack;
+					getPlayerAttackBySwordImage();
 				 gp.obj[gp.currentMap][i]=null;
 				 break; 
 			 case "Bow":
 				 if(canObtainItem(gp.obj[gp.currentMap][i])==true);
+				 bow=new OBJ_Bow(gp);
 				 gp.obj[gp.currentMap][i]=null;
 				 break; 
 			 case "Entry_Cave":
@@ -313,7 +352,7 @@ public class Player extends Entity{
 	public void interact(int i){
 		if(gp.keyH.enterPressed == true){
 			if(i != 999){
-				gp.gameState = gp.dialogueState;
+				gp.gameState = gp.DIALOGUE_STATE;
 				//System.out.println("truoc khi tuong tac : "+i);
 				gp.ui.drawDialogueScreen(i);
 			}
@@ -325,7 +364,7 @@ public class Player extends Entity{
 	public void contactMonster(int i){
 		if(i !=999){
 			if(invincible == false){
-				life-=1;
+				hp-=gp.monster[gp.currentMap][i].attack;
 			invincible = true;	
 			}
 		}
@@ -338,7 +377,7 @@ public class Player extends Entity{
 					knockBack(gp.monster[gp.currentMap][i], knockBackPower);
 				}
 
-				gp.monster[gp.currentMap][i].life -= 1;
+				gp.monster[gp.currentMap][i].life -= attack;
 				gp.monster[gp.currentMap][i].invincible = true;
 				gp.monster[gp.currentMap][i].damageReaction();
 				if(gp.monster[gp.currentMap][i].life <= 0){

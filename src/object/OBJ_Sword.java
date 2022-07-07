@@ -11,6 +11,7 @@ public class OBJ_Sword extends Entity{
 	down1=setup("/objects/sword",gp.TILE_SIZE,gp.TILE_SIZE);
 	description = "[" + name + "]\nA powerful sword.";
 	knockBackPower = 10;
+	attack=3;
 	stackable=true;
 
 }
