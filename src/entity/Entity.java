@@ -13,22 +13,22 @@ import javax.imageio.ImageIO;
 import main.GamePanel;
 import main.UtilityTool;
 public abstract class Entity {
-	GamePanel gp;
-	public String name;
-	public int worldX,worldY;	
-	public int speed;
+	public GamePanel gp;
+	 public String name;
+	 public int screenX,screenY;
+	 public int worldX,worldY;	
+	 public int speed;
 	
 	
 	//Graphics
-	public int spriteCounter=0;
-	public int spriteNum=1;
-	public BufferedImage up1,up2,down1,down2,left1,left2,right1,right2;
-	public BufferedImage attackup1, attackup2, attackdown1, attackdown2, attackleft1, attackleft2, attackright1, attackright2;
-	public BufferedImage image,image2,image3;
-	public String direction="down";
+	 public int spriteCounter=0;
+	 public int spriteNum=1;
+	 public BufferedImage up1,up2,down1,down2,left1,left2,right1,right2;
+	 public BufferedImage attackup1, attackup2, attackdown1, attackdown2, attackleft1, attackleft2, attackright1, attackright2;
+	 public String direction="down";
 	
-	//Collsion
-	public boolean collisionOn=false;
+	//Collision
+	public boolean collisionOn;
 	public int solidAreaDefaultX,solidAreaDefaultY;
 	public Rectangle solidArea = new Rectangle(0,0,48,48);
 	public Rectangle attackArea = new Rectangle(0,0,0,0);
@@ -36,19 +36,17 @@ public abstract class Entity {
 	//HP
 	public int maxLife;
 	public int life;
-	public int hp;
 	public int maxHp;
-	boolean hpBarOn = false;
-	int hpBarCounter = 0;
+	public int hp;
 	
 	//Attacking
 	public int actionLockCounter=0;
 	public int shotAvailableCounter = 0;
-	boolean attacking = false;
+	public boolean attacking = false;
 	public int attack;
 	public boolean invincible=false;
 	public int invincibleCounter = 0;//  creating invincible time(DANG)
-	public boolean collision;
+	public boolean collision=true;
 	
 	public int width;
 	public int height;
@@ -58,7 +56,7 @@ public abstract class Entity {
 	public boolean dying=false;
 	public int dyingcounter;
 	public boolean knockBack = false;
-	int knockBackCounter;
+	public int knockBackCounter;
 	public int defaultSpeed;
 	public int knockBackPower;
 	public int numberDialogue;
@@ -67,17 +65,40 @@ public abstract class Entity {
 	public int type;//0-non_monster;1-monster;
 	public final int MONSTER_TYPE=1;
 
+	//weapon
 	public Entity currentWeapon;
 	public Entity bow;
 	public Projectile projectile;
+	
+	//inventory
 	public ArrayList<Entity> inventory = new ArrayList<>();
 	public int amount = 0;
 	public boolean stackable = false;
 	public String description = "";
+	
 	public Entity(GamePanel gp) {
 		this.gp=gp;
 	}
 	
+//	public int getAttack() {
+//		return attack;
+//	}
+//	public String getDirection() {
+//		return direction;
+//	}
+//	
+//	
+//	public int getWorldX()
+//	{
+//		return worldX;
+//	}
+//	public int getWorldY()
+//	{
+//		return worldY;
+//	}
+//	public int getScreenX() {
+//		return screenX;
+//	}
 	public void setAction() {	
 	};
 	public void damageReaction(){
@@ -207,7 +228,8 @@ public abstract class Entity {
 			image=ImageIO.read(getClass().getResourceAsStream(imagePath+".png"));
 			image=UtilityTool.scaledImage(image, width, height);
 		}catch(IOException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			System.out.println(imagePath);
 		}
 		return image;
 		
@@ -215,8 +237,8 @@ public abstract class Entity {
 
 	public void draw(Graphics2D g2) {
 		BufferedImage image=null;
-		int screenX = worldX - gp.player.worldX + gp.player.screenX;
-		int screenY = worldY - gp.player.worldX + gp.player.screenY;
+		screenX = worldX - gp.player.worldX + gp.player.screenX;
+		screenY = worldY - gp.player.worldX + gp.player.screenY;
 			
 		switch(direction) {
 		case "up":
@@ -228,8 +250,8 @@ public abstract class Entity {
 		case "down":
 			if(spriteNum==1)
 				image=down1;
-			if(spriteNum==2)
-				image=down2;
+				if(spriteNum==2)
+					image=down2;
 			break;
 		case "left":
 			if(spriteNum==1)
@@ -266,8 +288,7 @@ public abstract class Entity {
 		}
 
 		if(invincible == true){
-			hpBarOn = true;
-			hpBarCounter = 0;
+			
 			changeAlpha(g2, 0.4F);
 		}
 		if(dying == true){
@@ -345,4 +366,6 @@ public abstract class Entity {
 	public void changeAlpha(Graphics2D g2, float alphaValue){
 		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alphaValue));	
 	}
+
+	
 	}

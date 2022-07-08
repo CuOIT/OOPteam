@@ -8,10 +8,8 @@ public class NPC_guard extends Entity{
 	public NPC_guard(GamePanel gp) {
 		super(gp);
 		direction="down";
-		numberDialogue=0;
-		speed=0;
-		getImage();
 		collision=true;
+		getImage();
 		setDialogue();
 	}
 	public void setDefaultValues() {
@@ -22,14 +20,14 @@ public class NPC_guard extends Entity{
 	
 
 	public void getImage() {
-		up1=setup("/npc/guard_Up1",gp.TILE_SIZE,gp.TILE_SIZE);
-		up2=setup("/npc/guard_Up2",gp.TILE_SIZE,gp.TILE_SIZE);
 		down2=setup("/npc/guard_Up2",gp.TILE_SIZE,gp.TILE_SIZE);
 		down1=setup("/npc/guard_Up1",gp.TILE_SIZE,gp.TILE_SIZE);
-		left1=setup("/npc/guard_Up1",gp.TILE_SIZE,gp.TILE_SIZE);
-		left2=setup("/npc/guard_Up2",gp.TILE_SIZE,gp.TILE_SIZE);
-		right1=setup("/npc/guard_Up1",gp.TILE_SIZE,gp.TILE_SIZE);
-		right2=setup("/npc/guard_Up2",gp.TILE_SIZE,gp.TILE_SIZE);
+//		up1=setup("/npc/guard_Up1",gp.TILE_SIZE,gp.TILE_SIZE);
+//		up2=setup("/npc/guard_Up2",gp.TILE_SIZE,gp.TILE_SIZE);
+//		left1=setup("/npc/guard_Up1",gp.TILE_SIZE,gp.TILE_SIZE);
+//		left2=setup("/npc/guard_Up2",gp.TILE_SIZE,gp.TILE_SIZE);
+//		right1=setup("/npc/guard_Up1",gp.TILE_SIZE,gp.TILE_SIZE);
+//		right2=setup("/npc/guard_Up2",gp.TILE_SIZE,gp.TILE_SIZE);
 	}
 	public void setDialogue() {
 		dialogue[1][0]="Where is this???";
@@ -42,27 +40,6 @@ public class NPC_guard extends Entity{
 		dialogue[2][1]="And now, go to the East and you will see the headman!";
 		
 	}
-	public void setAction() {
-		actionLockCounter++;
-		if(actionLockCounter==75) {
-			Random random=new Random();
-			int i = random.nextInt(100)+1;
-			if(i<=25) {
-				direction="up";
-			}
-			if(i>25 && i<50)
-			{
-				direction="down";
-			}
-			if(i>50 && i<=75) {
-				direction="left";
-			}
-			if(i>75 && i<=100) {
-				direction = "right";
-			}
-			actionLockCounter=0;
-		}
-		
-	}
+
 	
 }

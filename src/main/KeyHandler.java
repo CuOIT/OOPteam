@@ -21,14 +21,15 @@ public class KeyHandler implements KeyListener{
 	public void keyPressed(KeyEvent e)
 	{
 		int code=e.getKeyCode();
-		if(code == KeyEvent.VK_F11) {
-			if(gp.ui.fullScreen=false)
+		if(code == KeyEvent.VK_P) {
+			System.out.println("A");
+			if(gp.ui.fullScreen==false)
 			{
 			gp.setFullScreen();
 			gp.ui.fullScreen=true;
 			}
 			else{
-				gp.drawToTempScreen();
+				gp.drawToScreen();
 				gp.ui.fullScreen=false;
 			}
 		}

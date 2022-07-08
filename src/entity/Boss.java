@@ -171,8 +171,6 @@ public class Boss extends Entity {
 		}
 
 		if(invincible == true){
-			hpBarOn = true;
-			hpBarCounter = 0;
 			changeAlpha(g2, 0.4F);
 		}
 		if(dying == true){
@@ -196,7 +194,7 @@ public class Boss extends Entity {
 				screenY=gp.SCREEN_HEIGHT- (gp.worldHeight-worldY);
 		 }		
 		 // THEM TU DONG  THANH MAU CUA CON QUAI(DANG)
-		 if(hpBarOn == true ){
+		
 			double oneScale = (double)gp.TILE_SIZE/maxLife;
 			double hpBarValue = oneScale*life;
 
@@ -206,13 +204,7 @@ public class Boss extends Entity {
 			g2.setColor(new Color(255,0,30));
 			g2.fillRect(screenX , screenY - 15, (int)hpBarValue*3, 10);
 			
-			hpBarCounter++;
-
-			if(hpBarCounter > 1000){
-				hpBarCounter = 0;
-				hpBarOn = false;
-			}
-		}	
+			
 		
 		g2.drawImage(image,screenX,screenY,width,height,null); 
 	

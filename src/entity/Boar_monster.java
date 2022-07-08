@@ -34,8 +34,8 @@ public class Boar_monster extends Entity{
     }
     public void getImage(){
         up1=setup("/monster/Boar_Left_1", gp.TILE_SIZE, gp.TILE_SIZE);
-		up2=setup("/monster/Boar_Right_1", gp.TILE_SIZE, gp.TILE_SIZE);
-		down1=setup("/monster/Boar_Left_1", gp.TILE_SIZE, gp.TILE_SIZE);
+		up2=setup("/monster/Boar_Left_2", gp.TILE_SIZE, gp.TILE_SIZE);
+		down1=setup("/monster/Boar_Right_1", gp.TILE_SIZE, gp.TILE_SIZE);
 		down2=setup("/monster/Boar_Right_2", gp.TILE_SIZE, gp.TILE_SIZE);
 		left1=setup("/monster/Boar_Left_1", gp.TILE_SIZE, gp.TILE_SIZE);
 		left2=setup("/monster/Boar_Left_2", gp.TILE_SIZE, gp.TILE_SIZE);
@@ -44,6 +44,7 @@ public class Boar_monster extends Entity{
     }
     public void setAction(){
         actionLockCounter++;
+        
 		if(actionLockCounter==75) {
 			Random random=new Random();
 			int i = random.nextInt(100)+1;
@@ -69,89 +70,7 @@ public class Boar_monster extends Entity{
 		else speed=1;
     }
     //Tinh khoang cach den nhan vat
-    public void draw(Graphics2D g2) {
-		BufferedImage image=null;
-		int screenX = worldX - gp.player.worldX + gp.player.screenX;
-		int screenY = worldY - gp.player.worldX + gp.player.screenY;
-			
-		switch(direction) {
-		case "up":
-			if(this.worldX<gp.player.worldX) {
-				if(spriteNum==1) image=right1;
-				if(spriteNum==2) image=right2;
-			}
-	    	else 
-	    	{
-	    		if(spriteNum==1) image=left1;
-				if(spriteNum==2) image=left2;
-	    	}
-			break;
-		case "down":
-			if(this.worldX<gp.player.worldX) {
-				if(spriteNum==1) image=right1;
-				if(spriteNum==2) image=right2;
-			}
-	    	else 
-	    	{
-	    		if(spriteNum==1) image=left1;
-				if(spriteNum==2) image=left2;
-	    	}
-			break;
-		case "left":
-			if(spriteNum==1)
-				image=left1;
-				if(spriteNum==2)
-					image=left2;
-			break;
-		case "right":
-			if(spriteNum==1)
-				image=right1;
-				if(spriteNum==2)
-					image=right2;
-			break;
-		}
 
-		if(invincible == true){
-			hpBarOn = true;
-			hpBarCounter = 0;
-			changeAlpha(g2, 0.4F);
-		}
-		if(dying == true){
-			dyingAnimation(g2);
-		}
-	
-		screenX=worldX-gp.player.worldX+gp.player.screenX;
-		screenY=worldY-gp.player.worldY+gp.player.screenY;
-		if(gp.player.screenX>gp.player.worldX) {
-			screenX=worldX;
-		}
-		if(gp.player.screenY>gp.player.worldY) {
-			screenY=worldY;
-		}
-		int rightOffset=gp.player.screenX;
-		 if(rightOffset>gp.worldWidth-gp.player.worldX) {
-			 screenX=gp.SCREEN_WIDTH-(gp.worldWidth-worldX);
-		 }
-		int bottomOffset=gp.SCREEN_HEIGHT-gp.player.screenY;
-			if(bottomOffset>gp.worldHeight-gp.player.worldY) {
-				screenY=gp.SCREEN_HEIGHT- (gp.worldHeight-worldY);
-		 }		
-		 // THEM TU DONG  THANH MAU CUA CON QUAI(DANG)
-			double oneScale = (double)gp.TILE_SIZE/maxLife;
-			double hpBarValue = oneScale*life;
-
-			g2.setColor(new Color(35, 35, 35));
-			g2.fillRect(screenX -1, screenY - 16, gp.TILE_SIZE +2, 12);
-			
-			g2.setColor(new Color(255,0,30));
-			g2.fillRect(screenX , screenY - 15, (int)hpBarValue, 10);
-			
-			g2.drawImage(image,screenX,screenY,width,height,null); 
-			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f));
-			changeAlpha(g2,1F);
-		// HET BO SUNG(DANG)
-	// bo sung hieu ung quai chet di tu 194-231(DANG)
-	}
     public double distanceToPlayer(){
     	return Math.sqrt(Math.pow(this.worldX-gp.player.worldX,2)+Math.pow(this.worldY-gp.player.worldY,2));
     }

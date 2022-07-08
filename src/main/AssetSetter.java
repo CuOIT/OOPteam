@@ -297,6 +297,7 @@ public class AssetSetter {
 		gp.obj[mapNum][91].worldY=18*gp.TILE_SIZE;
 		
 		
+		
 		//Apple
 		gp.obj[mapNum][97]=new OBJ_Apple(gp);
 		gp.obj[mapNum][97].worldX=34*gp.TILE_SIZE;
@@ -388,7 +389,9 @@ public class AssetSetter {
 		gp.obj[mapNum][114].worldX=11*gp.TILE_SIZE;
 		gp.obj[mapNum][114].worldY=43*gp.TILE_SIZE;
 
-		
+		gp.obj[mapNum][115]=new OBJ_Pit(gp);
+		gp.obj[mapNum][115].worldX=23*gp.TILE_SIZE;
+		gp.obj[mapNum][115].worldY=27*gp.TILE_SIZE;
 		
 		
 

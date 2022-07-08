@@ -63,8 +63,7 @@ public class Player extends Entity{
 		maxHp=10;
 		hp=maxHp;
 		
-		projectile = new OBJ_Arrow(gp);
-		System.out.println(projectile.attack);
+		
 
 	}	
 	
@@ -79,14 +78,14 @@ public class Player extends Entity{
 		right2=setup("/player/Right2",gp.TILE_SIZE,gp.TILE_SIZE);
 	}
 	public void getPlayerAttackImage() {
-		attackup1=setup("/player/boy_attack_up_1", gp.TILE_SIZE, gp.TILE_SIZE*2);
-		attackup2=setup("/player/boy_attack_up_2", gp.TILE_SIZE, gp.TILE_SIZE*2);
-		attackdown1=setup("/player/boy_attack_down_1", gp.TILE_SIZE, gp.TILE_SIZE*2);
-		attackdown2=setup("/player/boy_attack_down_2", gp.TILE_SIZE, gp.TILE_SIZE*2);
-		attackleft1=setup("/player/boy_attack_left_1", gp.TILE_SIZE*2, gp.TILE_SIZE);
-		attackleft2=setup("/player/boy_attack_left_2", gp.TILE_SIZE*2, gp.TILE_SIZE);
-		attackright1=setup("/player/boy_attack_right_1", gp.TILE_SIZE*2, gp.TILE_SIZE);
-		attackright2=setup("/player/boy_attack_right_2", gp.TILE_SIZE*2, gp.TILE_SIZE);
+		attackup1=setup("/player/boy_stick_up_1", gp.TILE_SIZE, gp.TILE_SIZE*2);
+		attackup2=setup("/player/boy_stick_up_2", gp.TILE_SIZE, gp.TILE_SIZE*2);
+		attackdown1=setup("/player/boy_stick_down_1", gp.TILE_SIZE, gp.TILE_SIZE*2);
+		attackdown2=setup("/player/boy_stick_down_2", gp.TILE_SIZE, gp.TILE_SIZE*2);
+		attackleft1=setup("/player/boy_stick_left_1", gp.TILE_SIZE*2, gp.TILE_SIZE);
+		attackleft2=setup("/player/boy_stick_left_2", gp.TILE_SIZE*2, gp.TILE_SIZE);
+		attackright1=setup("/player/boy_stick_right_1", gp.TILE_SIZE*2, gp.TILE_SIZE);
+		attackright2=setup("/player/boy_stick_right_2", gp.TILE_SIZE*2, gp.TILE_SIZE);
 	}
 		
 	public void setDialogue() {
@@ -114,7 +113,14 @@ public class Player extends Entity{
 //	}
 	public void getPlayerAttackBySwordImage() {
 		// tam thoi
-		getPlayerAttackImage();
+		attackup1=setup("/player/boy_attack_up_by_sword_1", gp.TILE_SIZE, gp.TILE_SIZE*2);
+		attackup2=setup("/player/boy_attack_up_by_sword_2", gp.TILE_SIZE, gp.TILE_SIZE*2);
+		attackdown1=setup("/player/boy_attack_down_by_sword_1", gp.TILE_SIZE, gp.TILE_SIZE*2);
+		attackdown2=setup("/player/boy_attack_down_by_sword_2", gp.TILE_SIZE, gp.TILE_SIZE*2);
+		attackleft1=setup("/player/boy_attack_left_by_sword_1", gp.TILE_SIZE*2, gp.TILE_SIZE);
+		attackleft2=setup("/player/boy_attack_left_by_sword_2", gp.TILE_SIZE*2, gp.TILE_SIZE);
+		attackright1=setup("/player/boy_attack_right_by_sword_1", gp.TILE_SIZE*2, gp.TILE_SIZE);
+		attackright2=setup("/player/boy_attack_right_by_sword_2", gp.TILE_SIZE*2, gp.TILE_SIZE);
 		
 	}
 
@@ -192,7 +198,8 @@ public class Player extends Entity{
 		spriteCounter=0;
 		}
 		}
-		if(gp.keyH.shotKeyPressed == true && projectile.alive == false && bow!=null){
+		if(gp.keyH.shotKeyPressed == true  && bow!=null){
+			if(projectile.alive==false)
 			projectile.set(worldX, worldY, direction, true, this);
 
 		// add it to the list
@@ -323,6 +330,8 @@ public class Player extends Entity{
 				 if(canObtainItem(gp.obj[gp.currentMap][i])==true);
 				 bow=new OBJ_Bow(gp);
 				 gp.obj[gp.currentMap][i]=null;
+				projectile = new OBJ_Arrow(gp);
+
 				 break; 
 			 case "Entry_Cave":
 				 if(gp.player.currentMission>=3) {

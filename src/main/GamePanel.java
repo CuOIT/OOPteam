@@ -247,7 +247,7 @@ public class GamePanel extends JPanel implements Runnable {
 		GraphicsEnvironment ge=GraphicsEnvironment.getLocalGraphicsEnvironment();
 		GraphicsDevice gd=ge.getDefaultScreenDevice();
 		gd.setFullScreenWindow(Main.window);
-
+		System.out.println("AAA");
 		screenWidth2=Main.window.getWidth();
 		screenHeight2=Main.window.getHeight();
 		

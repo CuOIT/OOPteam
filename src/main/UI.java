@@ -146,9 +146,11 @@ public class UI {
 //		g2.fillRoundRect(x - 2, y - 18,width+6  ,height +8, 20, 20);
 		//Thanh maxHP
 		g2.setColor(new Color(35, 35, 35));
-		g2.fillRoundRect(x - 1, y - 16,width  ,height +6, 20, 20);
+		g2.fillRoundRect(x - 3, y - 18,width+7 ,height +12, 30, 30);
 
 		//Thanh hp
+		g2.setColor(new Color(0,0,0));
+		g2.fillRoundRect(x , y - 15, 4*gp.TILE_SIZE , 23, 20, 20);
 		g2.setColor(new Color(255,0,30));
 		g2.fillRoundRect(x , y - 15, (int)hpBarValue , 23, 20, 20);
 
@@ -158,9 +160,19 @@ public class UI {
 			
 			
 			for (int i=0;i<gp.player.life;i++) {
-				g2.drawImage(heartImage , x + 6 + gp.TILE_SIZE * i , y +6 , null);
+				g2.drawImage(heartImage , x + 20 + gp.TILE_SIZE * i , y +10, null);
 			}
 		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
+		try {
+			BufferedImage headPlayerImage=ImageIO.read(getClass().getResourceAsStream("/player/playerHead.png"));
+			headPlayerImage=UtilityTool.scaledImage(headPlayerImage, gp.TILE_SIZE*3/2, gp.TILE_SIZE*3/2);
+			
+			g2.drawImage(headPlayerImage,gp.TILE_SIZE/8,gp.TILE_SIZE*7/10,null);
+			}
+		 catch (IOException e1) {
 			e1.printStackTrace();
 		}
 		
