@@ -32,6 +32,7 @@ public class AssetSetter {
 		gp.obj[mapNum][2]=new OBJ_Pine_tree(gp) ;
 		gp.obj[mapNum][2].worldX=10*gp.TILE_SIZE;
 		gp.obj[mapNum][2].worldY=5*gp.TILE_SIZE;
+
 		
 		gp.obj[mapNum][3]=new OBJ_Pine_tree(gp) ;
 		gp.obj[mapNum][3].worldX=19*gp.TILE_SIZE;

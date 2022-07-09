@@ -9,8 +9,7 @@ public class OBJ_Tree extends Entity{
 	public OBJ_Tree(GamePanel gp) {
 		super(gp);
 		name="Tree";
-		collision=true;
-		solidArea=new Rectangle(0,0,64,96);
+		solidArea=new Rectangle(36,96,24,48);
 		down1=setup("/objects/tree", gp.TILE_SIZE*2, gp.TILE_SIZE*3);
 }
 }

@@ -27,6 +27,8 @@ public class Player extends Entity{
 	public final int maxInventorySize=20;
 	public int currentMission=0;
 	public int npcIndex;
+	public Rectangle r=new Rectangle();
+	public Rectangle rNPC=new Rectangle();
 	public Player(GamePanel gp,KeyHandler keyH)
 	{
 		super(gp); 
@@ -51,7 +53,7 @@ public class Player extends Entity{
 	}
 	
 	public void setDefaultValues() {
-		worldX=gp.TILE_SIZE*10;
+		worldX=gp.TILE_SIZE*9;
 		worldY=gp.TILE_SIZE*7;
 		defaultSpeed = 10;
 		//set character in the center
@@ -526,6 +528,11 @@ public class Player extends Entity{
 		g2.drawImage(image,tempScreenX, tempScreenY, null);
 		// Reset alpha(DANG)
 		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+//		System.out.println("P: "+(int)r.getX()/gp.TILE_SIZE+" "+(int)r.getY()/gp.TILE_SIZE);
+//		System.out.println("O: "+(int)rObj.getX()/gp.TILE_SIZE+" "+(int)rObj.getY()/gp.TILE_SIZE);
+		g2.draw(r);
+		//g2.draw(rObj);
+		
 		//DEBUG(DANG)
 		g2.setFont(new Font("Arial", Font.PLAIN, 26));
 		g2.setColor(Color.white);

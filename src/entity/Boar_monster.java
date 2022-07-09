@@ -10,19 +10,13 @@ import java.util.Random;
 import object.OBJ_Heart;
 import object.OBJ_Rock;
 import object.OBJ_Tooth;
-public class Boar_monster extends Entity{
-	GamePanel gp;
+public class Boar_monster extends Monster{
 	public Boar_monster(GamePanel gp) {
         super(gp);
-		this.gp = gp;
-    type = MONSTER_TYPE;
-	name = "Boar_Monster";
-    defaultSpeed = 1;
 	speed = defaultSpeed;
     maxLife= 4;
     life=maxLife;
     attack=1;
-    
     solidArea.x = 3; 
     solidArea.y= 18;
     solidArea.width = 42;

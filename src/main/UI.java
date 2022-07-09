@@ -149,7 +149,7 @@ public class UI {
 		g2.fillRoundRect(x - 3, y - 18,width+7 ,height +12, 30, 30);
 
 		//Thanh hp
-		g2.setColor(new Color(0,0,0));
+		g2.setColor(new Color(105,25,25));
 		g2.fillRoundRect(x , y - 15, 4*gp.TILE_SIZE , 23, 20, 20);
 		g2.setColor(new Color(255,0,30));
 		g2.fillRoundRect(x , y - 15, (int)hpBarValue , 23, 20, 20);

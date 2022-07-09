@@ -86,7 +86,8 @@ public class GamePanel extends JPanel implements Runnable {
 		aSetter.setObject();
 		aSetter.setNPC();
 		aSetter.setMonster();
-		//playMusic(0); 
+		
+		//payMusic(0); 
 		//stopMusic();
 		gameState=TITLE_STATE;
 		
@@ -129,9 +130,17 @@ public class GamePanel extends JPanel implements Runnable {
 			System.exit(1);
 	}
 	public void update() {
+		for(int i=0;i<obj[0].length;i++) {
+			if(obj[currentMap][i]!=null)
+			{
+				if(obj[currentMap][i].name=="Pine_tree") {
+					System.out.println("GP: "+obj[currentMap][i].solidArea.x+" "+obj[currentMap][i].solidArea.y);
+			}
+			}}	
 		if(gameState==PLAY_STATE) 
 			player.update();
-	//	if(player.life<=0) gameState=gameOverState;
+		
+		if(player.life<=0) gameState=gameOverState;
 		for(int i=0;i<npc[0].length;i++)
 			if(npc[currentMap][i]!=null)	
 				npc[currentMap][i].update();
@@ -201,6 +210,7 @@ public class GamePanel extends JPanel implements Runnable {
 						for(int i=0;i<obj[0].length;i++) {
 							if(obj[currentMap][i]!=null)
 							{
+							
 								entityList.add(obj[currentMap][i]);
 							}
 					}
@@ -220,7 +230,15 @@ public class GamePanel extends JPanel implements Runnable {
 
 							@Override
 							public int compare(Entity o1, Entity o2) {
-								int result = Integer.compare(o1.worldY, o2.worldY);
+								int y1=o1.worldY;
+								int y2=o2.worldY;
+								if(o1.name=="Pine_tree" || o1.name=="Tree") {
+									y1+=TILE_SIZE;
+								}
+								if(o2.name=="Pine_tree" || o2.name=="Tree") {
+									y2+=TILE_SIZE;
+								}
+								int result = Integer.compare(y1, y2);
 								return result;
 							}
 						});
