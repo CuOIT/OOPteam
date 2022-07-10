@@ -82,8 +82,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public final int SOUND_STATE1=7;
 	public final int SOUND_STATE2=8;
 	public final int VICTORY_STATE=9;
-	
-	
+		
 	public GamePanel()
 	{
 		this.setPreferredSize(new Dimension(SCREEN_WIDTH,SCREEN_HEIGHT));

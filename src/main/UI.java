@@ -350,9 +350,13 @@ public class UI {
 			titleImage=UtilityTool.scaledImage(titleImage, gp.SCREEN_WIDTH, gp.SCREEN_HEIGHT);
 			g2.drawImage(titleImage,0,0,null);
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
 		}
+		g2.setColor(Color.white);
+		g2.setFont(pixel.deriveFont(80F));
+		String text="LOST TO SKULL ISLAND";
+		int x=getXForCenteredText(text);
+		int y=3*gp.TILE_SIZE;
+		g2.drawString(text,x,y);
 		BufferedImage[][] menuButton=new BufferedImage[3][3];
 		BufferedImage menuImage=null;
 				try {
@@ -446,7 +450,7 @@ public class UI {
 			g2.drawImage(gp.player.inventory.get(i).down1,slotX, slotY, null);
 			if(gp.player.inventory.get(i).amount >1) {
 
-				g2.setFont(pixel.deriveFont(32F));
+				g2.setFont(consola.deriveFont(32F));
 				int amountX;
 				int amountY;
 
@@ -491,7 +495,7 @@ public class UI {
 		// DRAW DESCRIPTION TEXT
 		int textX = dFrameX + 20;
 		int textY = dFrameY + gp.TILE_SIZE;
-		g2.setFont(pixel.deriveFont(28F));
+		g2.setFont(consola.deriveFont(28F));
 		
 		int itemIndex = getItemIndexOnSlot();
 		if(itemIndex < gp.player.inventory.size()) {

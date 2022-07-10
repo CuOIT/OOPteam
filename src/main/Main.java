@@ -6,7 +6,7 @@ public class Main {
 	window=new JFrame();
 	window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	window.setResizable(false);
-	window.setTitle("Game2D");
+	window.setTitle("LOST TO SKULL ISLAND");
 	GamePanel gamePanel=new GamePanel();
 	window.add(gamePanel);
 	
