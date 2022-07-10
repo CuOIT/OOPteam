@@ -9,6 +9,7 @@ import main.GamePanel;
 public class Object extends Entity{
 	public int amount = 0;
 	public boolean stackable = false;
+	public boolean pickable = false;
 	public String description = "";
 	public Object(GamePanel gp) {
 		super(gp);		

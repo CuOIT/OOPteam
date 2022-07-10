@@ -8,6 +8,7 @@ public class OBJ_Bow extends Object {
          super(gp);
          name = "Bow";
          stackable=true;
+         collision=false;
          down1 = setup("/objects/bow", gp.TILE_SIZE, gp.TILE_SIZE);
      }
 

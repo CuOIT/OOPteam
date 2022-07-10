@@ -16,7 +16,6 @@ public class Projectile extends Entity {
         this.direction = direction;
         this.user = user;
         this.alive = alive;
-        this.life = 80;
 
     }
     public void update(){

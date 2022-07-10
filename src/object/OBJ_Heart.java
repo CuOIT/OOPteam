@@ -7,7 +7,7 @@ public class OBJ_Heart extends Object{
 		super(gp);
 		name="Heart";
 		down1=setup("/objects/hp_full", gp.TILE_SIZE, gp.TILE_SIZE);
-
+		collision=false;
 }
 
 }

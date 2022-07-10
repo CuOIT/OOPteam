@@ -1,20 +1,19 @@
-package object;
+package entity;
 
-import entity.Projectile;
 import main.GamePanel;
 
-public class OBJ_Arrow extends Projectile {
+public class Arrow extends Projectile {
 
 
-    public OBJ_Arrow(GamePanel gp){
+    public Arrow(GamePanel gp){
          super(gp);
-         name = "Fireball";
-         speed = 4;
-         maxLife = 80;
+         name = "Arrow";
+         speed = 1;
+         maxLife = 200;
          life = maxLife;
          attack = 5;
          alive = false;
-         knockBackPower = 5; 
+         knockBackPower = 1; 
          getImage();
 
      }

@@ -5,7 +5,7 @@ import java.awt.event.KeyListener;
 import object.OBJ_Bow;
 import object.OBJ_Sword; 
 public class KeyHandler implements KeyListener{
-	public boolean upPressed,rightPressed,downPressed,leftPressed,enterPressed,shotKeyPressed;
+	public boolean upPressed,rightPressed,downPressed,leftPressed,enterPressed,shotKeyPressed,soundPressed=false;
 	//DEBUG
 	GamePanel gp;
 	boolean checkDrawTime=false;
@@ -55,9 +55,23 @@ public class KeyHandler implements KeyListener{
 		else if(gp.gameState==gp.GAME_OVER_STATE) {
 			gameOverState(code);
 		}
+		else if(gp.gameState==gp.SOUND_STATE1 ) {
+			soundState1(code);
+		}
+		else if(gp.gameState==gp.SOUND_STATE2) {
+			soundState2(code);
+		}
+		else if(gp.gameState==gp.VICTORY_STATE) {
+			victoryState(code);
+		}
 
 	}
 	
+	public void victoryState(int code) {
+		if(code==KeyEvent.VK_ENTER) {
+			gp.gameState=gp.TITLE_STATE;
+		}
+	}
 	public void gameOverState(int code) {
 		if(gp.frameCounter==120 && code==KeyEvent.VK_ENTER) {
 			gp.gameState=gp.TITLE_STATE;
@@ -139,13 +153,76 @@ public class KeyHandler implements KeyListener{
 			gp.gameState=gp.PLAY_STATE;
 		}
 		else if(gp.ui.subState==1) {
-			
+			gp.gameState=gp.SOUND_STATE2;
 		}
 		else if(gp.ui.subState==2) {
 			gp.gameState=gp.TITLE_STATE;
 		}
+			
 		}
 		
+		
+	}
+	public void soundState1(int code) {
+		if(code==KeyEvent.VK_W) {
+			gp.ui.subState=1;
+			gp.gameState=gp.TITLE_STATE;
+		}
+		else if(code==KeyEvent.VK_S) {
+			gp.ui.subState=3;
+			gp.gameState=gp.TITLE_STATE;
+		}
+		else if(code==KeyEvent.VK_A) {
+			gp.ui.subState=(gp.ui.subState+2)%3;
+		}
+		else if(code==KeyEvent.VK_D) {
+			gp.ui.subState=(gp.ui.subState+1)%3;
+		}
+		if(code==KeyEvent.VK_ENTER) {
+		enterPressed=true;
+		if(gp.ui.subState==0) {
+			gp.music.volumeUp();
+		}
+		else if(gp.ui.subState==1) {
+			gp.music.volumeDown();
+		}
+		else if(gp.ui.subState==2) {
+			gp.music.mute();
+		}
+			
+		}
+	}
+	public void soundState2(int code) {
+		if(code==KeyEvent.VK_ESCAPE) { 
+			gp.gameState=gp.PLAY_STATE;
+		}
+		if(code==KeyEvent.VK_W) {
+			gp.ui.subState=1;
+			gp.gameState=gp.PLAY_STATE;
+		}
+		else if(code==KeyEvent.VK_S) {
+			gp.ui.subState=3;
+			gp.gameState=gp.PLAY_STATE;
+		}
+		else if(code==KeyEvent.VK_A) {
+			gp.ui.subState=(gp.ui.subState+2)%3;
+		}
+		else if(code==KeyEvent.VK_D) {
+			gp.ui.subState=(gp.ui.subState+1)%3;
+		}
+		if(code==KeyEvent.VK_ENTER) {
+		enterPressed=true;
+		if(gp.ui.subState==0) {
+			gp.music.volumeUp();
+		}
+		else if(gp.ui.subState==1) {
+			gp.music.volumeDown();
+		}
+		else if(gp.ui.subState==2) {
+			gp.music.mute();
+		}
+			
+		}
 	}
 	public void titleState(int code) {
 		if(code==KeyEvent.VK_W) {
@@ -161,7 +238,7 @@ public class KeyHandler implements KeyListener{
 			
 		}
 		else if(gp.ui.subState==1) {
-			//draw SFX
+			gp.gameState=gp.SOUND_STATE1;
 		}
 		else if(gp.ui.subState==2) {
 			gp.gameThread=null;

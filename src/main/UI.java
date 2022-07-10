@@ -3,19 +3,17 @@ package main;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Container;
 import java.awt.FontFormatException;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.InputStream;
+
 import javax.imageio.ImageIO;
 
-import entity.Entity;
-import object.OBJ_Heart;
 
 public class UI {
-	Font arial_40,arial_80B;
+	Font pixel,consola;
 	GamePanel gp;
 	Graphics2D g2;
 	public boolean fullScreen = false; 
@@ -25,6 +23,18 @@ public class UI {
 	public int subState=0;
 	public UI(GamePanel gp) {
 		this.gp=gp;	
+		InputStream is=getClass().getResourceAsStream("/font/Autom-Bold.otf");
+		InputStream is2=getClass().getResourceAsStream("/font/CONSOLA.TTF");
+		try {
+			pixel=Font.createFont(Font.TRUETYPE_FONT, is);
+			consola=Font.createFont(Font.TRUETYPE_FONT, is2);
+		} catch (FontFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void draw(Graphics2D g2) {
@@ -55,11 +65,20 @@ public class UI {
 		else if(gp.gameState==gp.GAME_OVER_STATE) {
 			drawGameOverScreen();
 		}
+		else if(gp.gameState==gp.SOUND_STATE1) {
+			drawSoundState1();
+		}
+		else if(gp.gameState==gp.SOUND_STATE2) {
+			drawSoundState2();
+		}
+		else if(gp.gameState==gp.VICTORY_STATE) {
+			drawVictoryScreen();
+		}
 	}
 	
 	public void drawDifficultState() {	
 		try {
-			BufferedImage titleImage=ImageIO.read(getClass().getResourceAsStream("/menu/titleScreen.jpg"));
+			BufferedImage titleImage=ImageIO.read(getClass().getResourceAsStream("/menu/titleScreen.png"));
 			titleImage=UtilityTool.scaledImage(titleImage, gp.SCREEN_WIDTH, gp.SCREEN_HEIGHT);
 			g2.drawImage(titleImage,0,0,null);
 		} catch (IOException e1) {
@@ -79,22 +98,128 @@ public class UI {
 				difButton[i][j]=UtilityTool.scaledImage(difButton[i][j],210,84);
 			//	g2.drawImage(difButton[i][j],gp.TILE_SIZE*i*5,gp.TILE_SIZE*j*5,null);
 				}
-		g2.drawImage(difButton[0][i],gp.TILE_SIZE*10,gp.TILE_SIZE*i*2+7*gp.TILE_SIZE,null);
+		g2.drawImage(difButton[0][i],getXForCenteredImage(difButton[0][0]),gp.TILE_SIZE*i*2+7*gp.TILE_SIZE,null);
 		}
 			
 		switch(subState) {
 		case 0: 
-			g2.drawImage(difButton[1][0],gp.TILE_SIZE*10,gp.TILE_SIZE*0*2+7*gp.TILE_SIZE,null);
+			g2.drawImage(difButton[1][0],getXForCenteredImage(difButton[0][0]),gp.TILE_SIZE*0*2+7*gp.TILE_SIZE,null);
 			break;
 		case 1:
-			g2.drawImage(difButton[1][1],gp.TILE_SIZE*10,gp.TILE_SIZE*1*2+7*gp.TILE_SIZE,null);
+			g2.drawImage(difButton[1][1],getXForCenteredImage(difButton[0][0]),gp.TILE_SIZE*1*2+7*gp.TILE_SIZE,null);
 			break;
 		case 2:
-			g2.drawImage(difButton[1][2],gp.TILE_SIZE*10,gp.TILE_SIZE*2*2+7*gp.TILE_SIZE,null);
+			g2.drawImage(difButton[1][2],getXForCenteredImage(difButton[0][0]),gp.TILE_SIZE*2*2+7*gp.TILE_SIZE,null);
 			break;
 		}
 	}
 
+	
+	public void drawSoundState1() {
+		try {
+			BufferedImage titleImage=ImageIO.read(getClass().getResourceAsStream("/menu/titleScreen.png"));
+			titleImage=UtilityTool.scaledImage(titleImage, gp.SCREEN_WIDTH, gp.SCREEN_HEIGHT);
+			g2.drawImage(titleImage,0,0,null);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		BufferedImage[][] menuButton=new BufferedImage[3][3];
+		BufferedImage menuImage=null;
+				try {
+					menuImage=ImageIO.read(getClass().getResourceAsStream("/menu/button_atlas.png"));
+				}catch(IOException e) {
+					e.printStackTrace();
+				}
+		for(int i=0;i<3;i++) {
+			for(int j=0;j<3;j++) {
+				menuButton[i][j]=menuImage.getSubimage(i*140, j*56, 140, 56);
+				menuButton[i][j]=UtilityTool.scaledImage(menuButton[i][j],210,84);
+			//	g2.drawImage(menuButton[i][j],gp.TILE_SIZE*i*5,gp.TILE_SIZE*j*5,null);
+				}
+		g2.drawImage(menuButton[0][i],getXForCenteredImage(menuButton[0][0]),gp.TILE_SIZE*i*2+7*gp.TILE_SIZE,null);
+		}
+		BufferedImage[][] sound=new BufferedImage[2][3];
+		BufferedImage soundButtons=null;
+				try {
+					soundButtons=ImageIO.read(getClass().getResourceAsStream("/menu/soundButton.png"));
+				}catch(IOException e) {
+					e.printStackTrace();
+				}
+		for(int i=0;i<3;i++) {
+			for(int j=0;j<2;j++) {
+				sound[j][i]=soundButtons.getSubimage(i*42, j*42, 42, 42);
+				sound[j][i]=UtilityTool.scaledImage(sound[j][i],84,84);
+			//	g2.drawImage(menuButton[i][j],gp.TILE_SIZE*i*5,gp.TILE_SIZE*j*5,null);
+				}
+			g2.drawImage(sound[1][i],gp.TILE_SIZE*10+84*i,gp.TILE_SIZE*9,null);
+		}
+		switch(subState) {
+		case 0: 
+			g2.drawImage(sound[0][0],gp.TILE_SIZE*10,gp.TILE_SIZE*9,null);
+			break;
+		case 1:
+			g2.drawImage(sound[0][1],gp.TILE_SIZE*10+84,gp.TILE_SIZE*9,null);
+			break;
+		case 2:
+			g2.drawImage(sound[0][2],gp.TILE_SIZE*10+84*2,gp.TILE_SIZE*9,null);
+			break;
+		}
+	}
+	public void drawSoundState2() {
+		BufferedImage menuBackground=null;
+		try {
+			menuBackground=ImageIO.read(getClass().getResourceAsStream("/menu/menu_background.png"));
+			menuBackground=UtilityTool.scaledImage(menuBackground, gp.TILE_SIZE*10, gp.TILE_SIZE*12);
+		}catch(IOException e) {
+			e.printStackTrace();
+		}
+		int x=getXForCenteredImage(menuBackground);
+		int y=gp.TILE_SIZE;
+		g2.drawImage(menuBackground,x,y,null);
+		BufferedImage[][] menuButton=new BufferedImage[3][3];
+		BufferedImage menuImage=null;
+				try {
+					menuImage=ImageIO.read(getClass().getResourceAsStream("/menu/button_atlas.png"));
+				}catch(IOException e) {
+					e.printStackTrace();
+				}
+		for(int i=0;i<3;i++) {
+			for(int j=0;j<3;j++) {
+				menuButton[i][j]=menuImage.getSubimage(i*140, j*56, 140, 56);
+				menuButton[i][j]=UtilityTool.scaledImage(menuButton[i][j],210,84);
+			//	g2.drawImage(menuButton[i][j],gp.TILE_SIZE*i*5,gp.TILE_SIZE*j*5,null);
+				}
+		g2.drawImage(menuButton[0][i],getXForCenteredImage(menuButton[0][0]),gp.TILE_SIZE*i*2+5*gp.TILE_SIZE,null);
+		}
+
+		BufferedImage[][] sound=new BufferedImage[2][3];
+		BufferedImage soundButtons=null;
+				try {
+					soundButtons=ImageIO.read(getClass().getResourceAsStream("/menu/soundButton.png"));
+				}catch(IOException e) {
+					e.printStackTrace();
+				}
+		for(int i=0;i<3;i++) {
+			for(int j=0;j<2;j++) {
+				sound[j][i]=soundButtons.getSubimage(i*42, j*42, 42, 42);
+				sound[j][i]=UtilityTool.scaledImage(sound[j][i],84,84);
+			//	g2.drawImage(menuButton[i][j],gp.TILE_SIZE*i*5,gp.TILE_SIZE*j*5,null);
+				}
+			g2.drawImage(sound[1][i],getXForCenteredImage(menuButton[0][0])+84*i,gp.TILE_SIZE*7,null);
+		}
+		switch(subState) {
+		case 0: 
+			g2.drawImage(sound[0][0],getXForCenteredImage(menuButton[0][0]),gp.TILE_SIZE*7,null);
+			break;
+		case 1:
+			g2.drawImage(sound[0][1],getXForCenteredImage(menuButton[0][0])+84,gp.TILE_SIZE*7,null);
+			break;
+		case 2:
+			g2.drawImage(sound[0][2],getXForCenteredImage(menuButton[0][0])+84*2,gp.TILE_SIZE*7,null);
+			break;
+		}
+	}
 	public void drawOptionState() {
 		BufferedImage menuBackground=null;
 		try {
@@ -203,7 +328,7 @@ public class UI {
 			int height= gp.TILE_SIZE*4;
 			drawSubWindow(x,y,width,height);
 			
-			g2.setFont(g2.getFont().deriveFont(Font.PLAIN,32F));//marumonica
+			g2.setFont(consola.deriveFont(32F));
 			x+=gp.TILE_SIZE;
 			y+=gp.TILE_SIZE;
 			
@@ -221,7 +346,7 @@ public class UI {
 	}
 	public void drawTitleScreen() {
 		try {
-			BufferedImage titleImage=ImageIO.read(getClass().getResourceAsStream("/menu/titleScreen.jpg"));
+			BufferedImage titleImage=ImageIO.read(getClass().getResourceAsStream("/menu/titleScreen.png"));
 			titleImage=UtilityTool.scaledImage(titleImage, gp.SCREEN_WIDTH, gp.SCREEN_HEIGHT);
 			g2.drawImage(titleImage,0,0,null);
 		} catch (IOException e1) {
@@ -241,18 +366,18 @@ public class UI {
 				menuButton[i][j]=UtilityTool.scaledImage(menuButton[i][j],210,84);
 			//	g2.drawImage(menuButton[i][j],gp.TILE_SIZE*i*5,gp.TILE_SIZE*j*5,null);
 				}
-		g2.drawImage(menuButton[0][i],gp.TILE_SIZE*10,gp.TILE_SIZE*i*2+7*gp.TILE_SIZE,null);
+		g2.drawImage(menuButton[0][i],getXForCenteredImage(menuButton[0][0]),gp.TILE_SIZE*i*2+7*gp.TILE_SIZE,null);
 		}
 			
 		switch(subState) {
 		case 0: 
-			g2.drawImage(menuButton[1][0],gp.TILE_SIZE*10,gp.TILE_SIZE*0*2+7*gp.TILE_SIZE,null);
+			g2.drawImage(menuButton[1][0],getXForCenteredImage(menuButton[0][0]),gp.TILE_SIZE*0*2+7*gp.TILE_SIZE,null);
 			break;
 		case 1:
-			g2.drawImage(menuButton[1][1],gp.TILE_SIZE*10,gp.TILE_SIZE*1*2+7*gp.TILE_SIZE,null);
+			g2.drawImage(menuButton[1][1],getXForCenteredImage(menuButton[0][0]),gp.TILE_SIZE*1*2+7*gp.TILE_SIZE,null);
 			break;
 		case 2:
-			g2.drawImage(menuButton[1][2],gp.TILE_SIZE*10,gp.TILE_SIZE*2*2+7*gp.TILE_SIZE,null);
+			g2.drawImage(menuButton[1][2],getXForCenteredImage(menuButton[0][0]),gp.TILE_SIZE*2*2+7*gp.TILE_SIZE,null);
 			break;
 		}
 	}
@@ -264,12 +389,31 @@ public class UI {
 
 	if(gp.frameCounter==120) {
 	g2.setColor(Color.white);
-	g2.setFont(g2.getFont().deriveFont(Font.PLAIN,80F));
+	g2.setFont(pixel.deriveFont(80F));
 	String text="GAME OVER";
 	int x=getXForCenteredText(text);
 	int y=gp.SCREEN_HEIGHT/2-3*gp.TILE_SIZE;
 	g2.drawString(text,x,y);
-	g2.setFont(g2.getFont().deriveFont(Font.PLAIN,32F));
+	g2.setFont(pixel.deriveFont(32F));
+	String text2="Press ENTER to exit";
+	int x2=getXForCenteredText(text2);
+	int y2=gp.SCREEN_HEIGHT-2*gp.TILE_SIZE;
+	g2.drawString(text2,x2,y2);
+	}
+	}
+	public void drawVictoryScreen(){
+	g2.setColor(Color.black);
+	g2.fillRect(0,-gp.SCREEN_HEIGHT/2+gp.frameCounter*(gp.SCREEN_HEIGHT/240), gp.SCREEN_WIDTH, gp.SCREEN_HEIGHT/2);
+	g2.fillRect(0,gp.SCREEN_HEIGHT-gp.frameCounter*(gp.SCREEN_HEIGHT/240), gp.SCREEN_WIDTH, gp.SCREEN_HEIGHT/2);
+
+	if(gp.frameCounter==120) {
+	g2.setColor(Color.white);
+	g2.setFont(pixel.deriveFont(80F));
+	String text="VICTORY";
+	int x=getXForCenteredText(text);
+	int y=gp.SCREEN_HEIGHT/2-3*gp.TILE_SIZE;
+	g2.drawString(text,x,y);
+	g2.setFont(pixel.deriveFont(32F));
 	String text2="Press ENTER to exit";
 	int x2=getXForCenteredText(text2);
 	int y2=gp.SCREEN_HEIGHT-2*gp.TILE_SIZE;
@@ -302,7 +446,7 @@ public class UI {
 			g2.drawImage(gp.player.inventory.get(i).down1,slotX, slotY, null);
 			if(gp.player.inventory.get(i).amount >1) {
 
-				g2.setFont(g2.getFont().deriveFont(32f));
+				g2.setFont(pixel.deriveFont(32F));
 				int amountX;
 				int amountY;
 
@@ -347,7 +491,7 @@ public class UI {
 		// DRAW DESCRIPTION TEXT
 		int textX = dFrameX + 20;
 		int textY = dFrameY + gp.TILE_SIZE;
-		g2.setFont(g2.getFont().deriveFont(28F));
+		g2.setFont(pixel.deriveFont(28F));
 		
 		int itemIndex = getItemIndexOnSlot();
 		if(itemIndex < gp.player.inventory.size()) {

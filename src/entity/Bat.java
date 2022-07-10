@@ -1,16 +1,8 @@
 package entity;
 import main.GamePanel;
-
-import java.awt.AlphaComposite;
-import java.awt.Color;
-import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
 import java.util.Random;
-
 import object.OBJ_Heart;
-import object.OBJ_Rock;
-import object.OBJ_Tooth;
 
 public class Bat extends Monster {
 	private static int defaultAttack;
@@ -22,7 +14,7 @@ public class Bat extends Monster {
      attack=defaultAttack;
      life=maxLife=defaultMaxLife;
      speed=normalSpeed=defaultSpeed;
-    projectile = new OBJ_Rock(gp);
+    projectile = new Rock_Bullet(gp);
     solidArea=new Rectangle(3,18,42,30);
     getImage();
     }
@@ -57,6 +49,7 @@ public class Bat extends Monster {
 				//System.out.println(distanceToPlayer());
 			}
 			actionLockCounter=0;
+			speed=normalSpeed;
 		}
         int i = new Random().nextInt(100)+1;
 		if( i != 99 && attackLockCounter >= 60){

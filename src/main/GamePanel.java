@@ -23,11 +23,11 @@ public class GamePanel extends JPanel implements Runnable {
 //screen settings
 	public final int ORIGINAL_TILE_SIZE = 16;//16x16 tile;
 	public	final int SCALE=3;
-	public final int TILE_SIZE=ORIGINAL_TILE_SIZE*SCALE;	
+	public final int TILE_SIZE=ORIGINAL_TILE_SIZE*SCALE;	//48 pixels
 	public final int MAX_SCREEN_COL=25;
 	public final int MAX_SCREEN_ROW=15;
-	public final int SCREEN_WIDTH=TILE_SIZE * MAX_SCREEN_COL;//768 pixels
-	public final int SCREEN_HEIGHT=TILE_SIZE * MAX_SCREEN_ROW;//576 pixels
+	public final int SCREEN_WIDTH=TILE_SIZE * MAX_SCREEN_COL;//1200 pixels
+	public final int SCREEN_HEIGHT=TILE_SIZE * MAX_SCREEN_ROW;//720 pixels
 	
 	public final int MAX_MAP=5;
 	public final int MAX_WORLD_COL=50;
@@ -76,10 +76,12 @@ public class GamePanel extends JPanel implements Runnable {
 	public final int DIFFICULT_STATE=1;
 	public final int PLAY_STATE=2;
 	public final int DIALOGUE_STATE=3;
-	public final int PAUSE_STATE=4;
+	public final int GAME_OVER_STATE=4;
 	public final int CHARACTER_STATE=5;
 	public final int OPTION_STATE=6; 
-	public final int GAME_OVER_STATE=7;
+	public final int SOUND_STATE1=7;
+	public final int SOUND_STATE2=8;
+	public final int VICTORY_STATE=9;
 	
 	//HARD LEVEL
 	
@@ -95,7 +97,10 @@ public class GamePanel extends JPanel implements Runnable {
 		this.setFocusable(true);
 	}
 	public void setUpGame() {
-		//payMusic(0); 
+		
+		music.setFile(0);
+		music.play();
+		music.loop();
 		//stopMusic();
 		gameState=TITLE_STATE;
 		
@@ -166,9 +171,6 @@ public class GamePanel extends JPanel implements Runnable {
 				}
 			}
 		}
-	
-		if(gameState==PAUSE_STATE) {
-		}
 
 		if(gameState==DIALOGUE_STATE) {
 			ui.drawDialogueScreen(player.npcIndex);
@@ -177,6 +179,12 @@ public class GamePanel extends JPanel implements Runnable {
 			if(frameCounter<120)
 				frameCounter++;
 			ui.drawGameOverScreen();
+			
+		}
+		if(gameState==VICTORY_STATE) {
+			if(frameCounter<120)
+				frameCounter++;
+			ui.drawVictoryScreen();
 			
 		}
 
@@ -263,17 +271,5 @@ public class GamePanel extends JPanel implements Runnable {
 		screenHeight2=Main.window.getHeight();
 		
 	}
-	public void playMusic(int i) {
-		music.setFile(i);
-		music.play();
-		music.loop();
-		System.out.println("dsa");
-	}
-	public void stopMusic() {
-		music.stop();
-	}
-	public void playSE(int i) {
-		se.setFile(i);
-		se.play();
-	}
+	
 }

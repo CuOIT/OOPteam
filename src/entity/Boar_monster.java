@@ -9,7 +9,6 @@ import java.awt.image.BufferedImage;
 import java.util.Random;
 
 import object.OBJ_Heart;
-import object.OBJ_Rock;
 import object.OBJ_Tooth;
 public class Boar_monster extends Monster{
 	private static int defaultAttack;

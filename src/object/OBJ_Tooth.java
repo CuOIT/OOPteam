@@ -8,6 +8,7 @@ public class OBJ_Tooth extends Object {
     public OBJ_Tooth(GamePanel gp){
         super(gp);
         stackable=true;
+        collision=false;
         name = "Tooth";
         down1 = setup("/objects/tooth", gp.TILE_SIZE, gp.TILE_SIZE);
     }

@@ -15,10 +15,8 @@ import main.UtilityTool;
 
 import object.Object;
 import object.OBJ_Tooth;
-import object.OBJ_Arrow;
 import object.OBJ_Bow;
 import object.OBJ_Apple;
-import object.OBJ_Arrow;
 
 public class Player extends Human{
 
@@ -38,17 +36,15 @@ public class Player extends Human{
 		screenX=gp.SCREEN_WIDTH/2-(gp.TILE_SIZE/2);
 		screenY=gp.SCREEN_HEIGHT/2-(gp.TILE_SIZE/2);
 		//set character in the center
-		solidArea=new Rectangle();
-		solidArea.x=8;
-		solidArea.y=16;
-		solidArea.width=32;
-		solidArea.height=32;
+		solidArea=new Rectangle(8,16,32,32);
 		attackArea.width = 36;
 		attackArea.height = 36;
 		setDefaultValues();
 		getPlayerImage();
 		getPlayerAttackImage();
 		setDialogue();
+		projectile=new Arrow(gp);
+		bow=new OBJ_Bow(gp);
 	}
 	
 	public void setDefaultValues() {
@@ -56,14 +52,14 @@ public class Player extends Human{
 		worldY=gp.TILE_SIZE*7;
 
 		//set character in the center
-		speed=10;
+		speed=5;
 		direction="down";
 		maxLife=3;
 		attack=1;
 		life=maxLife;
 		maxHp=10;
 		hp=maxHp;
-		
+		knockBackPower=1;
 		
 
 	}	
@@ -217,11 +213,12 @@ public class Player extends Human{
 		}
 		// het bo sung
 		// bo sung (Dang)
+		if(hp > maxHp) {
+			hp = hp-maxHp;
+			life++;
+		}
 		if(life > maxLife){
 			life = maxLife;
-		}
-		if(hp > maxHp) {
-			hp = maxHp;
 		}
 		if (hp <= 0) {
 			if(life > 0) {
@@ -263,7 +260,7 @@ public class Player extends Human{
 
 			// check monster collision with the updated worldX, worldY, solideArea
 			int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
-			damageMonster(monsterIndex, attack, 3);
+			damageMonster(monsterIndex, attack, knockBackPower);
 
 			//After checking collision, restrore the original data
 			worldX = currentWorldX;
@@ -290,7 +287,7 @@ public class Player extends Human{
 
 				 if(canObtainItem(gp.obj[gp.currentMap][i])==true);
 				 gp.obj[gp.currentMap][i]=null;
-				 this.life+=1;
+				 this.hp+=5;
 				 break;
 			 case "Boots":
 //				 System.out.println(objectName+"Boots");
@@ -304,7 +301,7 @@ public class Player extends Human{
 				 gp.obj[gp.currentMap][i]=null;
 				 OBJ_Apple.numberCollected++;
 				 //System.out.println(OBJ_Apple.numberCollected);
-				 if(OBJ_Apple.numberCollected==4) 
+				 if(OBJ_Apple.numberCollected==5) 
 					 {
 					 currentMission=2;
 					 }
@@ -326,6 +323,7 @@ public class Player extends Human{
 				 if(canObtainItem(gp.obj[gp.currentMap][i])==true);
 				 currentWeapon = gp.obj[gp.currentMap][i];
 					attack = currentWeapon.attack;
+					knockBackPower=currentWeapon.knockBackPower;
 					getPlayerAttackBySwordImage();
 				 gp.obj[gp.currentMap][i]=null;
 				 break; 
@@ -333,7 +331,7 @@ public class Player extends Human{
 				 if(canObtainItem(gp.obj[gp.currentMap][i])==true);
 				 bow=new OBJ_Bow(gp);
 				 gp.obj[gp.currentMap][i]=null;
-				projectile = new OBJ_Arrow(gp);
+				projectile = new Arrow(gp);
 
 				 break; 
 			 case "Entry_Cave":
@@ -358,11 +356,13 @@ public class Player extends Human{
 				 gp.monster[1][19]= new Boss(gp);
 					gp.monster[1][19].worldX = gp.TILE_SIZE*30;
 					gp.monster[1][19].worldY = gp.TILE_SIZE*40;
-
+				break;
+			 case "Crystal":
+				 gp.obj[gp.currentMap][i]=null;
+				 gp.gameState=gp.VICTORY_STATE;
+				 break;
 				 }
-			 //them code o day dong 323-334
-			 
-			// gp.obj[gp.currentMap][i] = null;
+
 				 }
 	}
 	

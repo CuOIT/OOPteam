@@ -1,13 +1,12 @@
-package object;
+package entity;
 
-import entity.Projectile;
 import main.GamePanel;
 
-public class OBJ_Rock extends Projectile {
+public class Rock_Bullet extends Projectile {
 	private static int defaultSpeed;
 	private static int defaultAttack;
 
-    public OBJ_Rock(GamePanel gp){
+    public Rock_Bullet(GamePanel gp){
          super(gp);
          speed = defaultSpeed;
          life = 100;
@@ -28,10 +27,10 @@ public class OBJ_Rock extends Projectile {
      }
 
      public static void setDefaultSpeed(int speed) {
-    	 OBJ_Rock.defaultSpeed=speed;
+    	 Rock_Bullet.defaultSpeed=speed;
      }
      public static void setAttack(int attack) {
-    	 OBJ_Rock.defaultAttack=attack;
+    	 Rock_Bullet.defaultAttack=attack;
      }
 
 }

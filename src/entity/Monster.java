@@ -57,7 +57,7 @@ public class Monster extends Entity{
 		}
 		
 		knockBackCounter ++;
-		if(knockBackCounter == 10){
+		if(knockBackCounter >= 10){
 			speed=normalSpeed;
 			knockBackCounter = 0;
 			knockBack = false;

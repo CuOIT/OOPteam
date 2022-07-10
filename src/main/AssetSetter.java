@@ -3,11 +3,11 @@ package main;
 import object.OBJ_Entry_Cave;
 import object.OBJ_Pine_tree;
 import object.OBJ_Pit;
-import object.OBJ_Rock;
 import object.OBJ_Tent;
 import object.OBJ_Tree;
 import entity.NPC_guard;
 import entity.NPC_headman;
+import entity.Rock_Bullet;
 import object.OBJ_Apple;
 import object.OBJ_Boss_Cave;
 import entity.Boar_monster;
@@ -93,9 +93,7 @@ public class AssetSetter {
 		gp.obj[mapNum][95].worldX=34*gp.TILE_SIZE;
 		gp.obj[mapNum][95].worldY=41*gp.TILE_SIZE;
 		
-		gp.obj[mapNum][96]=new OBJ_Pine_tree(gp) ;
-		gp.obj[mapNum][96].worldX=14*gp.TILE_SIZE;
-		gp.obj[mapNum][96].worldY=42*gp.TILE_SIZE;
+		
 		
 		
 	
@@ -302,6 +300,10 @@ public class AssetSetter {
 		
 		
 		//Apple
+		gp.obj[mapNum][96]=new OBJ_Apple(gp) ;
+		gp.obj[mapNum][96].worldX=21*gp.TILE_SIZE;
+		gp.obj[mapNum][96].worldY=9*gp.TILE_SIZE;
+		
 		gp.obj[mapNum][97]=new OBJ_Apple(gp);
 		gp.obj[mapNum][97].worldX=34*gp.TILE_SIZE;
 		gp.obj[mapNum][97].worldY=2*gp.TILE_SIZE;
@@ -311,12 +313,12 @@ public class AssetSetter {
 		gp.obj[mapNum][98].worldY=4*gp.TILE_SIZE;
 		
 		gp.obj[mapNum][99]=new OBJ_Apple(gp);
-		gp.obj[mapNum][99].worldX=31*gp.TILE_SIZE;
-		gp.obj[mapNum][99].worldY=3*gp.TILE_SIZE;
+		gp.obj[mapNum][99].worldX=24*gp.TILE_SIZE;
+		gp.obj[mapNum][99].worldY=14*gp.TILE_SIZE;
 		
 		gp.obj[mapNum][100]=new OBJ_Apple(gp);
-		gp.obj[mapNum][100].worldX=22*gp.TILE_SIZE;
-		gp.obj[mapNum][100].worldY=9*gp.TILE_SIZE;
+		gp.obj[mapNum][100].worldX=20*gp.TILE_SIZE;
+		gp.obj[mapNum][100].worldY=10*gp.TILE_SIZE;
 		
 		
 		
@@ -477,12 +479,12 @@ public class AssetSetter {
 			Bat.setAttack(1);
 			Bat.setDefaultSpeed(1);
 			Bat.setMaxLife(8);
-			OBJ_Rock.setDefaultSpeed(3);
-			OBJ_Rock.setAttack(1);
+			Rock_Bullet.setDefaultSpeed(3);
+			Rock_Bullet.setAttack(1);
 		
 			Boss.setAttack(2);
 			Boss.setDefaultSpped(2);
-			Boss.setMaxLife(300);
+			Boss.setMaxLife(60);
 			break;
 		case "NORMAL":
 			Boar_monster.setAttack(2);
@@ -491,12 +493,12 @@ public class AssetSetter {
 			Bat.setAttack(2);
 			Bat.setDefaultSpeed(2);
 			Bat.setMaxLife(10);
-			OBJ_Rock.setDefaultSpeed(4);
-			OBJ_Rock.setAttack(2);
+			Rock_Bullet.setDefaultSpeed(4);
+			Rock_Bullet.setAttack(2);
 		
 			Boss.setAttack(3);
 			Boss.setDefaultSpped(3);
-			Boss.setMaxLife(400);
+			Boss.setMaxLife(80);
 			break;
 		case "HARD":
 			Boar_monster.setAttack(3);
@@ -505,12 +507,12 @@ public class AssetSetter {
 			Bat.setAttack(3);
 			Bat.setDefaultSpeed(3);
 			Bat.setMaxLife(12);
-			OBJ_Rock.setDefaultSpeed(6);
-			OBJ_Rock.setAttack(3);
+			Rock_Bullet.setDefaultSpeed(6);
+			Rock_Bullet.setAttack(3);
 		
 			Boss.setAttack(3);
 			Boss.setDefaultSpped(3);
-			Boss.setMaxLife(400);
+			Boss.setMaxLife(1);
 			break;
 			}
 	}

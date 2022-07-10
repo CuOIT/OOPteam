@@ -1,6 +1,8 @@
 package entity;
 
 import main.GamePanel;
+import object.OBJ_Crystal;
+import object.OBJ_Tooth;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
@@ -9,10 +11,8 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
-import object.OBJ_Rock;
-
 public class Boss extends Monster {
-    Projectile[] projectiles = new OBJ_Rock[8];
+    Projectile[] projectiles = new Rock_Bullet[8];
     private static int defaultAttack;
 	private static int defaultSpeed;
 	private static int defaultMaxLife; 
@@ -22,14 +22,14 @@ public class Boss extends Monster {
 		speed = normalSpeed=defaultSpeed;
 	    life=maxLife=defaultMaxLife;
 	    attack=defaultAttack;
-	    projectiles[0]=new OBJ_Rock(gp);
-		projectiles[1]=new OBJ_Rock(gp);
-		projectiles[2]=new OBJ_Rock(gp);
-		projectiles[3]=new OBJ_Rock(gp);
-		projectiles[4]=new OBJ_Rock(gp);
-		projectiles[5]=new OBJ_Rock(gp);
-		projectiles[6]=new OBJ_Rock(gp);
-		projectiles[7]=new OBJ_Rock(gp);
+	    projectiles[0]=new Rock_Bullet(gp);
+		projectiles[1]=new Rock_Bullet(gp);
+		projectiles[2]=new Rock_Bullet(gp);
+		projectiles[3]=new Rock_Bullet(gp);
+		projectiles[4]=new Rock_Bullet(gp);
+		projectiles[5]=new Rock_Bullet(gp);
+		projectiles[6]=new Rock_Bullet(gp);
+		projectiles[7]=new Rock_Bullet(gp);
 	
 	    solidArea=new Rectangle(9,54,126,90);
 	
@@ -242,5 +242,8 @@ public class Boss extends Monster {
 		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f));
 		changeAlpha(g2,1F);
 	
+	}
+	public void checkDrop(){
+		dropItem(new OBJ_Crystal(gp));
 	}
 }
