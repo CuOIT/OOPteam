@@ -58,6 +58,7 @@ public class Boss extends Monster {
     public void setAction(){
     	 actionLockCounter++;
  		if(actionLockCounter%75==0) {
+ 			gp.playSE(5);
  			Random random=new Random();
  			int i = random.nextInt(100)+1;
  			if(i<=25) {
@@ -78,6 +79,7 @@ public class Boss extends Monster {
 		if( attackLockCounter >= 180 && attackLockCounter<300 && actionLockCounter%40==0 ){
 
 			direction="attack";
+			gp.playSE(3);
             projectiles[0].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "up" , true, this);
             projectiles[1].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "down" , true, this);
             projectiles[2].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "left" , true, this);
@@ -98,6 +100,7 @@ public class Boss extends Monster {
 			}
 			
 		else if( attackLockCounter==400) {
+			gp.playSE(4);
 				if(gp.monster[1][18]==null ) {
 					gp.monster[1][18]=new Bat(gp);
 					gp.monster[1][18].worldX=20*gp.TILE_SIZE;

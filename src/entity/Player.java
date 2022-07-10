@@ -197,11 +197,14 @@ public class Player extends Human{
 		}
 		}
 		if(gp.keyH.shotKeyPressed == true  && bow!=null){
-			if(projectile.alive==false)
-			projectile.set(worldX, worldY, direction, true, this);
+			if(projectile.alive==false) {
+				projectile.set(worldX, worldY, direction, true, this);
+				gp.projectileList.add(projectile);
+				System.out.println("PL: ");
+				//gp.playSE(7);
+			}
 
 		// add it to the list
-		gp.projectileList.add(projectile);
 		}
 		//THIS NEEDS TO BE OUTSIDE OF KEY IF STATEMENT(DANG)
 		if(takingDamage == true){
@@ -232,9 +235,19 @@ public class Player extends Human{
 	}
 	// bo sung tu 160-202(DANG)
 	public void attacking (){
+		
 		spriteCounter++;
 
 		if(spriteCounter<=5){
+			if(spriteCounter==2)
+			{
+				if(currentWeapon==null) {
+					gp.playSE(10);
+				}
+				else if(currentWeapon.name=="Sword") {
+					gp.playSE(11);
+				}
+			}
 			spriteNum = 1;
 		}
 		if(spriteCounter>5 && spriteCounter <=25){
@@ -282,9 +295,9 @@ public class Player extends Human{
 		if(i!=999) {
 			 
 			String objectName=gp.obj[gp.currentMap][i].name;
+			gp.playSE(9);
 			 switch(objectName) {
 			 case "Heart":
-
 				 if(canObtainItem(gp.obj[gp.currentMap][i])==true);
 				 gp.obj[gp.currentMap][i]=null;
 				 this.hp+=5;
@@ -340,6 +353,8 @@ public class Player extends Human{
 				 worldX=3*gp.TILE_SIZE;
 				 worldY=39*gp.TILE_SIZE;
 				 gp.currentMap=1;
+				 gp.stopMusic();
+				 gp.playMusic(1);
 				 }
 				 else {
 					 worldX=15*gp.TILE_SIZE;

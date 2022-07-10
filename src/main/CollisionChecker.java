@@ -80,7 +80,7 @@ public class CollisionChecker {
 					if(gp.obj[gp.currentMap][i].collision==true) {
 						entity.collisionOn=true;
 					}
-					if(player==true) {
+					else if(player==true) {
 						
 
 						index=i;

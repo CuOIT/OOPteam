@@ -93,12 +93,9 @@ public class GamePanel extends JPanel implements Runnable {
 		this.setFocusable(true);
 	}
 	public void setUpGame() {
-		music.setFile(0);
-		music.play();
-		music.loop();
+		playMusic(0);
 		//stopMusic();
-		gameState=TITLE_STATE;
-		
+		gameState=TITLE_STATE;	
 		tempScreen=new BufferedImage(SCREEN_WIDTH,SCREEN_HEIGHT,BufferedImage.TYPE_INT_ARGB);
 		g2=(Graphics2D)tempScreen.getGraphics();
 		
@@ -171,12 +168,16 @@ public class GamePanel extends JPanel implements Runnable {
 			ui.drawDialogueScreen(player.npcIndex);
 		}
 		if(gameState==GAME_OVER_STATE) {
+			stopMusic();
+			playSE(13);
 			if(frameCounter<120)
 				frameCounter++;
 			ui.drawGameOverScreen();
 			
 		}
 		if(gameState==VICTORY_STATE) {
+			stopMusic();
+			playSE(13);
 			if(frameCounter<120)
 				frameCounter++;
 			ui.drawVictoryScreen();
@@ -266,5 +267,17 @@ public class GamePanel extends JPanel implements Runnable {
 		screenHeight2=Main.window.getHeight();
 		
 	}
-	
+	public void playMusic(int i) {
+		music.setFile(i);
+		music.play();
+		music.loop();
+		System.out.println("dsa");
+	}
+	public void stopMusic() {
+		music.stop();
+	}
+	public void playSE(int i) {
+		se.setFile(i);
+		se.play();
+	}
 }

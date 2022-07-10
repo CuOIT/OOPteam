@@ -9,7 +9,7 @@ public class Arrow extends Projectile {
          super(gp);
          name = "Arrow";
          speed = 1;
-         maxLife = 200;
+         maxLife = 80;
          life = maxLife;
          attack = 5;
          alive = false;
