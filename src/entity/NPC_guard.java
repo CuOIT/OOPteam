@@ -4,7 +4,7 @@ import java.util.Random;
 
 import main.GamePanel;
 
-public class NPC_guard extends Entity{
+public class NPC_guard extends Human{
 	public NPC_guard(GamePanel gp) {
 		super(gp);
 		direction="down";
@@ -12,22 +12,9 @@ public class NPC_guard extends Entity{
 		getImage();
 		setDialogue();
 	}
-	public void setDefaultValues() {
-		worldX=gp.TILE_SIZE*44;
-		worldY=gp.TILE_SIZE*44;
-	}
-	
-	
-
 	public void getImage() {
 		down2=setup("/npc/guard_Up2",gp.TILE_SIZE,gp.TILE_SIZE);
 		down1=setup("/npc/guard_Up1",gp.TILE_SIZE,gp.TILE_SIZE);
-//		up1=setup("/npc/guard_Up1",gp.TILE_SIZE,gp.TILE_SIZE);
-//		up2=setup("/npc/guard_Up2",gp.TILE_SIZE,gp.TILE_SIZE);
-//		left1=setup("/npc/guard_Up1",gp.TILE_SIZE,gp.TILE_SIZE);
-//		left2=setup("/npc/guard_Up2",gp.TILE_SIZE,gp.TILE_SIZE);
-//		right1=setup("/npc/guard_Up1",gp.TILE_SIZE,gp.TILE_SIZE);
-//		right2=setup("/npc/guard_Up2",gp.TILE_SIZE,gp.TILE_SIZE);
 	}
 	public void setDialogue() {
 		dialogue[1][0]="Where is this???";

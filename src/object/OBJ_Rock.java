@@ -4,18 +4,14 @@ import entity.Projectile;
 import main.GamePanel;
 
 public class OBJ_Rock extends Projectile {
-    GamePanel gp;
+	private static int defaultSpeed;
+	private static int defaultAttack;
 
     public OBJ_Rock(GamePanel gp){
          super(gp);
-         this.gp = gp;
-
-         name = "Rock";
-         speed = 8;
-         maxLife = 80;
-         life = maxLife;
-         attack = 2;
-         alive = false;
+         speed = defaultSpeed;
+         life = 100;
+         attack=defaultAttack;
          getImage();
 
      }
@@ -29,6 +25,13 @@ public class OBJ_Rock extends Projectile {
          left2 = setup("/projectile/rock_down_1", gp.TILE_SIZE, gp.TILE_SIZE);
          right1 = setup("/projectile/rock_down_1", gp.TILE_SIZE, gp.TILE_SIZE);
          right2 = setup("/projectile/rock_down_1", gp.TILE_SIZE, gp.TILE_SIZE);
+     }
+
+     public static void setDefaultSpeed(int speed) {
+    	 OBJ_Rock.defaultSpeed=speed;
+     }
+     public static void setAttack(int attack) {
+    	 OBJ_Rock.defaultAttack=attack;
      }
 
 }

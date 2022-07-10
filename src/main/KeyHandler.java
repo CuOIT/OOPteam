@@ -37,7 +37,7 @@ public class KeyHandler implements KeyListener{
 					playState(code);
 		}
 		else if(gp.gameState==gp.TITLE_STATE) {
-					tileState(code);
+					titleState(code);
 		}
 
 		else if(gp.gameState==gp.DIALOGUE_STATE) {		
@@ -49,9 +49,47 @@ public class KeyHandler implements KeyListener{
 		else if(gp.gameState==gp.OPTION_STATE) {
 			optionState(code);
 		}
+		else if(gp.gameState==gp.DIFFICULT_STATE) {
+			difficultState(code);
+		}
+		else if(gp.gameState==gp.GAME_OVER_STATE) {
+			gameOverState(code);
+		}
 
 	}
 	
+	public void gameOverState(int code) {
+		if(gp.frameCounter==120 && code==KeyEvent.VK_ENTER) {
+			gp.gameState=gp.TITLE_STATE;
+			gp.ui.subState=-1;
+		}
+	}
+	public void difficultState(int code) {
+		if(code==KeyEvent.VK_W) {
+			gp.ui.subState=(gp.ui.subState+2)%3;
+		}
+		else if(code==KeyEvent.VK_S) {
+			gp.ui.subState=(gp.ui.subState+1)%3;
+		}
+		System.out.println("KH: "+gp.ui.subState);
+		if(code==KeyEvent.VK_ENTER) {
+			
+			enterPressed=true;
+		if(gp.ui.subState==0) {
+			gp.aSetter.setUpLevel("EASY");
+		}
+		else if(gp.ui.subState==1) {
+			gp.aSetter.setUpLevel("NORMAL");
+		}
+		else gp.aSetter.setUpLevel("HARD");
+		
+		gp.aSetter.setObject();
+		gp.aSetter.setNPC();
+		gp.aSetter.setMonster();
+		gp.gameState=gp.DIALOGUE_STATE;
+		
+		}
+	}
 	public void playState(int code) {
 		if(code==KeyEvent.VK_W) {
 			upPressed=true;
@@ -90,7 +128,7 @@ public class KeyHandler implements KeyListener{
 			gp.gameState=gp.PLAY_STATE;
 		}
 		if(code==KeyEvent.VK_W) {
-			gp.ui.subState=(gp.ui.subState-1)%3;
+			gp.ui.subState=(gp.ui.subState+2)%3;
 		}
 		else if(code==KeyEvent.VK_S) {
 			gp.ui.subState=(gp.ui.subState+1)%3;
@@ -109,9 +147,9 @@ public class KeyHandler implements KeyListener{
 		}
 		
 	}
-	public void tileState(int code) {
+	public void titleState(int code) {
 		if(code==KeyEvent.VK_W) {
-			gp.ui.subState=(gp.ui.subState-1)%3;
+			gp.ui.subState=(gp.ui.subState+2)%3;
 		}
 		else if(code==KeyEvent.VK_S) {
 			gp.ui.subState=(gp.ui.subState+1)%3;
@@ -119,7 +157,8 @@ public class KeyHandler implements KeyListener{
 		if(code==KeyEvent.VK_ENTER) {
 		enterPressed=true;
 		if(gp.ui.subState==0) {
-			gp.gameState=gp.DIALOGUE_STATE;
+			gp.gameState=gp.DIFFICULT_STATE;
+			
 		}
 		else if(gp.ui.subState==1) {
 			//draw SFX
@@ -141,11 +180,11 @@ public class KeyHandler implements KeyListener{
 		gp.npc[gp.currentMap][gp.player.npcIndex].numberDialogue++;
 		if(gp.player.npcIndex==0 && gp.npc[gp.currentMap][gp.player.npcIndex].numberDialogue==1 && gp.player.currentMission==2)
 		{
-			gp.npc[gp.currentMap][gp.player.npcIndex].dropItem(new OBJ_Sword(gp), gp.npc[gp.currentMap][gp.player.npcIndex].worldX,gp.npc[gp.currentMap][gp.player.npcIndex].worldY+gp.TILE_SIZE);
+			gp.npc[gp.currentMap][gp.player.npcIndex].dropItem(new OBJ_Sword(gp));
 		}
 		if(gp.player.npcIndex==1 && gp.npc[gp.currentMap][gp.player.npcIndex].numberDialogue==1 && gp.player.currentMission==3)
 		{
-			gp.npc[gp.currentMap][gp.player.npcIndex].dropItem(new OBJ_Bow(gp), gp.npc[gp.currentMap][gp.player.npcIndex].worldX,gp.npc[gp.currentMap][gp.player.npcIndex].worldY+gp.TILE_SIZE);
+			gp.npc[gp.currentMap][gp.player.npcIndex].dropItem(new OBJ_Bow(gp));
 		}
 	}else {
 			gp.gameState=gp.PLAY_STATE;

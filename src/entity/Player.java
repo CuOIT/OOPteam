@@ -13,18 +13,19 @@ import main.GamePanel;
 import main.KeyHandler;
 import main.UtilityTool;
 
-
+import object.Object;
 import object.OBJ_Tooth;
 import object.OBJ_Arrow;
 import object.OBJ_Bow;
 import object.OBJ_Apple;
 import object.OBJ_Arrow;
 
-public class Player extends Entity{
+public class Player extends Human{
 
 	KeyHandler keyH;
 	public final int screenX,screenY;
 	public final int maxInventorySize=20;
+	public int attack;
 	public int currentMission=0;
 	public int npcIndex;
 	public Rectangle r=new Rectangle();
@@ -40,8 +41,6 @@ public class Player extends Entity{
 		solidArea=new Rectangle();
 		solidArea.x=8;
 		solidArea.y=16;
-		solidAreaDefaultX=solidArea.x;
-		solidAreaDefaultY=solidArea.y;
 		solidArea.width=32;
 		solidArea.height=32;
 		attackArea.width = 36;
@@ -55,9 +54,9 @@ public class Player extends Entity{
 	public void setDefaultValues() {
 		worldX=gp.TILE_SIZE*9;
 		worldY=gp.TILE_SIZE*7;
-		defaultSpeed = 10;
+
 		//set character in the center
-		speed=defaultSpeed;
+		speed=10;
 		direction="down";
 		maxLife=3;
 		attack=1;
@@ -79,6 +78,7 @@ public class Player extends Entity{
 		right1=setup("/player/Right1",gp.TILE_SIZE,gp.TILE_SIZE);
 		right2=setup("/player/Right2",gp.TILE_SIZE,gp.TILE_SIZE);
 	}
+	
 	public void getPlayerAttackImage() {
 		attackup1=setup("/player/boy_stick_up_1", gp.TILE_SIZE, gp.TILE_SIZE*2);
 		attackup2=setup("/player/boy_stick_up_2", gp.TILE_SIZE, gp.TILE_SIZE*2);
@@ -177,14 +177,14 @@ public class Player extends Entity{
 			case "up":
 				worldY-=speed;
 				break;
-			case "down":
-				worldY+=speed;
-				break;
 			case "left":
 				worldX-=speed;
 				break;
 			case "right":
 				worldX+=speed;
+				break;
+			case "down":
+				worldY+=speed;
 				break;
 			}
 		}
@@ -208,11 +208,11 @@ public class Player extends Entity{
 		gp.projectileList.add(projectile);
 		}
 		//THIS NEEDS TO BE OUTSIDE OF KEY IF STATEMENT(DANG)
-		if(invincible == true){
-			invincibleCounter++;
-			if(invincibleCounter>60){
-				invincible = false;
-				invincibleCounter = 0;
+		if(takingDamage == true){
+			takingDamageCounter++;
+			if(takingDamageCounter>60){
+				takingDamage = false;
+				takingDamageCounter = 0;
 			}
 		}
 		// het bo sung
@@ -229,7 +229,7 @@ public class Player extends Entity{
 				hp = maxHp;
 			}
 			else {
-				gp.gameState = gp.gameOverState;
+				gp.gameState = gp.GAME_OVER_STATE;
 			}
 		}
 	}
@@ -279,6 +279,7 @@ public class Player extends Entity{
 		}
 		// het bo sung
 	}
+	
 	public void pickUpObject(int i) {
 		
 		if(i!=999) {
@@ -351,12 +352,20 @@ public class Player extends Entity{
 				 }
 				 //xem lai video 10
 				 break;
+			 case "Boss_Cave":
+				 gp.obj[gp.currentMap][i]=null;
+				 
+				 gp.monster[1][19]= new Boss(gp);
+					gp.monster[1][19].worldX = gp.TILE_SIZE*30;
+					gp.monster[1][19].worldY = gp.TILE_SIZE*40;
+
 				 }
 			 //them code o day dong 323-334
 			 
 			// gp.obj[gp.currentMap][i] = null;
 				 }
 	}
+	
 	public void interact(int i){
 		if(gp.keyH.enterPressed == true){
 			if(i != 999){
@@ -369,44 +378,47 @@ public class Player extends Entity{
 			}
 		}
 	}
+	
 	public void contactMonster(int i){
 		if(i !=999){
-			if(invincible == false){
+			if(takingDamage == false){
 
 				hp-=gp.monster[gp.currentMap][i].attack;
-			invincible = true;	
+			takingDamage = true;	
 			}
 		}
 	}	
+	
 	public void damageMonster(int i, int attack, int knockBackPower){
 		if(i != 999){
-			if(gp.monster[gp.currentMap][i].invincible == false){
+			if(gp.monster[gp.currentMap][i].takingDamage == false){
 
-				if(knockBackPower >0){
+				if(knockBackPower >0 && gp.monster[gp.currentMap][i].name!="Boss"){
 					knockBack(gp.monster[gp.currentMap][i], knockBackPower);
 				}
 
 				gp.monster[gp.currentMap][i].life -= attack;
-				gp.monster[gp.currentMap][i].invincible = true;
-				gp.monster[gp.currentMap][i].damageReaction();
+				gp.monster[gp.currentMap][i].takingDamage = true;
 				if(gp.monster[gp.currentMap][i].life <= 0){
 					gp.monster[gp.currentMap][i].dying = true;
 				}
 			}
 		}	
 	}
+	
 	public int searchItemInInventory(String itemName) {
 		int itemIndex = 999;
 
 		for(int i=0;i < gp.player.inventory.size();i++) {
-			if(gp.player.inventory.get(i).name.equals(itemName)) {
+			if(gp.player.inventory.get(i).name==itemName) {
 				itemIndex = i;
 				break;
 			}
 		}
 		return itemIndex;
 	}
-	public boolean canObtainItem(Entity item) {
+	
+	public boolean canObtainItem(Object item) {
 
 		boolean canObtain = true;
 
@@ -436,6 +448,8 @@ public class Player extends Entity{
 		}
 		return canObtain;
 	}
+
+
 	public void knockBack (Entity entity, int knockBackPower){
 		entity.direction = direction;
 		entity.speed += knockBackPower;
@@ -500,9 +514,14 @@ public class Player extends Entity{
 			}
 		}	
 		// BO SUNG 289-291(DANG)
-		if(invincible == true){
-			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f));
+		if(takingDamage == true){
+			actionLockCounter++;
+			if(actionLockCounter%10>5)
+			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4F));
+			else g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
 		}
+		
+		else actionLockCounter=0;
 		// HET BO SUNG
 		if(screenX>worldX) {
 			if(attacking==true && direction=="left") tempScreenX=worldX-gp.TILE_SIZE;
@@ -528,15 +547,10 @@ public class Player extends Entity{
 		g2.drawImage(image,tempScreenX, tempScreenY, null);
 		// Reset alpha(DANG)
 		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
-//		System.out.println("P: "+(int)r.getX()/gp.TILE_SIZE+" "+(int)r.getY()/gp.TILE_SIZE);
-//		System.out.println("O: "+(int)rObj.getX()/gp.TILE_SIZE+" "+(int)rObj.getY()/gp.TILE_SIZE);
-		g2.draw(r);
-		//g2.draw(rObj);
-		
-		//DEBUG(DANG)
+//		
 		g2.setFont(new Font("Arial", Font.PLAIN, 26));
 		g2.setColor(Color.white);
-		g2.drawString("Invincible:"+invincibleCounter, 10, 400);
+		g2.drawString("Invincible:"+takingDamageCounter, 10, 400);
 
 }
 

@@ -19,12 +19,7 @@ public class UI {
 	GamePanel gp;
 	Graphics2D g2;
 	public boolean fullScreen = false; 
-	Menu menu=new Menu(gp);
-	//ArrayList<String> message = new ArrayList<>();
-	//ArrayList<Integer> messageCounter = new ArrayList<>();
-	//private Object drawMessage;
 	private String currentDialogue;
-	private int numberDialogue=1;
 	public int slotCol =0 ;
 	public int slotRow = 0 ;
 	public int subState=0;
@@ -34,8 +29,6 @@ public class UI {
 
 	public void draw(Graphics2D g2) {
 		this.g2=g2;
-		g2.setFont(arial_40);
-		g2.setColor(Color.white);
 		if(gp.gameState==gp.PLAY_STATE) {
 			//
 			drawPlayerLife();
@@ -48,6 +41,9 @@ public class UI {
 		{	drawPlayerLife();
 			drawDialogueScreen(gp.player.npcIndex);
 		}
+		else if(gp.gameState==gp.DIFFICULT_STATE) {
+			drawDifficultState();
+		}
 		else if(gp.gameState==gp.CHARACTER_STATE)
 		{
 			//drawCharacterScreen();
@@ -56,17 +52,60 @@ public class UI {
 		else if(gp.gameState==gp.OPTION_STATE) {
 			drawOptionState();
 		}
+		else if(gp.gameState==gp.GAME_OVER_STATE) {
+			drawGameOverScreen();
+		}
 	}
 	
+	public void drawDifficultState() {	
+		try {
+			BufferedImage titleImage=ImageIO.read(getClass().getResourceAsStream("/menu/titleScreen.jpg"));
+			titleImage=UtilityTool.scaledImage(titleImage, gp.SCREEN_WIDTH, gp.SCREEN_HEIGHT);
+			g2.drawImage(titleImage,0,0,null);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		BufferedImage[][] difButton=new BufferedImage[3][3];
+		BufferedImage difImage=null;
+				try {
+					difImage=ImageIO.read(getClass().getResourceAsStream("/menu/difficult_level.png"));
+				}catch(IOException e) {
+					e.printStackTrace();
+				}
+		for(int i=0;i<3;i++) {
+			for(int j=0;j<3;j++) {
+				difButton[i][j]=difImage.getSubimage(i*140, j*56, 140, 56);
+				difButton[i][j]=UtilityTool.scaledImage(difButton[i][j],210,84);
+			//	g2.drawImage(difButton[i][j],gp.TILE_SIZE*i*5,gp.TILE_SIZE*j*5,null);
+				}
+		g2.drawImage(difButton[0][i],gp.TILE_SIZE*10,gp.TILE_SIZE*i*2+7*gp.TILE_SIZE,null);
+		}
+			
+		switch(subState) {
+		case 0: 
+			g2.drawImage(difButton[1][0],gp.TILE_SIZE*10,gp.TILE_SIZE*0*2+7*gp.TILE_SIZE,null);
+			break;
+		case 1:
+			g2.drawImage(difButton[1][1],gp.TILE_SIZE*10,gp.TILE_SIZE*1*2+7*gp.TILE_SIZE,null);
+			break;
+		case 2:
+			g2.drawImage(difButton[1][2],gp.TILE_SIZE*10,gp.TILE_SIZE*2*2+7*gp.TILE_SIZE,null);
+			break;
+		}
+	}
+
 	public void drawOptionState() {
-		g2.setColor(Color.white);
-		g2.setFont(g2.getFont().deriveFont(32F));
-		int frameX=gp.TILE_SIZE*11;
-		int frameY=gp.TILE_SIZE;
-		int frameWidth=gp.TILE_SIZE*8;
-		int frameHeight=gp.TILE_SIZE*12;
-	//	drawSubWindow(frameX,frameY,frameWidth,frameHeight);
-		g2.drawImage(menu.image,frameX,frameY,gp.TILE_SIZE*10,gp.TILE_SIZE*12,null);
+		BufferedImage menuBackground=null;
+		try {
+			menuBackground=ImageIO.read(getClass().getResourceAsStream("/menu/menu_background.png"));
+			menuBackground=UtilityTool.scaledImage(menuBackground, gp.TILE_SIZE*10, gp.TILE_SIZE*12);
+		}catch(IOException e) {
+			e.printStackTrace();
+		}
+		int x=getXForCenteredImage(menuBackground);
+		int y=gp.TILE_SIZE;
+		g2.drawImage(menuBackground,x,y,null);
 		BufferedImage[][] menuButton=new BufferedImage[3][3];
 		BufferedImage menuImage=null;
 				try {
@@ -80,57 +119,22 @@ public class UI {
 				menuButton[i][j]=UtilityTool.scaledImage(menuButton[i][j],210,84);
 			//	g2.drawImage(menuButton[i][j],gp.TILE_SIZE*i*5,gp.TILE_SIZE*j*5,null);
 				}
-		g2.drawImage(menuButton[0][i],gp.TILE_SIZE*14,gp.TILE_SIZE*i*2+5*gp.TILE_SIZE,null);
+		g2.drawImage(menuButton[0][i],getXForCenteredImage(menuButton[0][0]),gp.TILE_SIZE*i*2+5*gp.TILE_SIZE,null);
 		}
 			
 		switch(subState) {
 		case 0: 
-			g2.drawImage(menuButton[1][0],gp.TILE_SIZE*14,gp.TILE_SIZE*0*2+5*gp.TILE_SIZE,null);
+			g2.drawImage(menuButton[1][0],getXForCenteredImage(menuButton[0][0]),gp.TILE_SIZE*0*2+5*gp.TILE_SIZE,null);
 			break;
 		case 1:
-			g2.drawImage(menuButton[1][1],gp.TILE_SIZE*14,gp.TILE_SIZE*1*2+5*gp.TILE_SIZE,null);
+			g2.drawImage(menuButton[1][1],getXForCenteredImage(menuButton[0][0]),gp.TILE_SIZE*1*2+5*gp.TILE_SIZE,null);
 			break;
 		case 2:
-			g2.drawImage(menuButton[1][2],gp.TILE_SIZE*14,gp.TILE_SIZE*2*2+5*gp.TILE_SIZE,null);
+			g2.drawImage(menuButton[1][2],getXForCenteredImage(menuButton[0][0]),gp.TILE_SIZE*2*2+5*gp.TILE_SIZE,null);
 			break;
 		}
 		
 	
-	}
-	public void options_top(int frameX,int frameY) {
-		int textX;
-		int textY;
-		//String text="Options";
-		textX=getXforCenteredText("");
-		textY=frameY+gp.TILE_SIZE;
-		g2.setColor(Color.WHITE);
-		//g2.drawString(text,textX,textY);
-		
-		textX=frameX+gp.TILE_SIZE;
-		textY+=gp.TILE_SIZE*2;
-		BufferedImage[][] menuButton=new BufferedImage[3][3];
-		BufferedImage menuImage=null;
-				try {
-					menuImage=ImageIO.read(getClass().getResourceAsStream("/menu/button_atlas.png"));
-				}catch(IOException e) {
-					e.printStackTrace();
-				}
-		for(int i=0;i<3;i++)
-			for(int j=0;j<3;j++) {
-				menuButton[i][j]=menuImage.getSubimage(i*140, j*56, 140, 56);
-				g2.drawImage(menuButton[i][j],gp.TILE_SIZE*i*5,gp.TILE_SIZE*j*5,null);
-				}
-		
-//		g2.drawString("Full Screen", textX, textY);
-//		textY+=gp.TILE_SIZE*2;
-//		g2.drawString("Music", textX, textY);
-//		textY+=gp.TILE_SIZE*2;
-//		g2.drawString("Control", textX, textY);
-//		textY+=gp.TILE_SIZE*2;
-//		g2.drawString("End Game", textX, textY);
-//		textY+=gp.TILE_SIZE*2;
-//		g2.drawString("Quit ", textX, textY);
-		
 	}
 	public void drawPlayerLife() {
 		int x = gp.TILE_SIZE ;
@@ -216,14 +220,6 @@ public class UI {
 
 	}
 	public void drawTitleScreen() {
-		g2.setColor(new Color(70,120,80));
-		g2.fillRect(0, 0, gp.SCREEN_WIDTH, gp.SCREEN_HEIGHT);
-	 	g2.setFont(g2.getFont().deriveFont(Font.BOLD,86F));
-		String text= "LOST TO ISLAND";
-		int x=getXforCenteredText(text);
-		int y=gp.TILE_SIZE*3;
-		g2.setColor(Color.white);
-		g2.drawString(text,x,y);
 		try {
 			BufferedImage titleImage=ImageIO.read(getClass().getResourceAsStream("/menu/titleScreen.jpg"));
 			titleImage=UtilityTool.scaledImage(titleImage, gp.SCREEN_WIDTH, gp.SCREEN_HEIGHT);
@@ -261,15 +257,25 @@ public class UI {
 		}
 	}
 	
-	public void drawPauseScreen()
-	{
-		String text="PAUSED";
-		int x=gp.SCREEN_WIDTH/2-gp.TILE_SIZE*5/2;
-		int y=gp.SCREEN_HEIGHT/2-gp.TILE_SIZE*3;
-		g2.drawImage(menu.image,x,y,gp.TILE_SIZE*5,gp.TILE_SIZE*6,null);
+	public void drawGameOverScreen(){
+	g2.setColor(Color.black);
+	g2.fillRect(0,-gp.SCREEN_HEIGHT/2+gp.frameCounter*(gp.SCREEN_HEIGHT/240), gp.SCREEN_WIDTH, gp.SCREEN_HEIGHT/2);
+	g2.fillRect(0,gp.SCREEN_HEIGHT-gp.frameCounter*(gp.SCREEN_HEIGHT/240), gp.SCREEN_WIDTH, gp.SCREEN_HEIGHT/2);
+
+	if(gp.frameCounter==120) {
+	g2.setColor(Color.white);
+	g2.setFont(g2.getFont().deriveFont(Font.PLAIN,80F));
+	String text="GAME OVER";
+	int x=getXForCenteredText(text);
+	int y=gp.SCREEN_HEIGHT/2-3*gp.TILE_SIZE;
+	g2.drawString(text,x,y);
+	g2.setFont(g2.getFont().deriveFont(Font.PLAIN,32F));
+	String text2="Press ENTER to exit";
+	int x2=getXForCenteredText(text2);
+	int y2=gp.SCREEN_HEIGHT-2*gp.TILE_SIZE;
+	g2.drawString(text2,x2,y2);
 	}
-	
-	
+	}
 	public void drawInventory() {
 		// FRAME
 		int frameX = gp.TILE_SIZE*9 ;
@@ -301,7 +307,7 @@ public class UI {
 				int amountY;
 
 				String s = "" + gp.player.inventory.get(i).amount;
-				amountX = getXforAlignToRightText(s, slotX +44) ;
+				amountX = forAlignToRightText(s, slotX +44) ;
 				amountY = slotY + gp.TILE_SIZE ;
 
 				//SHADOW
@@ -370,17 +376,20 @@ public class UI {
 		g2.drawRoundRect(x+5, y+5, width-10, height-10,25,25);
 	}
 	
-	public int getXforAlignToRightText(String text, int tailX) {
+	public int forAlignToRightText(String text, int tailX) {
 
 		int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
 		int x = tailX - length;
 		return x;
 	}
 	
-	public int getXforCenteredText(String text) {
+	public int getXForCenteredText(String text) {
 		int length=(int)g2.getFontMetrics().getStringBounds(text,g2).getWidth();
 		int x=gp.SCREEN_WIDTH/2-length/2;
 		return x;
+	}
+	public int getXForCenteredImage(BufferedImage image) {
+		return (int)(gp.SCREEN_WIDTH/2-image.getWidth()/2);
 	}
 
 	

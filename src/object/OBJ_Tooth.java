@@ -3,7 +3,7 @@ package object;
 import entity.Entity;
 import main.GamePanel;
 
-public class OBJ_Tooth extends Entity {
+public class OBJ_Tooth extends Object {
     public static int numberCollected=0;
     public OBJ_Tooth(GamePanel gp){
         super(gp);

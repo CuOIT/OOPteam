@@ -5,7 +5,7 @@ import java.awt.Rectangle;
 import entity.Entity;
 import main.GamePanel;
 
-public class OBJ_Tree extends Entity{
+public class OBJ_Tree extends Object{
 	public OBJ_Tree(GamePanel gp) {
 		super(gp);
 		name="Tree";

@@ -3,7 +3,7 @@
 
 	import entity.Entity;
 	import main.GamePanel;
-	public class OBJ_Apple extends Entity {
+	public class OBJ_Apple extends Object {
 		public static int numberCollected=0;
 		public OBJ_Apple(GamePanel gp) {
 			super(gp);

@@ -4,6 +4,7 @@ import main.GamePanel;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
@@ -11,19 +12,17 @@ import object.OBJ_Heart;
 import object.OBJ_Rock;
 import object.OBJ_Tooth;
 public class Boar_monster extends Monster{
+	private static int defaultAttack;
+	private static int defaultSpeed;
+	private static int defaultMaxLife; 
+	
 	public Boar_monster(GamePanel gp) {
         super(gp);
-	speed = defaultSpeed;
-    maxLife= 4;
-    life=maxLife;
-    attack=1;
-    solidArea.x = 3; 
-    solidArea.y= 18;
-    solidArea.width = 42;
-    solidArea.height = 30;
-    solidAreaDefaultX = solidArea.x;
-    solidAreaDefaultY = solidArea.y;
-
+        name="Boar_monster";
+        attack=defaultAttack;
+        life=maxLife=defaultMaxLife;
+        speed=normalSpeed=defaultSpeed;
+        solidArea=new Rectangle(3,18,42,30);
     getImage();
     }
     public void getImage(){
@@ -60,8 +59,12 @@ public class Boar_monster extends Monster{
 			actionLockCounter=0;
 		}
 
-		if(distanceToPlayer()<200) pathFinding();
-		else speed=1;
+		if(distanceToPlayer()<5*gp.TILE_SIZE)
+		{
+			pathFinding();
+			speed=normalSpeed+2;
+		}
+		else speed=normalSpeed;
     }
     //Tinh khoang cach den nhan vat
 
@@ -85,7 +88,16 @@ public class Boar_monster extends Monster{
 
 }	
 	public void checkDrop(){
-		dropItem(new OBJ_Tooth(gp),worldX,worldY);
+		dropItem(new OBJ_Tooth(gp));
+	}
+	public static void setAttack(int attack) {
+		Boar_monster.defaultAttack = attack;
+	}
+	public static void setDefaultSpeed(int speed) {
+		Boar_monster.defaultSpeed=speed;
+	}
+	public static void setMaxLife(int life) {
+		Boar_monster.defaultMaxLife=life;
 	}
 }
 

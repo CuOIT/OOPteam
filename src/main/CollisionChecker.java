@@ -57,13 +57,6 @@ public class CollisionChecker {
 		int index=999;
 		for(int i=0;i<gp.obj[0].length;i++) {
 			if(gp.obj[gp.currentMap][i]!=null ) {
-
-				//Get entity's solid area position
-//				entity.solidArea.x=entity.worldX+entity.solidArea.x;
-//				entity.solidArea.y=entity.worldY+entity.solidArea.y;
-				entity.solidArea.x=entity.worldX+8;
-				entity.solidArea.y=entity.worldY+16;
-				
 				int xE=entity.worldX+8;
 				int yE=entity.worldY+16;
 				Rectangle recEntity=new Rectangle(xE,yE,entity.solidArea.width,entity.solidArea.height);
@@ -73,13 +66,17 @@ public class CollisionChecker {
 				int y=gp.obj[gp.currentMap][i].worldY+gp.obj[gp.currentMap][i].solidArea.y;
 				Rectangle recCheck=new Rectangle(x,y,gp.obj[gp.currentMap][i].solidArea.width,gp.obj[gp.currentMap][i].solidArea.height);
 				switch(entity.direction) {
-				case "up":		entity.solidArea.y-=entity.speed;break;
-				case "down": 	entity.solidArea.y+=entity.speed; break;
-				case "left": 	entity.solidArea.x-=entity.speed; break;
-				case "right": 	entity.solidArea.x+=entity.speed; break;			
+				case "up":		recEntity.y-=entity.speed;break;
+				case "down": 	recEntity.y+=entity.speed; break;
+				case "left": 	recEntity.x-=entity.speed; break;
+				case "right": 	recEntity.x+=entity.speed; break;	
+//				case "up":		entity.solidArea.y-=entity.speed;break;
+//				case "down": 	entity.solidArea.y+=entity.speed; break;
+//				case "left": 	entity.solidArea.x-=entity.speed; break;
+//				case "right": 	entity.solidArea.x+=entity.speed; break;
 				}
 
-				if(entity.solidArea.intersects(recCheck)) {
+				if(recEntity.intersects(recCheck)) {
 					if(gp.obj[gp.currentMap][i].collision==true) {
 						entity.collisionOn=true;
 					}
@@ -103,30 +100,28 @@ public class CollisionChecker {
 	public int checkEntity(Entity entity,Entity[][] target) {
 		int index=999;
 		for(int i=0;i<target[0].length;i++) {
+			int xE=entity.worldX+8;
+			int yE=entity.worldY+16;
 			if(target[gp.currentMap][i]!=null ) {
 				//Get entity's solid area position
-				entity.solidArea.x=entity.worldX+8;
-				entity.solidArea.y=entity.worldY+16;
+				Rectangle recEntity=new Rectangle(xE,yE,entity.solidArea.width,entity.solidArea.height);
 				//Get the object's solid area position
-				target[gp.currentMap][i].solidArea.x=target[gp.currentMap][i].worldX+target[gp.currentMap][i].solidArea.x;
-				target[gp.currentMap][i].solidArea.y=target[gp.currentMap][i].worldY+target[gp.currentMap][i].solidArea.y;
+				int x=target[gp.currentMap][i].worldX+target[gp.currentMap][i].solidArea.x;
+				int y=target[gp.currentMap][i].worldY+target[gp.currentMap][i].solidArea.y;	
+				Rectangle recTarget=new Rectangle(x,y,target[gp.currentMap][i].solidArea.width,target[gp.currentMap][i].solidArea.height);
 				switch(entity.direction) {
-				case "up": entity.solidArea.y-=entity.speed; break;
-				case "down": entity.solidArea.y+=entity.speed; break;
-				case "left": entity.solidArea.x-=entity.speed; break;
-				case "right": entity.solidArea.x+=entity.speed; break;
+				case "up": recEntity.y-=entity.speed; break;
+				case "down": recEntity.y+=entity.speed; break;
+				case "left": recEntity.x-=entity.speed; break;
+				case "right": recEntity.x+=entity.speed; break;
 				}
 				//check 2 Rectangle intersects(DANG)
-				if(entity.solidArea.intersects(target[gp.currentMap][i].solidArea)) {
+				if(recEntity.intersects(recTarget)) {
 					if(target[gp.currentMap][i] != entity) {
 						entity.collisionOn=true;
 						index=i;
 					}
 				}
-				entity.solidArea.x=entity.solidAreaDefaultX;
-				entity.solidArea.y=entity.solidAreaDefaultY;
-				target[gp.currentMap][i].solidArea.x=target[gp.currentMap][i].solidAreaDefaultX;
-				target[gp.currentMap][i].solidArea.y=target[gp.currentMap][i].solidAreaDefaultY; 
 			}
 					
 		}
@@ -135,28 +130,25 @@ public class CollisionChecker {
 	public boolean checkPlayer(Entity entity) {
 		boolean contactPlayer = false;
 				
-				entity.solidArea.x=entity.worldX+entity.solidArea.x;
-				entity.solidArea.y=entity.worldY+entity.solidArea.y;
-				//Get the object's solid area position
-				gp.player.solidArea.x=gp.player.worldX+gp.player.solidArea.x;
-				gp.player.solidArea.y=gp.player.worldY+gp.player.solidArea.y;
+				int x=entity.worldX+entity.solidArea.x;
+				int y=entity.worldY+entity.solidArea.y;
+				Rectangle recEntity=new Rectangle(x,y,entity.solidArea.width,entity.solidArea.height);
+				int xP=gp.player.worldX+gp.player.solidArea.x;
+				int yP=gp.player.worldY+gp.player.solidArea.y;
+				Rectangle recPlayer=new Rectangle(xP,yP,gp.player.solidArea.width,gp.player.solidArea.height); 
 				switch(entity.direction) {
-				case "up": entity.solidArea.y-=entity.speed; break;
-				case "down": entity.solidArea.y+=entity.speed; break;
-				case "left": entity.solidArea.x-=entity.speed; break;
-				case "right": entity.solidArea.x+=entity.speed; break;
+				case "up": recEntity.y-=entity.speed; break;
+				case "down": recEntity.y+=entity.speed; break;
+				case "left": recEntity.x-=entity.speed; break;
+				case "right": recEntity.x+=entity.speed; break;
 				}
 				//check 2 Rectangle intersects
-				if(entity.solidArea.intersects(gp.player.solidArea)) {
+				if(recEntity.intersects(recPlayer)) {
 					//if(gp.player.collision==true) {}
 						entity.collisionOn=true;
 						contactPlayer= true;
 					
 				}
-				entity.solidArea.x=entity.solidAreaDefaultX;
-				entity.solidArea.y=entity.solidAreaDefaultY;
-				gp.player.solidArea.x=gp.player.solidAreaDefaultX;
-				gp.player.solidArea.y=gp.player.solidAreaDefaultY; 
 				return contactPlayer;
 			}
 }

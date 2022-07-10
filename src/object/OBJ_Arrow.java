@@ -9,7 +9,7 @@ public class OBJ_Arrow extends Projectile {
     public OBJ_Arrow(GamePanel gp){
          super(gp);
          name = "Fireball";
-         speed = 8;
+         speed = 4;
          maxLife = 80;
          life = maxLife;
          attack = 5;

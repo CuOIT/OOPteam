@@ -2,7 +2,7 @@ package object;
 
 import entity.Entity;
 import main.GamePanel;
-public class OBJ_Pit extends Entity{
+public class OBJ_Pit extends Object{
 
 	public OBJ_Pit(GamePanel gp) {
 	super(gp);

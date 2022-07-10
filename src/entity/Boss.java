@@ -5,43 +5,35 @@ import main.GamePanel;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
 import object.OBJ_Rock;
 
-public class Boss extends Entity {
-    GamePanel gp;
+public class Boss extends Monster {
     Projectile[] projectiles = new OBJ_Rock[8];
-    
+    private static int defaultAttack;
+	private static int defaultSpeed;
+	private static int defaultMaxLife; 
 	public Boss(GamePanel gp) {
-    super(gp);
-	this.gp = gp;
-	type = MONSTER_TYPE;
-	name = "Boss";
-    defaultSpeed = 2;
-	speed = defaultSpeed;
-    maxLife= 8;
-    life=maxLife;
-    attack=2;
-    
-    projectiles[0]=new OBJ_Rock(gp);
-	projectiles[1]=new OBJ_Rock(gp);
-	projectiles[2]=new OBJ_Rock(gp);
-	projectiles[3]=new OBJ_Rock(gp);
-	projectiles[4]=new OBJ_Rock(gp);
-	projectiles[5]=new OBJ_Rock(gp);
-	projectiles[6]=new OBJ_Rock(gp);
-	projectiles[7]=new OBJ_Rock(gp);
-
-    solidArea.x = 9; 
-    solidArea.y= 54;
-    solidArea.width = 126;
-    solidArea.height = 90;
-    solidAreaDefaultX = solidArea.x;
-    solidAreaDefaultY = solidArea.y;
-
-    getImageBoss();
+	    super(gp);
+	    name="Boss";
+		speed = normalSpeed=defaultSpeed;
+	    life=maxLife=defaultMaxLife;
+	    attack=defaultAttack;
+	    projectiles[0]=new OBJ_Rock(gp);
+		projectiles[1]=new OBJ_Rock(gp);
+		projectiles[2]=new OBJ_Rock(gp);
+		projectiles[3]=new OBJ_Rock(gp);
+		projectiles[4]=new OBJ_Rock(gp);
+		projectiles[5]=new OBJ_Rock(gp);
+		projectiles[6]=new OBJ_Rock(gp);
+		projectiles[7]=new OBJ_Rock(gp);
+	
+	    solidArea=new Rectangle(9,54,126,90);
+	
+	    getImageBoss();
     }
     public void getImageBoss(){
         up1=setup("/monster/boss.up.1", gp.TILE_SIZE*3, gp.TILE_SIZE*3);
@@ -53,6 +45,16 @@ public class Boss extends Entity {
 		right1=setup("/monster/boss.right.1", gp.TILE_SIZE*3, gp.TILE_SIZE*3);
 		right2=setup("/monster/boss.right.2", gp.TILE_SIZE*3, gp.TILE_SIZE*3);
     }
+
+	public static void setAttack(int attack) {
+		Boss.defaultAttack = attack;
+	}
+	public static void setDefaultSpped(int speed) {
+		Boss.defaultSpeed=speed;
+	}
+	public static void setMaxLife(int life) {
+		Boss.defaultMaxLife=life;
+	}
     public void setAction(){
     	 actionLockCounter++;
  		if(actionLockCounter%75==0) {
@@ -72,47 +74,76 @@ public class Boss extends Entity {
  				direction = "right";
  			}
  		}
-
-		if( shotAvailableCounter >= 180 && shotAvailableCounter<300 && actionLockCounter%30==0 ){
+ 		
+		if( attackLockCounter >= 180 && attackLockCounter<300 && actionLockCounter%40==0 ){
 
 			direction="attack";
             projectiles[0].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "up" , true, this);
-        	gp.projectileList.add(projectiles[0]);
-			projectiles[1].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "upleft" , true, this);
-        	gp.projectileList.add(projectiles[1]);
-            projectiles[2].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "upright" , true, this);
-        	gp.projectileList.add(projectiles[2]);
-            projectiles[3].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "down" , true, this);
-        	gp.projectileList.add(projectiles[3]);
-            projectiles[4].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "downleft" , true, this);
-        	gp.projectileList.add(projectiles[4]);
-            projectiles[5].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "downright" , true, this);
-        	gp.projectileList.add(projectiles[5]);
-            projectiles[6].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "left" , true, this);
-        	gp.projectileList.add(projectiles[6]);
-            projectiles[7].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "right" , true, this);
+            projectiles[1].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "down" , true, this);
+            projectiles[2].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "left" , true, this);
+            projectiles[3].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "right" , true, this);
+			projectiles[4].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "upleft" , true, this);
+            projectiles[5].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "upright" , true, this);
+            projectiles[6].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "downleft" , true, this);
+            projectiles[7].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "downright" , true, this);
+            gp.projectileList.add(projectiles[0]);
+            gp.projectileList.add(projectiles[1]);
+            gp.projectileList.add(projectiles[2]);
+            gp.projectileList.add(projectiles[3]);
+            gp.projectileList.add(projectiles[4]);
+            gp.projectileList.add(projectiles[5]);
+            gp.projectileList.add(projectiles[6]);
         	gp.projectileList.add(projectiles[7]);
         	
 			}
 			
-		else if( shotAvailableCounter==400) {
-			System.out.println();
-			for(int i=0;i<gp.monster[0].length-1;i++) {
-				if(gp.monster[1][i]==null && gp.monster[1][i+1]==null) {
-					gp.monster[1][i]=new Boar_monster(gp);
-					gp.monster[1][i].worldX=20*gp.TILE_SIZE;
-					gp.monster[1][i].worldY=40*gp.TILE_SIZE;
-					gp.monster[1][i+1]=new Boar_monster(gp);
-					gp.monster[1][i+1].worldX=40*gp.TILE_SIZE;
-					gp.monster[1][i+1].worldY=40*gp.TILE_SIZE;
+		else if( attackLockCounter==400) {
+				if(gp.monster[1][18]==null ) {
+					gp.monster[1][18]=new Bat(gp);
+					gp.monster[1][18].worldX=20*gp.TILE_SIZE;
+					gp.monster[1][18].worldY=40*gp.TILE_SIZE;
+					if(gp.monster[1][17]==null) {
+					gp.monster[1][17]=new Boar_monster(gp);
+					gp.monster[1][17].worldX=40*gp.TILE_SIZE;
+					gp.monster[1][17].worldY=40*gp.TILE_SIZE;
+					}
+					if(gp.monster[1][16]==null) {
+						gp.monster[1][16]=new Boar_monster(gp);
+						gp.monster[1][16].worldX=29*gp.TILE_SIZE;
+						gp.monster[1][16].worldY=44*gp.TILE_SIZE;
+						}
 					actionLockCounter=0;
-					shotAvailableCounter=0;
-					break;
+					attackLockCounter=0;
+					
 				}
-			}
-		}
-	
+				else {
+					direction="attack";
+		            projectiles[0].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "up" , true, this);
+		            projectiles[1].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "down" , true, this);
+		            projectiles[2].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "left" , true, this);
+		            projectiles[3].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "right" , true, this);
+					projectiles[4].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "upleft" , true, this);
+		            projectiles[5].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "upright" , true, this);
+		            projectiles[6].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "downleft" , true, this);
+		            projectiles[7].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "downright" , true, this);
+		            gp.projectileList.add(projectiles[0]);
+		            gp.projectileList.add(projectiles[1]);
+		            gp.projectileList.add(projectiles[2]);
+		            gp.projectileList.add(projectiles[3]);
+		            gp.projectileList.add(projectiles[4]);
+		            gp.projectileList.add(projectiles[5]);
+		            gp.projectileList.add(projectiles[6]);
+		        	gp.projectileList.add(projectiles[7]);
+				}
 			
+			actionLockCounter=0;
+			attackLockCounter=0;
+			direction="down";
+			
+		}
+	if(distanceToPlayer()>gp.TILE_SIZE && distanceToPlayer()<10*gp.TILE_SIZE ) 
+		pathFinding();
+	else speed=normalSpeed;	
 	
 		}
 
@@ -170,7 +201,7 @@ public class Boss extends Entity {
 		break;
 		}
 
-		if(invincible == true){
+		if(takingDamage == true){
 			changeAlpha(g2, 0.4F);
 		}
 		if(dying == true){

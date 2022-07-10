@@ -4,7 +4,7 @@ import java.util.Random;
 
 import main.GamePanel;
 
-public class NPC_headman extends Entity{
+public class NPC_headman extends Human{
 	public NPC_headman(GamePanel gp) {
 		super(gp);
 		direction="down";
@@ -14,13 +14,6 @@ public class NPC_headman extends Entity{
 		setDialogue();
 		collision=true;
 	}
-	public void setDefaultValues() {
-		worldX=gp.TILE_SIZE*16;
-		worldY=gp.TILE_SIZE*16;
-	}
-	
-	
-
 	public void getImage() {
 		up1=setup("/npc/headman_Up1",gp.TILE_SIZE,gp.TILE_SIZE);
 		up2=setup("/npc/headman_Up2",gp.TILE_SIZE,gp.TILE_SIZE);

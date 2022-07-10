@@ -3,11 +3,13 @@ package main;
 import object.OBJ_Entry_Cave;
 import object.OBJ_Pine_tree;
 import object.OBJ_Pit;
+import object.OBJ_Rock;
 import object.OBJ_Tent;
 import object.OBJ_Tree;
 import entity.NPC_guard;
 import entity.NPC_headman;
 import object.OBJ_Apple;
+import object.OBJ_Boss_Cave;
 import entity.Boar_monster;
 import entity.Boss;
 import entity.Bat;
@@ -394,14 +396,17 @@ public class AssetSetter {
 		gp.obj[mapNum][115].worldX=23*gp.TILE_SIZE;
 		gp.obj[mapNum][115].worldY=27*gp.TILE_SIZE;
 		
+		mapNum++;
 		
-
+		gp.obj[mapNum][0]=new OBJ_Boss_Cave(gp);
+		gp.obj[mapNum][0].worldX=28*gp.TILE_SIZE;
+		gp.obj[mapNum][0].worldY=31*gp.TILE_SIZE;
 	}
 	public void setMonster(){
 		int mapNum=0;
 		gp.monster[mapNum][0]= new Boar_monster(gp);
 		gp.monster[mapNum][0].worldX=gp.TILE_SIZE*37;
-		gp.monster[mapNum][0].worldY=gp.TILE_SIZE*28;
+		gp.monster[mapNum][0].worldY=gp.TILE_SIZE*29;
 		
 		gp.monster[mapNum][1]= new Boar_monster(gp);
 		gp.monster[mapNum][1].worldX=gp.TILE_SIZE*31;
@@ -430,25 +435,22 @@ public class AssetSetter {
 
 		mapNum ++;
 
-		gp.monster[mapNum][7]= new Boss(gp);
-		gp.monster[mapNum][7].worldX = gp.TILE_SIZE*30;
-		gp.monster[mapNum][7].worldY = gp.TILE_SIZE*40;
-
-		gp.monster[mapNum][8]= new Bat(gp);
-		gp.monster[mapNum][8].worldX = gp.TILE_SIZE*14;
-		gp.monster[mapNum][8].worldY = gp.TILE_SIZE*13;
+		gp.monster[mapNum][7]= new Bat(gp);
+		gp.monster[mapNum][7].worldX = gp.TILE_SIZE*4;
+		gp.monster[mapNum][7].worldY = gp.TILE_SIZE*30;
 		
 		gp.monster[mapNum][8]= new Bat(gp);
 		gp.monster[mapNum][8].worldX = gp.TILE_SIZE*14;
 		gp.monster[mapNum][8].worldY = gp.TILE_SIZE*13;
 		
-		gp.monster[mapNum][8]= new Bat(gp);
-		gp.monster[mapNum][8].worldX = gp.TILE_SIZE*14;
-		gp.monster[mapNum][8].worldY = gp.TILE_SIZE*13;
+		gp.monster[mapNum][9]= new Bat(gp);
+		gp.monster[mapNum][9].worldX = gp.TILE_SIZE*13;
+		gp.monster[mapNum][9].worldY = gp.TILE_SIZE*15;
 		
-		gp.monster[mapNum][8]= new Bat(gp);
-		gp.monster[mapNum][8].worldX = gp.TILE_SIZE*14;
-		gp.monster[mapNum][8].worldY = gp.TILE_SIZE*13;
+		gp.monster[mapNum][10]= new Bat(gp);
+		gp.monster[mapNum][10].worldX = gp.TILE_SIZE*45;
+		gp.monster[mapNum][10].worldY = gp.TILE_SIZE*22;
+		
 
 		
 
@@ -465,5 +467,51 @@ public class AssetSetter {
 		
 		
 		
+	}
+	public void setUpLevel(String level) {
+		switch(level) {
+		case "EASY":
+			Boar_monster.setAttack(1);
+			Boar_monster.setDefaultSpeed(2);
+			Boar_monster.setMaxLife(6);
+			Bat.setAttack(1);
+			Bat.setDefaultSpeed(1);
+			Bat.setMaxLife(8);
+			OBJ_Rock.setDefaultSpeed(3);
+			OBJ_Rock.setAttack(1);
+		
+			Boss.setAttack(2);
+			Boss.setDefaultSpped(2);
+			Boss.setMaxLife(300);
+			break;
+		case "NORMAL":
+			Boar_monster.setAttack(2);
+			Boar_monster.setDefaultSpeed(2);
+			Boar_monster.setMaxLife(8);
+			Bat.setAttack(2);
+			Bat.setDefaultSpeed(2);
+			Bat.setMaxLife(10);
+			OBJ_Rock.setDefaultSpeed(4);
+			OBJ_Rock.setAttack(2);
+		
+			Boss.setAttack(3);
+			Boss.setDefaultSpped(3);
+			Boss.setMaxLife(400);
+			break;
+		case "HARD":
+			Boar_monster.setAttack(3);
+			Boar_monster.setDefaultSpeed(3);
+			Boar_monster.setMaxLife(10);
+			Bat.setAttack(3);
+			Bat.setDefaultSpeed(3);
+			Bat.setMaxLife(12);
+			OBJ_Rock.setDefaultSpeed(6);
+			OBJ_Rock.setAttack(3);
+		
+			Boss.setAttack(3);
+			Boss.setDefaultSpped(3);
+			Boss.setMaxLife(400);
+			break;
+			}
 	}
 }

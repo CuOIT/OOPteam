@@ -4,7 +4,7 @@ package object;
 
 import entity.Entity;
 import main.GamePanel;
-public class OBJ_Sword extends Entity{
+public class OBJ_Sword extends Object{
 	public OBJ_Sword(GamePanel gp) {
 	super(gp);
 	name="Sword";

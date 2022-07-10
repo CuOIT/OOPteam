@@ -11,6 +11,7 @@ public class Menu {
 	public Menu(GamePanel gp){
 	try {
 	image=ImageIO.read(getClass().getResourceAsStream("/menu/menu_background.png"));
+	image=UtilityTool.scaledImage(image,gp.TILE_SIZE*10,gp.TILE_SIZE*12);
 	}catch(IOException e) {
 		e.printStackTrace();
 	}
