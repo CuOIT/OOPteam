@@ -83,9 +83,6 @@ public class GamePanel extends JPanel implements Runnable {
 	public final int SOUND_STATE2=8;
 	public final int VICTORY_STATE=9;
 	
-	//HARD LEVEL
-	
-
 	
 	public GamePanel()
 	{
@@ -97,7 +94,6 @@ public class GamePanel extends JPanel implements Runnable {
 		this.setFocusable(true);
 	}
 	public void setUpGame() {
-		
 		music.setFile(0);
 		music.play();
 		music.loop();

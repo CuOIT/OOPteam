@@ -22,7 +22,6 @@ public class KeyHandler implements KeyListener{
 	{
 		int code=e.getKeyCode();
 		if(code == KeyEvent.VK_P) {
-			System.out.println("A");
 			if(gp.ui.fullScreen==false)
 			{
 			gp.setFullScreen();
@@ -32,6 +31,7 @@ public class KeyHandler implements KeyListener{
 				gp.drawToScreen();
 				gp.ui.fullScreen=false;
 			}
+			gp.setFullScreen();
 		}
 		if(gp.gameState==gp.PLAY_STATE) {
 					playState(code);
