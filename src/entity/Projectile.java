@@ -10,15 +10,17 @@ public class Projectile extends Entity {
     public Projectile(GamePanel gp){
         super(gp);
     }
-    public void set( int worldX, int worldY, String direction, boolean alive, Entity user){
+    public void set( int worldX, int worldY, String direction, boolean alive,int life, Entity user){
         this.worldX = worldX;
         this.worldY = worldY;
         this.direction = direction;
         this.user = user;
         this.alive = alive;
+        this.life=life;
 
     }
     public void update(){
+    	
         if(user == gp.player){
             int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
             if(monsterIndex != 999){

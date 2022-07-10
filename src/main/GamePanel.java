@@ -168,16 +168,20 @@ public class GamePanel extends JPanel implements Runnable {
 			ui.drawDialogueScreen(player.npcIndex);
 		}
 		if(gameState==GAME_OVER_STATE) {
-			stopMusic();
-			playSE(13);
+			if(frameCounter==1) {
+				stopMusic();
+				playSE(13);
+			}
 			if(frameCounter<120)
 				frameCounter++;
 			ui.drawGameOverScreen();
 			
 		}
 		if(gameState==VICTORY_STATE) {
-			stopMusic();
-			playSE(13);
+			if(frameCounter==1) {
+				stopMusic();
+				playSE(12);
+			}
 			if(frameCounter<120)
 				frameCounter++;
 			ui.drawVictoryScreen();

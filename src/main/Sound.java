@@ -11,14 +11,14 @@ public class Sound {
 	Clip clip;
 	URL soundURL[]=new URL[30];
 	float prevVol = 0;
-    float cVol = 0f;
+    float cVol = -5F;
     boolean mute = false;
     FloatControl fc;
 	public Sound() {
 		soundURL[0]=getClass().getResource("/sound/Map1.sound.wav");
 		soundURL[1]=getClass().getResource("/sound/Map2.sound.wav");
 		soundURL[2]=getClass().getResource("/sound/Bats.sound.wav");		
-		soundURL[3]=getClass().getResource("/sound/Boss.shoot.sound.wav");
+		soundURL[3]=getClass().getResource("/sound/Boss.shoot.wav");
 		soundURL[4]=getClass().getResource("/sound/Boss.sound.wav");		
 		soundURL[5]=getClass().getResource("/sound/Boss.walking.sound.wav");
 		soundURL[6]=getClass().getResource("/sound/Pig.sound.wav");		

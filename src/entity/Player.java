@@ -44,7 +44,6 @@ public class Player extends Human{
 		getPlayerAttackImage();
 		setDialogue();
 		projectile=new Arrow(gp);
-		bow=new OBJ_Bow(gp);
 	}
 	
 	public void setDefaultValues() {
@@ -198,11 +197,10 @@ public class Player extends Human{
 		}
 		if(gp.keyH.shotKeyPressed == true  && bow!=null){
 			if(projectile.alive==false) {
-				projectile.set(worldX, worldY, direction, true, this);
-				gp.projectileList.add(projectile);
-				System.out.println("PL: ");
-				//gp.playSE(7);
+				projectile.set(worldX, worldY, direction, true,1000, this);
+				gp.playSE(7);
 			}
+			gp.projectileList.add(projectile);
 
 		// add it to the list
 		}
@@ -241,12 +239,7 @@ public class Player extends Human{
 		if(spriteCounter<=5){
 			if(spriteCounter==2)
 			{
-				if(currentWeapon==null) {
 					gp.playSE(10);
-				}
-				else if(currentWeapon.name=="Sword") {
-					gp.playSE(11);
-				}
 			}
 			spriteNum = 1;
 		}
@@ -344,7 +337,6 @@ public class Player extends Human{
 				 if(canObtainItem(gp.obj[gp.currentMap][i])==true);
 				 bow=new OBJ_Bow(gp);
 				 gp.obj[gp.currentMap][i]=null;
-				projectile = new Arrow(gp);
 
 				 break; 
 			 case "Entry_Cave":
@@ -397,7 +389,6 @@ public class Player extends Human{
 	public void contactMonster(int i){
 		if(i !=999){
 			if(takingDamage == false){
-
 				hp-=gp.monster[gp.currentMap][i].attack;
 			takingDamage = true;	
 			}

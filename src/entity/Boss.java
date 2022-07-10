@@ -10,7 +10,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.Random;
-
+import entity.Rock_Bullet;
 public class Boss extends Monster {
     Projectile[] projectiles = new Rock_Bullet[8];
     private static int defaultAttack;
@@ -58,6 +58,7 @@ public class Boss extends Monster {
     public void setAction(){
     	 actionLockCounter++;
  		if(actionLockCounter%75==0) {
+ 			if(actionLockCounter==200)
  			gp.playSE(5);
  			Random random=new Random();
  			int i = random.nextInt(100)+1;
@@ -79,15 +80,15 @@ public class Boss extends Monster {
 		if( attackLockCounter >= 180 && attackLockCounter<300 && actionLockCounter%40==0 ){
 
 			direction="attack";
-			gp.playSE(3);
-            projectiles[0].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "up" , true, this);
-            projectiles[1].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "down" , true, this);
-            projectiles[2].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "left" , true, this);
-            projectiles[3].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "right" , true, this);
-			projectiles[4].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "upleft" , true, this);
-            projectiles[5].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "upright" , true, this);
-            projectiles[6].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "downleft" , true, this);
-            projectiles[7].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "downright" , true, this);
+//			gp.playSE(3);
+            projectiles[0].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "up" , true, 120, this);
+            projectiles[1].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "down" , true, 120, this);
+            projectiles[2].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "left" , true, 120, this);
+            projectiles[3].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "right" , true, 120, this);
+			projectiles[4].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "upleft" , true, 120, this);
+            projectiles[5].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "upright" , true, 120, this);
+            projectiles[6].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "downleft" , true, 120, this);
+            projectiles[7].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "downright" , true, 120, this);
             gp.projectileList.add(projectiles[0]);
             gp.projectileList.add(projectiles[1]);
             gp.projectileList.add(projectiles[2]);
@@ -105,6 +106,7 @@ public class Boss extends Monster {
 					gp.monster[1][18]=new Bat(gp);
 					gp.monster[1][18].worldX=20*gp.TILE_SIZE;
 					gp.monster[1][18].worldY=40*gp.TILE_SIZE;
+				}
 					if(gp.monster[1][17]==null) {
 					gp.monster[1][17]=new Boar_monster(gp);
 					gp.monster[1][17].worldX=40*gp.TILE_SIZE;
@@ -114,21 +116,18 @@ public class Boss extends Monster {
 						gp.monster[1][16]=new Boar_monster(gp);
 						gp.monster[1][16].worldX=29*gp.TILE_SIZE;
 						gp.monster[1][16].worldY=44*gp.TILE_SIZE;
-						}
-					actionLockCounter=0;
-					attackLockCounter=0;
-					
-				}
+						}				
+		
 				else {
 					direction="attack";
-		            projectiles[0].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "up" , true, this);
-		            projectiles[1].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "down" , true, this);
-		            projectiles[2].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "left" , true, this);
-		            projectiles[3].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "right" , true, this);
-					projectiles[4].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "upleft" , true, this);
-		            projectiles[5].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "upright" , true, this);
-		            projectiles[6].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "downleft" , true, this);
-		            projectiles[7].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "downright" , true, this);
+		            projectiles[0].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "up" , true, 120, this);
+		            projectiles[1].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "down" , true, 120, this);
+		            projectiles[2].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "left" , true, 120, this);
+		            projectiles[3].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "right" , true, 120, this);
+					projectiles[4].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "upleft" , true, 120, this);
+		            projectiles[5].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "upright" , true, 120, this);
+		            projectiles[6].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "downleft" , true, 120, this);
+		            projectiles[7].set(worldX+ gp.TILE_SIZE, worldY+gp.TILE_SIZE, "downright" , true, 120, this);
 		            gp.projectileList.add(projectiles[0]);
 		            gp.projectileList.add(projectiles[1]);
 		            gp.projectileList.add(projectiles[2]);
@@ -143,7 +142,7 @@ public class Boss extends Monster {
 			attackLockCounter=0;
 			direction="down";
 			
-		}
+		}	
 	if(distanceToPlayer()>gp.TILE_SIZE && distanceToPlayer()<10*gp.TILE_SIZE ) 
 		pathFinding();
 	else speed=normalSpeed;	

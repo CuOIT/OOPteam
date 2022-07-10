@@ -53,7 +53,7 @@ public class Bat extends Monster {
 		}
         int i = new Random().nextInt(100)+1;
 		if( i != 99 && attackLockCounter >= 60){
-			projectile.set(worldX, worldY, direction , true, this);
+			projectile.set(worldX, worldY, direction , true,80, this);
         	gp.projectileList.add(projectile);
 			attackLockCounter = 0;
 		}

@@ -317,8 +317,8 @@ public class AssetSetter {
 		gp.obj[mapNum][99].worldY=14*gp.TILE_SIZE;
 		
 		gp.obj[mapNum][100]=new OBJ_Apple(gp);
-		gp.obj[mapNum][100].worldX=20*gp.TILE_SIZE;
-		gp.obj[mapNum][100].worldY=10*gp.TILE_SIZE;
+		gp.obj[mapNum][100].worldX=23*gp.TILE_SIZE;
+		gp.obj[mapNum][100].worldY=19*gp.TILE_SIZE;
 		
 		
 		
@@ -512,7 +512,7 @@ public class AssetSetter {
 		
 			Boss.setAttack(3);
 			Boss.setDefaultSpped(3);
-			Boss.setMaxLife(1);
+			Boss.setMaxLife(100);
 			break;
 			}
 	}
