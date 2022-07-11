@@ -69,7 +69,9 @@ public class KeyHandler implements KeyListener{
 	
 	public void victoryState(int code) {
 		if(code==KeyEvent.VK_ENTER) {
+			gp.stopMusic();
 			gp.gameState=gp.TITLE_STATE;
+			gp.playMusic(0);
 		}
 	}
 	public void gameOverState(int code) {

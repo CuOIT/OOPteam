@@ -11,5 +11,7 @@ public class OBJ_Tooth extends Object {
         collision=false;
         name = "Tooth";
         down1 = setup("/objects/tooth", gp.TILE_SIZE, gp.TILE_SIZE);
+		description = "[" + name + "]Give them to the headman";
+
     }
 }

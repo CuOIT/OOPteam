@@ -307,18 +307,7 @@ public class UI {
 		
 		//DEBUG
 		
-		int x1=gp.TILE_SIZE*2;
-		int y1=gp.TILE_SIZE*4;
-		int x2=gp.TILE_SIZE*2;
-		int y2=gp.TILE_SIZE*5;
-		int x3=gp.TILE_SIZE*2;
-		int y3=gp.TILE_SIZE*6;
-		String wX=String.valueOf(gp.player.worldX/gp.TILE_SIZE);
-		String wY=String.valueOf(gp.player.worldY/gp.TILE_SIZE);
-		String text=String.valueOf(gp.player.currentMission);
-		g2.drawString(wX,x1,y1);
-		g2.drawString(wY, x2, y2);
-		g2.drawString(text,x3,y3);
+		
 	}
 	 
 	public void drawDialogueScreen(int i) {
@@ -328,16 +317,40 @@ public class UI {
 			int height= gp.TILE_SIZE*4;
 			drawSubWindow(x,y,width,height);
 			
-			g2.setFont(consola.deriveFont(32F));
+			g2.setFont(consola.deriveFont(25F));
 			x+=gp.TILE_SIZE;
 			y+=gp.TILE_SIZE;
 			
 			if(gp.player.currentMission==0) {
 			currentDialogue=gp.player.dialogue[0][0];
 			g2.drawString(currentDialogue,x,y);
+			g2.drawImage(gp.player.head, x,y+gp.TILE_SIZE,null);
 			}
 			else {
 			currentDialogue=gp.npc[gp.currentMap][i].dialogue[gp.player.currentMission][gp.npc[gp.currentMap][i].numberDialogue];
+			if(i==0) {
+				switch(gp.npc[0][0].numberDialogue) {
+				case 0:
+				case 2:
+				case 7:
+					g2.drawImage(gp.player.head, x,y+gp.TILE_SIZE,null);
+					break;
+				default:
+					g2.drawImage(gp.npc[0][0].head, gp.SCREEN_WIDTH-3*gp.TILE_SIZE, y+gp.TILE_SIZE,null);
+				}
+			}
+			if(i==1) {
+				switch(gp.npc[0][1].numberDialogue) {
+				case 1:
+				case 4:
+					g2.drawImage(gp.player.head, x,y+gp.TILE_SIZE,null);
+					break;
+				default:
+					g2.drawImage(gp.npc[0][1].head, gp.SCREEN_WIDTH-3*gp.TILE_SIZE, y+gp.TILE_SIZE,null);
+					break;
+				}
+				
+			}
 			if(currentDialogue!=null) {
 				g2.drawString(currentDialogue, x, y);
 			}
@@ -450,7 +463,7 @@ public class UI {
 			g2.drawImage(gp.player.inventory.get(i).down1,slotX, slotY, null);
 			if(gp.player.inventory.get(i).amount >1) {
 
-				g2.setFont(consola.deriveFont(32F));
+				g2.setFont(consola.deriveFont(20F));
 				int amountX;
 				int amountY;
 
@@ -495,7 +508,7 @@ public class UI {
 		// DRAW DESCRIPTION TEXT
 		int textX = dFrameX + 20;
 		int textY = dFrameY + gp.TILE_SIZE;
-		g2.setFont(consola.deriveFont(28F));
+		g2.setFont(consola.deriveFont(20F));
 		
 		int itemIndex = getItemIndexOnSlot();
 		if(itemIndex < gp.player.inventory.size()) {

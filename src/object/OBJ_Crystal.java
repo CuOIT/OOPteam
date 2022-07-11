@@ -8,6 +8,6 @@ public class OBJ_Crystal extends Object{
 		super(gp);
 		name="Crystal";
 		collision=false;
-		down1=setup("/objects/hp_plank",gp.TILE_SIZE,gp.TILE_SIZE);
+		down1=setup("/objects/energyOrb",gp.TILE_SIZE,gp.TILE_SIZE);
 	}
 }

@@ -10,9 +10,9 @@ import javax.sound.sampled.FloatControl;
 public class Sound {
 	Clip clip;
 	URL soundURL[]=new URL[30];
-	float prevVol = 0;
-    float cVol = -5F;
-    boolean mute = false;
+	static float prevVol = 0;
+    static float cVol = -5F;
+    static boolean mute = false;
     FloatControl fc;
 	public Sound() {
 		soundURL[0]=getClass().getResource("/sound/Map1.sound.wav");

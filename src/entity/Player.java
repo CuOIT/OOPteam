@@ -75,6 +75,7 @@ public class Player extends Human{
 	}
 	
 	public void getPlayerAttackImage() {
+		head=setup("/player/playerHead",gp.TILE_SIZE*2,2*gp.TILE_SIZE);
 		attackup1=setup("/player/boy_stick_up_1", gp.TILE_SIZE, gp.TILE_SIZE*2);
 		attackup2=setup("/player/boy_stick_up_2", gp.TILE_SIZE, gp.TILE_SIZE*2);
 		attackdown1=setup("/player/boy_stick_down_1", gp.TILE_SIZE, gp.TILE_SIZE*2);
@@ -220,6 +221,7 @@ public class Player extends Human{
 		}
 		if(life > maxLife){
 			life = maxLife;
+			hp=maxHp;
 		}
 		if (hp <= 0) {
 			if(life > 0) {
@@ -553,10 +555,7 @@ public class Player extends Human{
 		g2.drawImage(image,tempScreenX, tempScreenY, null);
 		// Reset alpha(DANG)
 		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
-//		
-		g2.setFont(new Font("Arial", Font.PLAIN, 26));
-		g2.setColor(Color.white);
-		g2.drawString("Invincible:"+takingDamageCounter, 10, 400);
+
 
 }
 

@@ -58,8 +58,6 @@ public class Boss extends Monster {
     public void setAction(){
     	 actionLockCounter++;
  		if(actionLockCounter%75==0) {
- 			if(actionLockCounter==200)
- 			gp.playSE(5);
  			Random random=new Random();
  			int i = random.nextInt(100)+1;
  			if(i<=25) {
@@ -77,6 +75,8 @@ public class Boss extends Monster {
  			}
  		}
  		
+ 		if(actionLockCounter==180)
+ 			gp.playSE(5);
 		if( attackLockCounter >= 180 && attackLockCounter<300 && actionLockCounter%40==0 ){
 
 			direction="attack";
@@ -143,7 +143,7 @@ public class Boss extends Monster {
 			direction="down";
 			
 		}	
-	if(distanceToPlayer()>gp.TILE_SIZE && distanceToPlayer()<10*gp.TILE_SIZE ) 
+	if(distanceToPlayer()>gp.TILE_SIZE && distanceToPlayer()<14*gp.TILE_SIZE ) 
 		pathFinding();
 	else speed=normalSpeed;	
 	

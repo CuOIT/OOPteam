@@ -14,6 +14,7 @@ public class Human extends Entity{
 
 	public int numberDialogue;
 	public String[][] dialogue = new String[10][20];
+	public BufferedImage head;
 	public BufferedImage up1,up2,down1,down2,left1,left2,right1,right2;
 	public BufferedImage attackup1, attackup2, attackdown1, attackdown2, attackleft1, attackleft2, attackright1, attackright2;
 	public Rectangle attackArea = new Rectangle(0,0,0,0);

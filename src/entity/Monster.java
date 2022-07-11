@@ -109,7 +109,6 @@ public class Monster extends Entity{
 		}
 		if(takingDamage == true){
 			takingDamageCounter++;
-			System.out.println(speed);
 			if(takingDamageCounter>20){
 				takingDamage = false;
 				takingDamageCounter = 0;

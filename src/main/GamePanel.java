@@ -120,7 +120,6 @@ public class GamePanel extends JPanel implements Runnable {
 			lastTime=currentTime;
 			if(delta>=1) {
 			update();
-			//repaint();
 			drawToTempScreen();
 			drawToScreen();
 			delta--;
@@ -275,8 +274,7 @@ public class GamePanel extends JPanel implements Runnable {
 		music.setFile(i);
 		music.play();
 		music.loop();
-		System.out.println("dsa");
-	}
+		}
 	public void stopMusic() {
 		music.stop();
 	}
