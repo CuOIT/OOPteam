@@ -101,7 +101,7 @@ public class TileManager {
 		//Cat-Co
 		setup(58,"sand.corner1",false);
 		setup(59,"sand.corner2",false);
-		setup(60,"sand.corner3",false);
+		setup(70,"sand.corner3",false);
 		setup(61,"sand.corner4",false);
 		
 		//Cave
