@@ -65,21 +65,7 @@ public class Boar_monster extends Monster{
 		}
 		else speed=normalSpeed;
     }
-    //Tinh khoang cach den nhan vat
-
-    public double distanceToPlayer(){
-    	return Math.sqrt(Math.pow(this.worldX-gp.player.worldX,2)+Math.pow(this.worldY-gp.player.worldY,2));
-    }
-    public void pathFinding() {
-    	this.speed=4;
-    	if(Math.abs(this.worldY-gp.player.worldY)>10) {
-    	if(this.worldY<gp.player.worldY) direction="down";
-    	else direction="up";
-    	}
-    	else if(this.worldX<gp.player.worldX) direction="right";
-    	else direction="left";
-    	
-    }
+ 
 
     public void damageReaction(){
 	actionLockCounter = 0;

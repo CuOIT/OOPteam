@@ -1,3 +1,4 @@
+
 package entity;
 
 import main.GamePanel;
@@ -49,7 +50,7 @@ public class Boss extends Monster {
 	public static void setAttack(int attack) {
 		Boss.defaultAttack = attack;
 	}
-	public static void setDefaultSpped(int speed) {
+	public static void setDefaultSpeed(int speed) {
 		Boss.defaultSpeed=speed;
 	}
 	public static void setMaxLife(int life) {

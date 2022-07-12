@@ -3,15 +3,16 @@ package entity;
 import main.GamePanel;
 
 public class Arrow extends Projectile {
-
+	private static int defaultSpeed;
+	private static int defaultAttack;
 
     public Arrow(GamePanel gp){
          super(gp);
          name = "Arrow";
-         speed = 1;
+         speed = defaultSpeed=2;
          maxLife = 80;
          life = maxLife;
-         attack = 5;
+         attack = defaultAttack=5;
          alive = false;
          knockBackPower = 1; 
          getImage();
@@ -27,6 +28,12 @@ public class Arrow extends Projectile {
          left2 = setup("/projectile/fireball_left_2", gp.TILE_SIZE, gp.TILE_SIZE);
          right1 = setup("/projectile/fireball_right_1", gp.TILE_SIZE, gp.TILE_SIZE);
          right2 = setup("/projectile/fireball_right_2", gp.TILE_SIZE, gp.TILE_SIZE);
+     }
+     public static void setSpeed(int speed) {
+    	 Arrow.defaultSpeed=speed;
+     }
+     public static void setAttack(int attack) {
+    	 Arrow.defaultAttack=attack;
      }
 
 }

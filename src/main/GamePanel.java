@@ -107,6 +107,7 @@ public class GamePanel extends JPanel implements Runnable {
 	
 	
 	public void run() {
+		try {
 		double drawInterval = 1000000000/FPS;
 		double delta = 0;
 		long lastTime=System.nanoTime();
@@ -132,6 +133,9 @@ public class GamePanel extends JPanel implements Runnable {
 			}
 		}
 			System.exit(1);
+		}catch(Exception e ) {
+			System.out.println("Loi");
+		}
 	}
 	public void update() {
 		if(gameState==PLAY_STATE) 
@@ -164,7 +168,7 @@ public class GamePanel extends JPanel implements Runnable {
 		}
 
 		if(gameState==DIALOGUE_STATE) {
-			ui.drawDialogueScreen(player.npcIndex);
+			ui.drawDialogueScreen(player.getNPCINdex());
 		}
 		if(gameState==GAME_OVER_STATE) {
 			if(frameCounter==1) {
@@ -179,7 +183,7 @@ public class GamePanel extends JPanel implements Runnable {
 		if(gameState==VICTORY_STATE) {
 			if(frameCounter==1) {
 				stopMusic();
-				playSE(12);
+				playMusic(12);
 			}
 			if(frameCounter<120)
 				frameCounter++;

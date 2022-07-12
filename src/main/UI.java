@@ -49,7 +49,7 @@ public class UI {
 		}
 		else if(gp.gameState==gp.DIALOGUE_STATE)
 		{	drawPlayerLife();
-			drawDialogueScreen(gp.player.npcIndex);
+			drawDialogueScreen(gp.player.getNPCINdex());
 		}
 		else if(gp.gameState==gp.DIFFICULT_STATE) {
 			drawDifficultState();
@@ -321,13 +321,13 @@ public class UI {
 			x+=gp.TILE_SIZE;
 			y+=gp.TILE_SIZE;
 			
-			if(gp.player.currentMission==0) {
+			if(gp.player.getCurrentMission()==0) {
 			currentDialogue=gp.player.dialogue[0][0];
 			g2.drawString(currentDialogue,x,y);
 			g2.drawImage(gp.player.head, x,y+gp.TILE_SIZE,null);
 			}
 			else {
-			currentDialogue=gp.npc[gp.currentMap][i].dialogue[gp.player.currentMission][gp.npc[gp.currentMap][i].numberDialogue];
+			currentDialogue=gp.npc[gp.currentMap][i].dialogue[gp.player.getCurrentMission()][gp.npc[gp.currentMap][i].numberDialogue];
 			if(i==0) {
 				switch(gp.npc[0][0].numberDialogue) {
 				case 0:

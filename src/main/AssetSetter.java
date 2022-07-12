@@ -479,11 +479,11 @@ public class AssetSetter {
 			Bat.setAttack(1);
 			Bat.setDefaultSpeed(1);
 			Bat.setMaxLife(8);
-			Rock_Bullet.setDefaultSpeed(3);
+			Rock_Bullet.setSpeed(3);
 			Rock_Bullet.setAttack(1);
 		
 			Boss.setAttack(2);
-			Boss.setDefaultSpped(2);
+			Boss.setDefaultSpeed(2);
 			Boss.setMaxLife(60);
 			break;
 		case "NORMAL":
@@ -493,11 +493,11 @@ public class AssetSetter {
 			Bat.setAttack(2);
 			Bat.setDefaultSpeed(2);
 			Bat.setMaxLife(10);
-			Rock_Bullet.setDefaultSpeed(4);
+			Rock_Bullet.setSpeed(4);
 			Rock_Bullet.setAttack(2);
 		
 			Boss.setAttack(3);
-			Boss.setDefaultSpped(3);
+			Boss.setDefaultSpeed(3);
 			Boss.setMaxLife(80);
 			break;
 		case "HARD":
@@ -507,11 +507,11 @@ public class AssetSetter {
 			Bat.setAttack(3);
 			Bat.setDefaultSpeed(3);
 			Bat.setMaxLife(12);
-			Rock_Bullet.setDefaultSpeed(6);
+			Rock_Bullet.setSpeed(6);
 			Rock_Bullet.setAttack(3);
 		
 			Boss.setAttack(3);
-			Boss.setDefaultSpped(3);
+			Boss.setDefaultSpeed(3);
 			Boss.setMaxLife(100);
 			break;
 			}

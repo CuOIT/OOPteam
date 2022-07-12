@@ -8,7 +8,6 @@ public class KeyHandler implements KeyListener{
 	public boolean upPressed,rightPressed,downPressed,leftPressed,enterPressed,shotKeyPressed,soundPressed=false;
 	//DEBUG
 	GamePanel gp;
-	boolean checkDrawTime=false;
 	public 	KeyHandler(GamePanel gp) {
 		this.gp=gp;
 	}
@@ -249,21 +248,21 @@ public class KeyHandler implements KeyListener{
 	}
 	public void dialogueState(int code){
 		if(code == KeyEvent.VK_ENTER){
-			if(gp.player.currentMission==0) {
+			if(gp.player.getCurrentMission()==0) {
 				gp.gameState=gp.PLAY_STATE;
-				gp.player.currentMission=1;
+				gp.player.setCurrentMission(1);
 			}
-		if(gp.npc[gp.currentMap][gp.player.npcIndex].dialogue[gp.player.currentMission][gp.npc[gp.currentMap][gp.player.npcIndex].numberDialogue]!=null) {
+		if(gp.npc[gp.currentMap][gp.player.getNPCINdex()].dialogue[gp.player.getCurrentMission()][gp.npc[gp.currentMap][gp.player.getNPCINdex()].numberDialogue]!=null) {
 			
 			
-		gp.npc[gp.currentMap][gp.player.npcIndex].numberDialogue++;
-		if(gp.player.npcIndex==0 && gp.npc[gp.currentMap][gp.player.npcIndex].numberDialogue==1 && gp.player.currentMission==2)
+		gp.npc[gp.currentMap][gp.player.getNPCINdex()].numberDialogue++;
+		if(gp.player.getNPCINdex()==0 && gp.npc[gp.currentMap][gp.player.getNPCINdex()].numberDialogue==1 && gp.player.getCurrentMission()==2)
 		{
-			gp.npc[gp.currentMap][gp.player.npcIndex].dropItem(new OBJ_Sword(gp));
+			gp.npc[gp.currentMap][gp.player.getNPCINdex()].dropItem(new OBJ_Sword(gp));
 		}
-		if(gp.player.npcIndex==1 && gp.npc[gp.currentMap][gp.player.npcIndex].numberDialogue==1 && gp.player.currentMission==3)
+		if(gp.player.getNPCINdex()==1 && gp.npc[gp.currentMap][gp.player.getNPCINdex()].numberDialogue==1 && gp.player.getCurrentMission()==3)
 		{
-			gp.npc[gp.currentMap][gp.player.npcIndex].dropItem(new OBJ_Bow(gp));
+			gp.npc[gp.currentMap][gp.player.getNPCINdex()].dropItem(new OBJ_Bow(gp));
 		}
 	}else {
 			gp.gameState=gp.PLAY_STATE;

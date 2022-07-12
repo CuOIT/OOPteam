@@ -22,12 +22,10 @@ public class Player extends Human{
 
 	KeyHandler keyH;
 	public final int screenX,screenY;
-	public final int maxInventorySize=20;
-	public int attack;
-	public int currentMission=0;
-	public int npcIndex;
-	public Rectangle r=new Rectangle();
-	public Rectangle rNPC=new Rectangle();
+	private final int maxInventorySize=20;
+	private int attack;
+	private int currentMission=0;
+	private int npcIndex;
 	public Player(GamePanel gp,KeyHandler keyH)
 	{
 		super(gp); 
@@ -62,7 +60,7 @@ public class Player extends Human{
 		
 
 	}	
-	
+
 	public void getPlayerImage() {
 		up1=setup("/player/Up1",gp.TILE_SIZE,gp.TILE_SIZE);
 		up2=setup("/player/Up2",gp.TILE_SIZE,gp.TILE_SIZE);
@@ -311,7 +309,7 @@ public class Player extends Human{
 				 //System.out.println(OBJ_Apple.numberCollected);
 				 if(OBJ_Apple.numberCollected==5) 
 					 {
-					 currentMission=2;
+					 setCurrentMission(2);
 					 }
 				 for(int j=0;j<gp.npc[gp.currentMap].length;j++)
 				if( gp.npc[gp.currentMap][j]!=null)
@@ -322,7 +320,7 @@ public class Player extends Human{
 				 if(canObtainItem(gp.obj[gp.currentMap][i])==true);
 				 gp.obj[gp.currentMap][i]=null;
 				 OBJ_Tooth.numberCollected++;
-				 if(OBJ_Tooth.numberCollected==5) currentMission=3;
+				 if(OBJ_Tooth.numberCollected==5) setCurrentMission(3);
 				 for(int j=0;j<gp.npc[gp.currentMap].length;j++)
 					 if( gp.npc[gp.currentMap][j]!=null)
 					 gp.npc[gp.currentMap][j].numberDialogue=0;
@@ -342,7 +340,7 @@ public class Player extends Human{
 
 				 break; 
 			 case "Entry_Cave":
-				 if(gp.player.currentMission>=3) {
+				 if(gp.player.getCurrentMission()>=3) {
 				 if(gp.currentMap==0) {
 				 worldX=3*gp.TILE_SIZE;
 				 worldY=39*gp.TILE_SIZE;
@@ -558,6 +556,27 @@ public class Player extends Human{
 
 
 }
+	public void setAttack(int attack) {
+		this.attack=attack;
+	}
+	public int getAttack() {
+		return attack;
+	}
+
+	public void setNPCIndex(int npcIndex) {
+		this.npcIndex=npcIndex;
+	}
+	public int getNPCINdex() {
+		return npcIndex;
+	}
+
+	public int getCurrentMission() {
+		return currentMission;
+	}
+
+	public void setCurrentMission(int currentMission) {
+		this.currentMission = currentMission;
+	}
 
 }
 
